@@ -1,1 +1,1 @@
-# vocab-booster-server-app
+# vocab-booster
