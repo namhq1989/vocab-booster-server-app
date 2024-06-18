@@ -1,9 +1,19 @@
 package application
 
+import (
+	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application/command"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application/query"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
+)
+
 type (
 	Commands interface {
+		UpdateMe(ctx *appcontext.AppContext, performerID string, req dto.UpdateMeRequest) (*dto.UpdateMeResponse, error)
 	}
 	Queries interface {
+		GetMe(ctx *appcontext.AppContext, performerID string, _ dto.GetMeRequest) (*dto.GetMeResponse, error)
 	}
 	App interface {
 		Commands
@@ -11,8 +21,10 @@ type (
 	}
 
 	appCommandHandlers struct {
+		command.UpdateMeHandler
 	}
 	appQueryHandler struct {
+		query.GetMeHandler
 	}
 	Application struct {
 		appCommandHandlers
@@ -22,9 +34,15 @@ type (
 
 var _ App = (*Application)(nil)
 
-func New() *Application {
+func New(
+	userRepository domain.UserRepository,
+) *Application {
 	return &Application{
-		appCommandHandlers: appCommandHandlers{},
-		appQueryHandler:    appQueryHandler{},
+		appCommandHandlers: appCommandHandlers{
+			UpdateMeHandler: command.NewUpdateMeHandler(userRepository),
+		},
+		appQueryHandler: appQueryHandler{
+			GetMeHandler: query.NewGetMeHandler(userRepository),
+		},
 	}
 }

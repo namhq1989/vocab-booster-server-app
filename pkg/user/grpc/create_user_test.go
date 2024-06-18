@@ -4,6 +4,9 @@ import (
 	"context"
 	"testing"
 
+	"github.com/namhq1989/vocab-booster-server-app/internal/database"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
+
 	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/userpb"
@@ -46,6 +49,10 @@ func (s *createUserTestSuite) TearDownTest() {
 func (s *createUserTestSuite) Test_1_Success() {
 	// mock data
 	s.mockUserHub.EXPECT().
+		FindUserByEmail(gomock.Any(), gomock.Any()).
+		Return(nil, nil)
+
+	s.mockUserHub.EXPECT().
 		CreateUser(gomock.Any(), gomock.Any()).
 		Return(nil)
 
@@ -60,7 +67,34 @@ func (s *createUserTestSuite) Test_1_Success() {
 	assert.NotNil(s.T(), resp)
 }
 
+func (s *createUserTestSuite) Test_2_Fail_EmailExisted() {
+	// mock data
+	s.mockUserHub.EXPECT().
+		FindUserByEmail(gomock.Any(), gomock.Any()).
+		Return(&domain.User{
+			ID:    database.NewStringID(),
+			Name:  "Test user",
+			Email: "test@gmail.com",
+		}, nil)
+
+	// call
+	ctx := appcontext.NewGRPC(context.Background())
+	resp, err := s.handler.CreateUser(ctx, &userpb.CreateUserRequest{
+		Name:  "Test user",
+		Email: "test@gmail.com",
+	})
+
+	assert.NotNil(s.T(), err)
+	assert.Nil(s.T(), resp)
+	assert.Equal(s.T(), apperrors.Common.EmailAlreadyExisted, err)
+}
+
 func (s *createUserTestSuite) Test_2_Fail_InvalidEmail() {
+	// mock data
+	s.mockUserHub.EXPECT().
+		FindUserByEmail(gomock.Any(), gomock.Any()).
+		Return(nil, nil)
+
 	// call
 	ctx := appcontext.NewGRPC(context.Background())
 	resp, err := s.handler.CreateUser(ctx, &userpb.CreateUserRequest{
