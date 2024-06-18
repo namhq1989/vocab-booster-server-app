@@ -1,0 +1,15 @@
+package domain
+
+import (
+	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
+)
+
+type UserHub interface {
+	FindUserByEmail(ctx *appcontext.AppContext, email string) (*User, error)
+	CreateUser(ctx *appcontext.AppContext, name, email string) (string, error)
+}
+
+type User struct {
+	ID   string
+	Name string
+}
