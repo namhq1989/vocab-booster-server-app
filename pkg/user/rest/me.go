@@ -1,4 +1,4 @@
 package rest
 
-func (s server) registerMeRoutes() {
+func (server) registerMeRoutes() {
 }

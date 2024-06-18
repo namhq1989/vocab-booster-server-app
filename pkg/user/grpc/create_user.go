@@ -44,7 +44,7 @@ func (h CreateUserHandler) CreateUser(ctx *appcontext.AppContext, req *userpb.Cr
 	}, nil
 }
 
-func (h CreateUserHandler) enqueueTasks(ctx *appcontext.AppContext, user domain.User) error {
-	// DO SOMETHING WITH QUEUE
+func (CreateUserHandler) enqueueTasks(_ *appcontext.AppContext, _ domain.User) error {
+	// TODO: DO SOMETHING WITH QUEUE
 	return nil
 }
