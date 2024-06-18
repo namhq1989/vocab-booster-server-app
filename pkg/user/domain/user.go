@@ -10,16 +10,18 @@ import (
 )
 
 type UserRepository interface {
-	FindUserByEmail(ctx *appcontext.AppContext, email string) (*User, error)
 	FindUserByID(ctx *appcontext.AppContext, userID string) (*User, error)
+	UpdateUser(ctx *appcontext.AppContext, user User) error
 }
 
 type User struct {
-	ID        string
-	Name      string
-	Email     string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID         string
+	Name       string
+	Email      string
+	Bio        string
+	Visibility Visibility
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
 }
 
 func NewUser(name, email string) (*User, error) {
@@ -32,11 +34,12 @@ func NewUser(name, email string) (*User, error) {
 	}
 
 	return &User{
-		ID:        database.NewStringID(),
-		Name:      name,
-		Email:     email,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		ID:         database.NewStringID(),
+		Name:       name,
+		Email:      email,
+		Visibility: VisibilityPublic,
+		CreatedAt:  time.Now(),
+		UpdatedAt:  time.Now(),
 	}, nil
 }
 
@@ -46,6 +49,23 @@ func (d *User) SetName(name string) error {
 	}
 
 	d.Name = name
+	d.UpdatedAt = time.Now()
+	return nil
+}
+
+func (d *User) SetBio(bio string) error {
+	d.Bio = bio
+	d.UpdatedAt = time.Now()
+	return nil
+}
+
+func (d *User) SetVisibility(visibility string) error {
+	dVisibility := ToVisibility(visibility)
+	if !dVisibility.IsValid() {
+		return apperrors.User.InvalidVisibility
+	}
+
+	d.Visibility = dVisibility
 	d.UpdatedAt = time.Now()
 	return nil
 }

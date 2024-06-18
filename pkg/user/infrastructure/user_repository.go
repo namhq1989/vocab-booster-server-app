@@ -72,3 +72,13 @@ func (r UserRepository) FindUserByID(ctx *appcontext.AppContext, userID string) 
 	result := doc.ToDomain()
 	return &result, nil
 }
+
+func (r UserRepository) UpdateUser(ctx *appcontext.AppContext, user domain.User) error {
+	doc, err := dbmodel.User{}.FromDomain(user)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.collection().UpdateByID(ctx.Context(), doc.ID, bson.M{"$set": doc})
+	return err
+}
