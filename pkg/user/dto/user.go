@@ -10,7 +10,7 @@ type User struct {
 	Visibility string `json:"visibility"`
 }
 
-func (m User) FromDomain(user domain.User) User {
+func (User) FromDomain(user domain.User) User {
 	return User{
 		ID:         user.ID,
 		Name:       user.Name,
