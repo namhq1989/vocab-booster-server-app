@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
@@ -77,6 +79,7 @@ func main() {
 	a.modules = []monolith.Module{
 		&auth.Module{},
 		&user.Module{},
+		&subscription.Module{},
 	}
 
 	// start

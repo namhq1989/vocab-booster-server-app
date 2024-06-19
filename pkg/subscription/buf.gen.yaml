@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: vocab-booster-server-app/pkg/auth/authpb
+    default: vocab-booster-server-app/pkg/subscription/subscriptionpb
     except:
       - buf.build/googleapis/googleapis
 plugins:

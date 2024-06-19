@@ -1,6 +1,11 @@
 package manipulation
 
-import "time"
+import (
+	"time"
+
+	"github.com/golang/protobuf/ptypes/timestamp"
+	"google.golang.org/protobuf/types/known/timestamppb"
+)
 
 func StartOfToday() time.Time {
 	now := time.Now()
@@ -19,4 +24,12 @@ func IsToday(t time.Time) bool {
 func IsYesterday(t time.Time) bool {
 	yesterday := StartOfYesterday()
 	return t.Year() == yesterday.Year() && t.Month() == yesterday.Month() && t.Day() == yesterday.Day()
+}
+
+func EndOfDate(t time.Time) time.Time {
+	return time.Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 0, t.Location())
+}
+
+func ConvertToProtoTimestamp(t time.Time) *timestamp.Timestamp {
+	return timestamppb.New(t)
 }

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package subscriptionpb;
+
+import "google/protobuf/timestamp.proto";
+import "subscriptionpb/message.proto";
+
+service SubscriptionService {
+  rpc CreateUserSubscription(CreateUserSubscriptionRequest) returns (CreateUserSubscriptionResponse) {}
+  rpc FindUserSubscription(FindUserSubscriptionRequest) returns (FindUserSubscriptionResponse) {}
+}
+
+// CREATE USER SUBSCRIPTION
+
+message CreateUserSubscriptionRequest {
+  string userId = 1;
+}
+
+message CreateUserSubscriptionResponse {
+  string id = 1;
+}
+
+
+// GET USER SUBSCRIPTION
+
+message FindUserSubscriptionRequest {
+  string userId = 1;
+}
+
+message FindUserSubscriptionResponse {
+  SubscriptionPlan plan = 1;
+}
