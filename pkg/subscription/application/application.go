@@ -22,6 +22,7 @@ type (
 		query.GetSubscriptionPlansHandler
 	}
 	Application struct {
+		appCommandHandlers
 		appQueryHandler
 	}
 )

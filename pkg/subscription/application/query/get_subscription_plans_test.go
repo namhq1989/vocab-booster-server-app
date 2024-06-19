@@ -28,7 +28,7 @@ func (s *getSubscriptionPlansSuite) setupApplication() {
 	s.handler = query.NewGetSubscriptionPlansHandler()
 }
 
-func (s *getSubscriptionPlansSuite) TearDownTest() {
+func (*getSubscriptionPlansSuite) TearDownTest() {
 	// do nothing
 }
 

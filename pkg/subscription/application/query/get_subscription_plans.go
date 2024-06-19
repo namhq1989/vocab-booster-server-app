@@ -12,7 +12,7 @@ func NewGetSubscriptionPlansHandler() GetSubscriptionPlansHandler {
 	return GetSubscriptionPlansHandler{}
 }
 
-func (g GetSubscriptionPlansHandler) GetSubscriptionPlans(ctx *appcontext.AppContext, performerID string, _ dto.GetSubscriptionPlansRequest) (*dto.GetSubscriptionPlansResponse, error) {
+func (GetSubscriptionPlansHandler) GetSubscriptionPlans(ctx *appcontext.AppContext, performerID string, _ dto.GetSubscriptionPlansRequest) (*dto.GetSubscriptionPlansResponse, error) {
 	ctx.Logger().Info("[query] new get subscription plans request", appcontext.Fields{"performerID": performerID})
 
 	ctx.Logger().Text("done get subscription plans request")
