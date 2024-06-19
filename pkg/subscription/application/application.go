@@ -16,13 +16,13 @@ type (
 		Queries
 	}
 
-	appCommandHandlers struct {
-	}
+	// appCommandHandlers struct {
+	// }
 	appQueryHandler struct {
 		query.GetSubscriptionPlansHandler
 	}
 	Application struct {
-		appCommandHandlers
+		// appCommandHandlers
 		appQueryHandler
 	}
 )
