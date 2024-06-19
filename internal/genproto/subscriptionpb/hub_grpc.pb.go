@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion8
 const (
 	SubscriptionService_CreateUserSubscription_FullMethodName = "/subscriptionpb.SubscriptionService/CreateUserSubscription"
 	SubscriptionService_FindUserSubscription_FullMethodName   = "/subscriptionpb.SubscriptionService/FindUserSubscription"
+	SubscriptionService_UpdateUserSubscription_FullMethodName = "/subscriptionpb.SubscriptionService/UpdateUserSubscription"
 )
 
 // SubscriptionServiceClient is the client API for SubscriptionService service.
@@ -29,6 +30,7 @@ const (
 type SubscriptionServiceClient interface {
 	CreateUserSubscription(ctx context.Context, in *CreateUserSubscriptionRequest, opts ...grpc.CallOption) (*CreateUserSubscriptionResponse, error)
 	FindUserSubscription(ctx context.Context, in *FindUserSubscriptionRequest, opts ...grpc.CallOption) (*FindUserSubscriptionResponse, error)
+	UpdateUserSubscription(ctx context.Context, in *UpdateUserSubscriptionRequest, opts ...grpc.CallOption) (*UpdateUserSubscriptionResponse, error)
 }
 
 type subscriptionServiceClient struct {
@@ -59,12 +61,23 @@ func (c *subscriptionServiceClient) FindUserSubscription(ctx context.Context, in
 	return out, nil
 }
 
+func (c *subscriptionServiceClient) UpdateUserSubscription(ctx context.Context, in *UpdateUserSubscriptionRequest, opts ...grpc.CallOption) (*UpdateUserSubscriptionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateUserSubscriptionResponse)
+	err := c.cc.Invoke(ctx, SubscriptionService_UpdateUserSubscription_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubscriptionServiceServer is the server API for SubscriptionService service.
 // All implementations should embed UnimplementedSubscriptionServiceServer
 // for forward compatibility
 type SubscriptionServiceServer interface {
 	CreateUserSubscription(context.Context, *CreateUserSubscriptionRequest) (*CreateUserSubscriptionResponse, error)
 	FindUserSubscription(context.Context, *FindUserSubscriptionRequest) (*FindUserSubscriptionResponse, error)
+	UpdateUserSubscription(context.Context, *UpdateUserSubscriptionRequest) (*UpdateUserSubscriptionResponse, error)
 }
 
 // UnimplementedSubscriptionServiceServer should be embedded to have forward compatible implementations.
@@ -76,6 +89,9 @@ func (UnimplementedSubscriptionServiceServer) CreateUserSubscription(context.Con
 }
 func (UnimplementedSubscriptionServiceServer) FindUserSubscription(context.Context, *FindUserSubscriptionRequest) (*FindUserSubscriptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserSubscription not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) UpdateUserSubscription(context.Context, *UpdateUserSubscriptionRequest) (*UpdateUserSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserSubscription not implemented")
 }
 
 // UnsafeSubscriptionServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -125,6 +141,24 @@ func _SubscriptionService_FindUserSubscription_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubscriptionService_UpdateUserSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserSubscriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).UpdateUserSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_UpdateUserSubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).UpdateUserSubscription(ctx, req.(*UpdateUserSubscriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubscriptionService_ServiceDesc is the grpc.ServiceDesc for SubscriptionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +173,10 @@ var SubscriptionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindUserSubscription",
 			Handler:    _SubscriptionService_FindUserSubscription_Handler,
+		},
+		{
+			MethodName: "UpdateUserSubscription",
+			Handler:    _SubscriptionService_UpdateUserSubscription_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -17,29 +17,29 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-type createUserTestSuite struct {
+type createUserSubscriptionTestSuite struct {
 	suite.Suite
 	handler                 grpc.CreateUserSubscriptionHandler
 	mockCtrl                *gomock.Controller
 	mockUserSubscriptionHub *mockmongo.MockUserSubscriptionHub
 }
 
-func (s *createUserTestSuite) SetupSuite() {
+func (s *createUserSubscriptionTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (*createUserTestSuite) AfterTest(_, _ string) {
+func (*createUserSubscriptionTestSuite) AfterTest(_, _ string) {
 	// do nothing
 }
 
-func (s *createUserTestSuite) setupApplication() {
+func (s *createUserSubscriptionTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockUserSubscriptionHub = mockmongo.NewMockUserSubscriptionHub(s.mockCtrl)
 
 	s.handler = grpc.NewCreateUserSubscriptionHandler(s.mockUserSubscriptionHub)
 }
 
-func (s *createUserTestSuite) TearDownTest() {
+func (s *createUserSubscriptionTestSuite) TearDownTest() {
 	s.mockCtrl.Finish()
 }
 
@@ -47,7 +47,7 @@ func (s *createUserTestSuite) TearDownTest() {
 // CASES
 //
 
-func (s *createUserTestSuite) Test_1_Success() {
+func (s *createUserSubscriptionTestSuite) Test_1_Success() {
 	// mock data
 	var userID = database.NewStringID()
 
@@ -69,7 +69,7 @@ func (s *createUserTestSuite) Test_1_Success() {
 	assert.NotNil(s.T(), resp)
 }
 
-func (s *createUserTestSuite) Test_2_Fail_InvalidUserID() {
+func (s *createUserSubscriptionTestSuite) Test_2_Fail_InvalidUserID() {
 	// mock data
 	s.mockUserSubscriptionHub.EXPECT().
 		FindUserSubscriptionByUserID(gomock.Any(), gomock.Any()).
@@ -86,7 +86,7 @@ func (s *createUserTestSuite) Test_2_Fail_InvalidUserID() {
 	assert.Equal(s.T(), apperrors.User.InvalidUserID, err)
 }
 
-func (s *createUserTestSuite) Test_2_Fail_UserSubscriptionExisted() {
+func (s *createUserSubscriptionTestSuite) Test_2_Fail_UserSubscriptionExisted() {
 	// mock data
 	var userID = database.NewStringID()
 
@@ -115,6 +115,6 @@ func (s *createUserTestSuite) Test_2_Fail_UserSubscriptionExisted() {
 // END OF CASES
 //
 
-func TestCreateUserTestSuite(t *testing.T) {
-	suite.Run(t, new(createUserTestSuite))
+func TestCreateUserSubscriptionTestSuite(t *testing.T) {
+	suite.Run(t, new(createUserSubscriptionTestSuite))
 }

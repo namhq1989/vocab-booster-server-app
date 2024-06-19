@@ -37,3 +37,8 @@ gamification_invalid_level = "Invalid level"
 subscription_not_found = "Subscription not found"
 subscription_invalid_id = "Invalid subscription id"
 subscription_invalid_plan = "Invalid subscription plan"
+
+# payment
+payment_invalid_id = "Invalid payment id"
+payment_not_found = "Payment not found"
+

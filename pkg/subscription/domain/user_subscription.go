@@ -10,6 +10,7 @@ import (
 )
 
 type UserSubscriptionRepository interface {
+	FindUserSubscriptionByUserID(ctx *appcontext.AppContext, userID string) (*UserSubscription, error)
 	UpsertUserSubscription(ctx *appcontext.AppContext, subscription UserSubscription) error
 }
 
@@ -50,7 +51,7 @@ func NewUserSubscription(userID string, plan string) (*UserSubscription, error) 
 
 func (d *UserSubscription) UpgradeToPremium(plan string) error {
 	dPlan := ToPlan(plan)
-	if !dPlan.IsValid() || !d.Plan.IsPremium() {
+	if !dPlan.IsValid() || !dPlan.IsPremium() {
 		return apperrors.Subscription.InvalidPlan
 	}
 

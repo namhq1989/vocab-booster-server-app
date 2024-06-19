@@ -32,6 +32,8 @@ tasks:
       - mockgen -source=pkg/user/domain/user_hub.go -destination=internal/mock/mongo/user_hub.go -package=mockmongo
 
       # subscription
+      - mockgen -source=pkg/subscription/domain/user_subscription.go -destination=internal/mock/mongo/user_subscription.go -package=mockmongo
+      - mockgen -source=pkg/subscription/domain/user_subscription_history.go -destination=internal/mock/mongo/user_subscription_history.go -package=mockmongo
       - mockgen -source=pkg/subscription/domain/user_subscription_hub.go -destination=internal/mock/mongo/user_subscription_hub.go -package=mockmongo
 
   test:

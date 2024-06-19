@@ -20,10 +20,14 @@ func RegisterServer(_ *appcontext.AppContext, registrar grpc.ServiceRegistrar, h
 	return nil
 }
 
+func (s server) FindUserSubscription(bgCtx context.Context, req *subscriptionpb.FindUserSubscriptionRequest) (*subscriptionpb.FindUserSubscriptionResponse, error) {
+	return s.hub.FindUserSubscription(appcontext.NewGRPC(bgCtx), req)
+}
+
 func (s server) CreateUserSubscription(bgCtx context.Context, req *subscriptionpb.CreateUserSubscriptionRequest) (*subscriptionpb.CreateUserSubscriptionResponse, error) {
 	return s.hub.CreateUserSubscription(appcontext.NewGRPC(bgCtx), req)
 }
 
-func (s server) GetUserSubscription(bgCtx context.Context, req *subscriptionpb.FindUserSubscriptionRequest) (*subscriptionpb.FindUserSubscriptionResponse, error) {
-	return s.hub.FindUserSubscription(appcontext.NewGRPC(bgCtx), req)
+func (s server) UpdateUserSubscription(bgCtx context.Context, req *subscriptionpb.UpdateUserSubscriptionRequest) (*subscriptionpb.UpdateUserSubscriptionResponse, error) {
+	return s.hub.UpdateUserSubscription(appcontext.NewGRPC(bgCtx), req)
 }

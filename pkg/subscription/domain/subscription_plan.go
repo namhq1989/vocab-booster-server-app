@@ -1,6 +1,10 @@
 package domain
 
-import "time"
+import (
+	"time"
+
+	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+)
 
 type SubscriptionPlan struct {
 	ID              string
@@ -39,4 +43,16 @@ var SubscriptionPlans = map[string]SubscriptionPlan{
 		FinalPrice:      240000,
 		Duration:        365 * 24 * time.Hour,
 	},
+}
+
+func GetSubscriptionPlan(planID string) (*SubscriptionPlan, error) {
+	plan, ok := SubscriptionPlans[planID]
+	if !ok {
+		return nil, apperrors.Subscription.InvalidPlan
+	}
+	return &plan, nil
+}
+
+func (d SubscriptionPlan) IsFree() bool {
+	return d.ID == PlanFree.String()
 }

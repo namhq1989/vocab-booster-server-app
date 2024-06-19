@@ -7,8 +7,6 @@ import (
 )
 
 type (
-	Commands interface {
-	}
 	Queries interface {
 		GetSubscriptionPlans(ctx *appcontext.AppContext, performerID string, _ dto.GetSubscriptionPlansRequest) (*dto.GetSubscriptionPlansResponse, error)
 	}
@@ -16,13 +14,10 @@ type (
 		Queries
 	}
 
-	// appCommandHandlers struct {
-	// }
 	appQueryHandler struct {
 		query.GetSubscriptionPlansHandler
 	}
 	Application struct {
-		// appCommandHandlers
 		appQueryHandler
 	}
 )
