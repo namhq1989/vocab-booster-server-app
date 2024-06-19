@@ -9,6 +9,7 @@ service SubscriptionService {
   rpc CreateUserSubscription(CreateUserSubscriptionRequest) returns (CreateUserSubscriptionResponse) {}
   rpc FindUserSubscription(FindUserSubscriptionRequest) returns (FindUserSubscriptionResponse) {}
   rpc UpdateUserSubscription(UpdateUserSubscriptionRequest) returns (UpdateUserSubscriptionResponse) {}
+  rpc CanPerformAction(CanPerformActionRequest) returns (CanPerformActionResponse) {}
 }
 
 // CREATE USER SUBSCRIPTION
@@ -42,4 +43,16 @@ message UpdateUserSubscriptionRequest {
 
 message UpdateUserSubscriptionResponse {
   string id = 1;
+}
+
+// CAN PERFORM ACTION
+
+message CanPerformActionRequest {
+  string userId = 1;
+  string action = 2;
+  int32 totalPerformedToday = 3;
+}
+
+message CanPerformActionResponse {
+  bool can = 1;
 }

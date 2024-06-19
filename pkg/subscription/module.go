@@ -20,11 +20,13 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 		userSubscriptionRepository        = infrastructure.NewUserSubscriptionRepository(mono.Database())
 		userSubscriptionHistoryRepository = infrastructure.NewUserSubscriptionHistoryRepository(mono.Database())
 
+		cachingRepository = infrastructure.NewCachingRepository(mono.Caching())
+
 		userSubscriptionHub = infrastructure.NewUserSubscriptionHub(mono.Database())
 
 		// app
 		app = application.New()
-		hub = grpc.New(userSubscriptionRepository, userSubscriptionHistoryRepository, userSubscriptionHub)
+		hub = grpc.New(userSubscriptionRepository, userSubscriptionHistoryRepository, cachingRepository, userSubscriptionHub)
 	)
 
 	// rest server

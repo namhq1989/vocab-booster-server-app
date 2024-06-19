@@ -16,6 +16,7 @@ invalid_email = "Email không hợp lệ"
 invalid_status = "Trạng thái không hợp lệ"
 invalid_role = "Vai trò không hợp lệ"
 invalid_file = "Tập tin không hợp lệ"
+invalid_action = "Hành động không hợp lệ"
 
 # auth
 auth_invalid_auth_token = "Token xác thực không hợp lệ"

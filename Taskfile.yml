@@ -28,13 +28,14 @@ tasks:
 
       # mongo
       # user
-      - mockgen -source=pkg/user/domain/user.go -destination=internal/mock/mongo/user.go -package=mockmongo
-      - mockgen -source=pkg/user/domain/user_hub.go -destination=internal/mock/mongo/user_hub.go -package=mockmongo
+      - mockgen -source=pkg/user/domain/user.go -destination=internal/mock/user/user.go -package=mockuser
+      - mockgen -source=pkg/user/domain/user_hub.go -destination=internal/mock/user/user_hub.go -package=mockuser
 
       # subscription
-      - mockgen -source=pkg/subscription/domain/user_subscription.go -destination=internal/mock/mongo/user_subscription.go -package=mockmongo
-      - mockgen -source=pkg/subscription/domain/user_subscription_history.go -destination=internal/mock/mongo/user_subscription_history.go -package=mockmongo
-      - mockgen -source=pkg/subscription/domain/user_subscription_hub.go -destination=internal/mock/mongo/user_subscription_hub.go -package=mockmongo
+      - mockgen -source=pkg/subscription/domain/user_subscription.go -destination=internal/mock/subscription/user_subscription.go -package=mocksubscription
+      - mockgen -source=pkg/subscription/domain/user_subscription_history.go -destination=internal/mock/subscription/user_subscription_history.go -package=mocksubscription
+      - mockgen -source=pkg/subscription/domain/caching.go -destination=internal/mock/subscription/caching.go -package=mocksubscription
+      - mockgen -source=pkg/subscription/domain/user_subscription_hub.go -destination=internal/mock/subscription/user_subscription_hub.go -package=mocksubscription
 
   test:
     dotenv: ['.env.test']

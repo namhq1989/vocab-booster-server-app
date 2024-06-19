@@ -8,7 +8,7 @@ import (
 	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/subscriptionpb"
-	mockmongo "github.com/namhq1989/vocab-booster-server-app/internal/mock/mongo"
+	mocksubscription "github.com/namhq1989/vocab-booster-server-app/internal/mock/subscription"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/grpc"
 	"github.com/stretchr/testify/assert"
@@ -20,8 +20,8 @@ type updateUserSubscriptionTestSuite struct {
 	suite.Suite
 	handler                               grpc.UpdateUserSubscriptionHandler
 	mockCtrl                              *gomock.Controller
-	mockUserSubscriptionRepository        *mockmongo.MockUserSubscriptionRepository
-	mockUserSubscriptionHistoryRepository *mockmongo.MockUserSubscriptionHistoryRepository
+	mockUserSubscriptionRepository        *mocksubscription.MockUserSubscriptionRepository
+	mockUserSubscriptionHistoryRepository *mocksubscription.MockUserSubscriptionHistoryRepository
 }
 
 func (s *updateUserSubscriptionTestSuite) SetupSuite() {
@@ -34,8 +34,8 @@ func (*updateUserSubscriptionTestSuite) AfterTest(_, _ string) {
 
 func (s *updateUserSubscriptionTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
-	s.mockUserSubscriptionRepository = mockmongo.NewMockUserSubscriptionRepository(s.mockCtrl)
-	s.mockUserSubscriptionHistoryRepository = mockmongo.NewMockUserSubscriptionHistoryRepository(s.mockCtrl)
+	s.mockUserSubscriptionRepository = mocksubscription.NewMockUserSubscriptionRepository(s.mockCtrl)
+	s.mockUserSubscriptionHistoryRepository = mocksubscription.NewMockUserSubscriptionHistoryRepository(s.mockCtrl)
 
 	s.handler = grpc.NewUpdateUserSubscriptionHandler(s.mockUserSubscriptionRepository, s.mockUserSubscriptionHistoryRepository)
 }

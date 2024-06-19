@@ -22,6 +22,7 @@ const (
 	SubscriptionService_CreateUserSubscription_FullMethodName = "/subscriptionpb.SubscriptionService/CreateUserSubscription"
 	SubscriptionService_FindUserSubscription_FullMethodName   = "/subscriptionpb.SubscriptionService/FindUserSubscription"
 	SubscriptionService_UpdateUserSubscription_FullMethodName = "/subscriptionpb.SubscriptionService/UpdateUserSubscription"
+	SubscriptionService_CanPerformAction_FullMethodName       = "/subscriptionpb.SubscriptionService/CanPerformAction"
 )
 
 // SubscriptionServiceClient is the client API for SubscriptionService service.
@@ -31,6 +32,7 @@ type SubscriptionServiceClient interface {
 	CreateUserSubscription(ctx context.Context, in *CreateUserSubscriptionRequest, opts ...grpc.CallOption) (*CreateUserSubscriptionResponse, error)
 	FindUserSubscription(ctx context.Context, in *FindUserSubscriptionRequest, opts ...grpc.CallOption) (*FindUserSubscriptionResponse, error)
 	UpdateUserSubscription(ctx context.Context, in *UpdateUserSubscriptionRequest, opts ...grpc.CallOption) (*UpdateUserSubscriptionResponse, error)
+	CanPerformAction(ctx context.Context, in *CanPerformActionRequest, opts ...grpc.CallOption) (*CanPerformActionResponse, error)
 }
 
 type subscriptionServiceClient struct {
@@ -71,6 +73,16 @@ func (c *subscriptionServiceClient) UpdateUserSubscription(ctx context.Context, 
 	return out, nil
 }
 
+func (c *subscriptionServiceClient) CanPerformAction(ctx context.Context, in *CanPerformActionRequest, opts ...grpc.CallOption) (*CanPerformActionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CanPerformActionResponse)
+	err := c.cc.Invoke(ctx, SubscriptionService_CanPerformAction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubscriptionServiceServer is the server API for SubscriptionService service.
 // All implementations should embed UnimplementedSubscriptionServiceServer
 // for forward compatibility
@@ -78,6 +90,7 @@ type SubscriptionServiceServer interface {
 	CreateUserSubscription(context.Context, *CreateUserSubscriptionRequest) (*CreateUserSubscriptionResponse, error)
 	FindUserSubscription(context.Context, *FindUserSubscriptionRequest) (*FindUserSubscriptionResponse, error)
 	UpdateUserSubscription(context.Context, *UpdateUserSubscriptionRequest) (*UpdateUserSubscriptionResponse, error)
+	CanPerformAction(context.Context, *CanPerformActionRequest) (*CanPerformActionResponse, error)
 }
 
 // UnimplementedSubscriptionServiceServer should be embedded to have forward compatible implementations.
@@ -92,6 +105,9 @@ func (UnimplementedSubscriptionServiceServer) FindUserSubscription(context.Conte
 }
 func (UnimplementedSubscriptionServiceServer) UpdateUserSubscription(context.Context, *UpdateUserSubscriptionRequest) (*UpdateUserSubscriptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserSubscription not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) CanPerformAction(context.Context, *CanPerformActionRequest) (*CanPerformActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CanPerformAction not implemented")
 }
 
 // UnsafeSubscriptionServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -159,6 +175,24 @@ func _SubscriptionService_UpdateUserSubscription_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubscriptionService_CanPerformAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CanPerformActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).CanPerformAction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_CanPerformAction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).CanPerformAction(ctx, req.(*CanPerformActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubscriptionService_ServiceDesc is the grpc.ServiceDesc for SubscriptionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -177,6 +211,10 @@ var SubscriptionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserSubscription",
 			Handler:    _SubscriptionService_UpdateUserSubscription_Handler,
+		},
+		{
+			MethodName: "CanPerformAction",
+			Handler:    _SubscriptionService_CanPerformAction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
