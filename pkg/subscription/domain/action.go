@@ -44,7 +44,7 @@ func (a Action) HasExceededLimit(plan string, value int) bool {
 
 	var (
 		isPremium        = dPlan.IsPremium()
-		hasExceededLimit = true
+		hasExceededLimit bool
 	)
 
 	switch a {

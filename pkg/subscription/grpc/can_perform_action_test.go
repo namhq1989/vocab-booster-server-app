@@ -169,6 +169,6 @@ func (s *canPerformActionTestSuite) Test_2_Fail_InvalidAction() {
 // END OF CASES
 //
 
-func TestcanPerformActionTestSuite(t *testing.T) {
+func TestCanPerformActionTestSuite(t *testing.T) {
 	suite.Run(t, new(canPerformActionTestSuite))
 }
