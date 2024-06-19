@@ -38,5 +38,5 @@ func (p Plan) IsFree() bool {
 }
 
 func (p Plan) IsPremium() bool {
-	return !p.IsFree() && p != PlanUnknown
+	return p.IsValid() && !p.IsFree()
 }

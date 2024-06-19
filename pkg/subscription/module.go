@@ -17,13 +17,14 @@ func (Module) Name() string {
 
 func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error {
 	var (
-		_ = infrastructure.NewUserSubscriptionRepository(mono.Database())
+		userSubscriptionRepository        = infrastructure.NewUserSubscriptionRepository(mono.Database())
+		userSubscriptionHistoryRepository = infrastructure.NewUserSubscriptionHistoryRepository(mono.Database())
 
 		userSubscriptionHub = infrastructure.NewUserSubscriptionHub(mono.Database())
 
 		// app
 		app = application.New()
-		hub = grpc.New(userSubscriptionHub)
+		hub = grpc.New(userSubscriptionRepository, userSubscriptionHistoryRepository, userSubscriptionHub)
 	)
 
 	// rest server

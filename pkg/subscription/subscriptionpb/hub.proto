@@ -8,6 +8,7 @@ import "subscriptionpb/message.proto";
 service SubscriptionService {
   rpc CreateUserSubscription(CreateUserSubscriptionRequest) returns (CreateUserSubscriptionResponse) {}
   rpc FindUserSubscription(FindUserSubscriptionRequest) returns (FindUserSubscriptionResponse) {}
+  rpc UpdateUserSubscription(UpdateUserSubscriptionRequest) returns (UpdateUserSubscriptionResponse) {}
 }
 
 // CREATE USER SUBSCRIPTION
@@ -29,4 +30,16 @@ message FindUserSubscriptionRequest {
 
 message FindUserSubscriptionResponse {
   SubscriptionPlan plan = 1;
+}
+
+// UPDATE USER SUBSCRIPTION
+
+message UpdateUserSubscriptionRequest {
+  string userId = 1;
+  string plan = 2;
+  string paymentId = 3;
+}
+
+message UpdateUserSubscriptionResponse {
+  string id = 1;
 }

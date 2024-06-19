@@ -8,16 +8,20 @@ import (
 
 type (
 	Hubs interface {
-		CreateUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.CreateUserSubscriptionRequest) (*subscriptionpb.CreateUserSubscriptionResponse, error)
 		FindUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.FindUserSubscriptionRequest) (*subscriptionpb.FindUserSubscriptionResponse, error)
+
+		CreateUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.CreateUserSubscriptionRequest) (*subscriptionpb.CreateUserSubscriptionResponse, error)
+		UpdateUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.UpdateUserSubscriptionRequest) (*subscriptionpb.UpdateUserSubscriptionResponse, error)
 	}
 	App interface {
 		Hubs
 	}
 
 	appHubHandler struct {
-		CreateUserSubscriptionHandler
 		FindUserSubscriptionHandler
+
+		CreateUserSubscriptionHandler
+		UpdateUserSubscriptionHandler
 	}
 	Application struct {
 		appHubHandler
@@ -27,12 +31,16 @@ type (
 var _ App = (*Application)(nil)
 
 func New(
+	userSubscriptionRepository domain.UserSubscriptionRepository,
+	userSubscriptionHistoryRepository domain.UserSubscriptionHistoryRepository,
 	userSubscriptionHub domain.UserSubscriptionHub,
 ) *Application {
 	return &Application{
 		appHubHandler: appHubHandler{
+			FindUserSubscriptionHandler: NewFindUserSubscriptionHandler(userSubscriptionHub),
+
 			CreateUserSubscriptionHandler: NewCreateUserSubscriptionHandler(userSubscriptionHub),
-			FindUserSubscriptionHandler:   NewFindUserSubscriptionHandler(userSubscriptionHub),
+			UpdateUserSubscriptionHandler: NewUpdateUserSubscriptionHandler(userSubscriptionRepository, userSubscriptionHistoryRepository),
 		},
 	}
 }

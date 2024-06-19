@@ -2,8 +2,11 @@ package infrastructure
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
+
+	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 
 	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
@@ -50,6 +53,25 @@ func (r UserSubscriptionRepository) ensureIndexes() {
 
 func (r UserSubscriptionRepository) collection() *mongo.Collection {
 	return r.db.GetCollection(r.collectionName)
+}
+
+func (r UserSubscriptionRepository) FindUserSubscriptionByUserID(ctx *appcontext.AppContext, userID string) (*domain.UserSubscription, error) {
+	uid, err := database.ObjectIDFromString(userID)
+	if err != nil {
+		return nil, apperrors.User.InvalidUserID
+	}
+
+	var doc dbmodel.UserSubscription
+	if err = r.collection().FindOne(ctx.Context(), bson.M{
+		"userId": uid,
+	}).Decode(&doc); err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
+		return nil, err
+	} else if errors.Is(err, mongo.ErrNoDocuments) {
+		return nil, nil
+	}
+
+	result := doc.ToDomain()
+	return &result, nil
 }
 
 func (r UserSubscriptionRepository) UpsertUserSubscription(ctx *appcontext.AppContext, us domain.UserSubscription) error {

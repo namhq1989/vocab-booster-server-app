@@ -37,3 +37,7 @@ gamification_invalid_level = "Cấp không hợp lệ"
 subscription_not_found = "Không tìm thấy gói đăng ký"
 subscription_invalid_id = "ID gói đăng ký không hợp lệ"
 subscription_invalid_plan = "Gói đăng ký không hợp lệ"
+
+# payment
+payment_invalid_id = "ID thanh toán không hợp lệ"
+payment_not_found = "Không tìm thấy thanh toán"
