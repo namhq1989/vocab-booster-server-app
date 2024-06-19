@@ -16,6 +16,7 @@ invalid_email = "Invalid email"
 invalid_status = "Invalid status"
 invalid_role = "Invalid role"
 invalid_file = "Invalid file"
+invalid_action = "Invalid action"
 
 # auth
 auth_invalid_auth_token = "Invalid auth token"

@@ -9,7 +9,7 @@ import (
 	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/subscriptionpb"
-	mockmongo "github.com/namhq1989/vocab-booster-server-app/internal/mock/mongo"
+	mocksubscription "github.com/namhq1989/vocab-booster-server-app/internal/mock/subscription"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/grpc"
 	"github.com/stretchr/testify/assert"
@@ -21,7 +21,7 @@ type createUserSubscriptionTestSuite struct {
 	suite.Suite
 	handler                 grpc.CreateUserSubscriptionHandler
 	mockCtrl                *gomock.Controller
-	mockUserSubscriptionHub *mockmongo.MockUserSubscriptionHub
+	mockUserSubscriptionHub *mocksubscription.MockUserSubscriptionHub
 }
 
 func (s *createUserSubscriptionTestSuite) SetupSuite() {
@@ -34,7 +34,7 @@ func (*createUserSubscriptionTestSuite) AfterTest(_, _ string) {
 
 func (s *createUserSubscriptionTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
-	s.mockUserSubscriptionHub = mockmongo.NewMockUserSubscriptionHub(s.mockCtrl)
+	s.mockUserSubscriptionHub = mocksubscription.NewMockUserSubscriptionHub(s.mockCtrl)
 
 	s.handler = grpc.NewCreateUserSubscriptionHandler(s.mockUserSubscriptionHub)
 }

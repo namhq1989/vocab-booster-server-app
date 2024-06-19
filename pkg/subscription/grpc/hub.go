@@ -12,6 +12,7 @@ type (
 
 		CreateUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.CreateUserSubscriptionRequest) (*subscriptionpb.CreateUserSubscriptionResponse, error)
 		UpdateUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.UpdateUserSubscriptionRequest) (*subscriptionpb.UpdateUserSubscriptionResponse, error)
+		CanPerformAction(ctx *appcontext.AppContext, req *subscriptionpb.CanPerformActionRequest) (*subscriptionpb.CanPerformActionResponse, error)
 	}
 	App interface {
 		Hubs
@@ -22,6 +23,7 @@ type (
 
 		CreateUserSubscriptionHandler
 		UpdateUserSubscriptionHandler
+		CanPerformActionHandler
 	}
 	Application struct {
 		appHubHandler
@@ -33,6 +35,7 @@ var _ App = (*Application)(nil)
 func New(
 	userSubscriptionRepository domain.UserSubscriptionRepository,
 	userSubscriptionHistoryRepository domain.UserSubscriptionHistoryRepository,
+	cachingRepository domain.CachingRepository,
 	userSubscriptionHub domain.UserSubscriptionHub,
 ) *Application {
 	return &Application{
@@ -41,6 +44,7 @@ func New(
 
 			CreateUserSubscriptionHandler: NewCreateUserSubscriptionHandler(userSubscriptionHub),
 			UpdateUserSubscriptionHandler: NewUpdateUserSubscriptionHandler(userSubscriptionRepository, userSubscriptionHistoryRepository),
+			CanPerformActionHandler:       NewCanPerformActionHandler(userSubscriptionRepository, cachingRepository),
 		},
 	}
 }

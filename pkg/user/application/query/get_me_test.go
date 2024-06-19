@@ -7,7 +7,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
-	mockmongo "github.com/namhq1989/vocab-booster-server-app/internal/mock/mongo"
+	mockuser "github.com/namhq1989/vocab-booster-server-app/internal/mock/user"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application/query"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
@@ -20,7 +20,7 @@ type getMeTestSuite struct {
 	suite.Suite
 	handler            query.GetMeHandler
 	mockCtrl           *gomock.Controller
-	mockUserRepository *mockmongo.MockUserRepository
+	mockUserRepository *mockuser.MockUserRepository
 }
 
 func (s *getMeTestSuite) SetupSuite() {
@@ -33,7 +33,7 @@ func (*getMeTestSuite) AfterTest(_, _ string) {
 
 func (s *getMeTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
-	s.mockUserRepository = mockmongo.NewMockUserRepository(s.mockCtrl)
+	s.mockUserRepository = mockuser.NewMockUserRepository(s.mockCtrl)
 
 	s.handler = query.NewGetMeHandler(s.mockUserRepository)
 }

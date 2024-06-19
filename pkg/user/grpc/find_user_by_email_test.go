@@ -8,7 +8,7 @@ import (
 	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/userpb"
-	mockmongo "github.com/namhq1989/vocab-booster-server-app/internal/mock/mongo"
+	mockuser "github.com/namhq1989/vocab-booster-server-app/internal/mock/user"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/grpc"
 	"github.com/stretchr/testify/assert"
@@ -20,7 +20,7 @@ type findUserByEmailTestSuite struct {
 	suite.Suite
 	handler     grpc.FindUserByEmailHandler
 	mockCtrl    *gomock.Controller
-	mockUserHub *mockmongo.MockUserHub
+	mockUserHub *mockuser.MockUserHub
 }
 
 func (s *findUserByEmailTestSuite) SetupSuite() {
@@ -33,7 +33,7 @@ func (*findUserByEmailTestSuite) AfterTest(_, _ string) {
 
 func (s *findUserByEmailTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
-	s.mockUserHub = mockmongo.NewMockUserHub(s.mockCtrl)
+	s.mockUserHub = mockuser.NewMockUserHub(s.mockCtrl)
 
 	s.handler = grpc.NewFindUserByEmailHandler(s.mockUserHub)
 }
