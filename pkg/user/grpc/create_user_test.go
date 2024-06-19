@@ -1,16 +1,16 @@
-package grpc
+package grpc_test
 
 import (
 	"context"
 	"testing"
 
-	"github.com/namhq1989/vocab-booster-server-app/internal/database"
-	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
-
 	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/userpb"
 	mockmongo "github.com/namhq1989/vocab-booster-server-app/internal/mock/mongo"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/user/grpc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -18,7 +18,7 @@ import (
 
 type createUserTestSuite struct {
 	suite.Suite
-	handler     CreateUserHandler
+	handler     grpc.CreateUserHandler
 	mockCtrl    *gomock.Controller
 	mockUserHub *mockmongo.MockUserHub
 }
@@ -35,7 +35,7 @@ func (s *createUserTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockUserHub = mockmongo.NewMockUserHub(s.mockCtrl)
 
-	s.handler = NewCreateUserHandler(s.mockUserHub)
+	s.handler = grpc.NewCreateUserHandler(s.mockUserHub)
 }
 
 func (s *createUserTestSuite) TearDownTest() {

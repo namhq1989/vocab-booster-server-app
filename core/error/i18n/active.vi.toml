@@ -32,3 +32,8 @@ user_invalid_visibility = "Hiển thị người dùng không hợp lệ"
 # gamification
 gamification_invalid_point = "Điểm không hợp lệ"
 gamification_invalid_level = "Cấp không hợp lệ"
+
+# subscription
+subscription_not_found = "Không tìm thấy gói đăng ký"
+subscription_invalid_id = "ID gói đăng ký không hợp lệ"
+subscription_invalid_plan = "Gói đăng ký không hợp lệ"

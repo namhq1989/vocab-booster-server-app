@@ -31,6 +31,9 @@ tasks:
       - mockgen -source=pkg/user/domain/user.go -destination=internal/mock/mongo/user.go -package=mockmongo
       - mockgen -source=pkg/user/domain/user_hub.go -destination=internal/mock/mongo/user_hub.go -package=mockmongo
 
+      # subscription
+      - mockgen -source=pkg/subscription/domain/user_subscription_hub.go -destination=internal/mock/mongo/user_subscription_hub.go -package=mockmongo
+
   test:
     dotenv: ['.env.test']
     cmds:

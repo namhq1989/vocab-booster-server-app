@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package subscriptionpb;
+
+import "google/protobuf/timestamp.proto";
+
+message SubscriptionPlan {
+  string id = 1;
+  string plan = 2;
+  google.protobuf.Timestamp startAt = 3;
+  google.protobuf.Timestamp endAt = 4;
+}

@@ -40,21 +40,6 @@ func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
 	return m.recorder
 }
 
-// FindUserByEmail mocks base method.
-func (m *MockUserRepository) FindUserByEmail(ctx *appcontext.AppContext, email string) (*domain.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindUserByEmail", ctx, email)
-	ret0, _ := ret[0].(*domain.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// FindUserByEmail indicates an expected call of FindUserByEmail.
-func (mr *MockUserRepositoryMockRecorder) FindUserByEmail(ctx, email any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindUserByEmail), ctx, email)
-}
-
 // FindUserByID mocks base method.
 func (m *MockUserRepository) FindUserByID(ctx *appcontext.AppContext, userID string) (*domain.User, error) {
 	m.ctrl.T.Helper()

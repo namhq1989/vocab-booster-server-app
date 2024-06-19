@@ -32,3 +32,8 @@ user_invalid_visibility = "Invalid visibility"
 # gamification
 gamification_invalid_point = "Invalid point"
 gamification_invalid_level = "Invalid level"
+
+# subscription
+subscription_not_found = "Subscription not found"
+subscription_invalid_id = "Invalid subscription id"
+subscription_invalid_plan = "Invalid subscription plan"
