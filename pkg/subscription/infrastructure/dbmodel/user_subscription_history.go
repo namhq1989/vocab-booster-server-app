@@ -25,7 +25,7 @@ func (m UserSubscriptionHistory) ToDomain() domain.UserSubscriptionHistory {
 	}
 }
 
-func (m UserSubscriptionHistory) FromDomain(history domain.UserSubscriptionHistory) (*UserSubscriptionHistory, error) {
+func (UserSubscriptionHistory) FromDomain(history domain.UserSubscriptionHistory) (*UserSubscriptionHistory, error) {
 	id, err := database.ObjectIDFromString(history.ID)
 	if err != nil {
 		return nil, apperrors.Common.InvalidID
