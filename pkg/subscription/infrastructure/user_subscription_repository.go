@@ -6,9 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
-
 	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/infrastructure/dbmodel"
@@ -42,6 +41,9 @@ func (r UserSubscriptionRepository) ensureIndexes() {
 				Options: &options.IndexOptions{
 					Unique: &isUserIDUnique,
 				},
+			},
+			{
+				Keys: bson.D{{Key: "isPremium", Value: 1}, {Key: "endAt", Value: 1}},
 			},
 		}
 	)
@@ -82,4 +84,30 @@ func (r UserSubscriptionRepository) UpsertUserSubscription(ctx *appcontext.AppCo
 
 	_, err = r.collection().ReplaceOne(ctx.Context(), bson.M{"userId": doc.UserID}, doc, options.Replace().SetUpsert(true))
 	return err
+}
+
+func (r UserSubscriptionRepository) FindExpiredUserSubscriptionsByDate(ctx *appcontext.AppContext, date time.Time) ([]domain.UserSubscription, error) {
+	var (
+		condition = bson.M{
+			"isPremium": true,
+			"endAt":     bson.M{"$lte": date},
+		}
+		result = make([]domain.UserSubscription, 0)
+	)
+
+	cursor, err := r.collection().Find(ctx.Context(), condition, nil)
+	if err != nil {
+		return result, err
+	}
+	defer func() { _ = cursor.Close(ctx.Context()) }()
+
+	var docs []dbmodel.UserSubscription
+	if err = cursor.All(ctx.Context(), &docs); err != nil {
+		return result, err
+	}
+
+	for _, doc := range docs {
+		result = append(result, doc.ToDomain())
+	}
+	return result, nil
 }

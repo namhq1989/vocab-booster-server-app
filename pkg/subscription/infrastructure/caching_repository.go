@@ -1,9 +1,10 @@
 package infrastructure
 
 import (
+	"fmt"
 	"time"
 
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	"github.com/goccy/go-json"
 
 	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
@@ -22,33 +23,32 @@ func NewCachingRepository(caching *caching.Caching) CachingRepository {
 	}
 }
 
-func (r CachingRepository) GetUserSubscriptionPlan(ctx *appcontext.AppContext, userID string) (*domain.Plan, error) {
+func (r CachingRepository) GetUserSubscription(ctx *appcontext.AppContext, userID string) (*domain.UserSubscription, error) {
 	key := r.generateUserSubscriptionKey(userID)
 
 	dataStr, err := r.caching.Get(ctx, key)
 	if err != nil {
 		return nil, err
 	}
-
-	plan, ok := domain.SubscriptionPlans[dataStr]
-	if !ok {
-		return nil, apperrors.Subscription.InvalidPlan
+	if dataStr == "" {
+		return nil, nil
 	}
 
-	dPlan := domain.ToPlan(plan.ID)
-	if !dPlan.IsValid() {
-		return nil, apperrors.Subscription.InvalidPlan
+	var us *domain.UserSubscription
+	if err = json.Unmarshal([]byte(dataStr), &us); err != nil {
+		_, _ = r.caching.Del(ctx, key)
+		return nil, nil
 	}
 
-	return &dPlan, nil
+	return us, nil
 }
 
-func (r CachingRepository) SetUserSubscriptionPlan(ctx *appcontext.AppContext, userID string, plan string) error {
+func (r CachingRepository) SetUserSubscription(ctx *appcontext.AppContext, userID string, us domain.UserSubscription) error {
 	key := r.generateUserSubscriptionKey(userID)
-	r.caching.SetTTL(ctx, key, plan, r.ttl)
+	r.caching.SetTTL(ctx, key, us, r.ttl)
 	return nil
 }
 
 func (r CachingRepository) generateUserSubscriptionKey(userID string) string {
-	return r.caching.GenerateKey("subscription", userID)
+	return r.caching.GenerateKey("subscription", fmt.Sprintf("user_subscription_plan_%s", userID))
 }

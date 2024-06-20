@@ -27,10 +27,6 @@ func (s *findUserByIDTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (*findUserByIDTestSuite) AfterTest(_, _ string) {
-	// do nothing
-}
-
 func (s *findUserByIDTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockUserHub = mockuser.NewMockUserHub(s.mockCtrl)

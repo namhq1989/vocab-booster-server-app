@@ -20,10 +20,6 @@ func (s *getSubscriptionPlansSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (*getSubscriptionPlansSuite) AfterTest(_, _ string) {
-	// do nothing
-}
-
 func (s *getSubscriptionPlansSuite) setupApplication() {
 	s.handler = query.NewGetSubscriptionPlansHandler()
 }

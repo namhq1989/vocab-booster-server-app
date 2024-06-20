@@ -27,10 +27,6 @@ func (s *getAccessTokenByUserIDTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (*getAccessTokenByUserIDTestSuite) AfterTest(_, _ string) {
-	// do nothing
-}
-
 func (s *getAccessTokenByUserIDTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockJwt = mockjwt.NewMockOperations(s.mockCtrl)

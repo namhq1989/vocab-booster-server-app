@@ -35,8 +35,8 @@ var _ App = (*Application)(nil)
 func New(
 	userSubscriptionRepository domain.UserSubscriptionRepository,
 	userSubscriptionHistoryRepository domain.UserSubscriptionHistoryRepository,
-	cachingRepository domain.CachingRepository,
 	userSubscriptionHub domain.UserSubscriptionHub,
+	service domain.Service,
 ) *Application {
 	return &Application{
 		appHubHandler: appHubHandler{
@@ -44,7 +44,7 @@ func New(
 
 			CreateUserSubscriptionHandler: NewCreateUserSubscriptionHandler(userSubscriptionHub),
 			UpdateUserSubscriptionHandler: NewUpdateUserSubscriptionHandler(userSubscriptionRepository, userSubscriptionHistoryRepository),
-			CanPerformActionHandler:       NewCanPerformActionHandler(userSubscriptionRepository, cachingRepository),
+			CanPerformActionHandler:       NewCanPerformActionHandler(service),
 		},
 	}
 }

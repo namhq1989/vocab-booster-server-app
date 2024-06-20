@@ -10,20 +10,22 @@ import (
 )
 
 type UserSubscription struct {
-	ID      primitive.ObjectID `bson:"_id"`
-	UserID  primitive.ObjectID `bson:"userId"`
-	Plan    string             `bson:"plan"`
-	StartAt time.Time          `bson:"startAt"`
-	EndAt   time.Time          `bson:"endAt"`
+	ID        primitive.ObjectID `bson:"_id"`
+	UserID    primitive.ObjectID `bson:"userId"`
+	IsPremium bool               `bson:"isPremium"`
+	Plan      string             `bson:"plan"`
+	StartAt   time.Time          `bson:"startAt"`
+	EndAt     time.Time          `bson:"endAt"`
 }
 
 func (m UserSubscription) ToDomain() domain.UserSubscription {
 	return domain.UserSubscription{
-		ID:      m.ID.Hex(),
-		UserID:  m.UserID.Hex(),
-		Plan:    domain.ToPlan(m.Plan),
-		StartAt: m.StartAt,
-		EndAt:   m.EndAt,
+		ID:        m.ID.Hex(),
+		UserID:    m.UserID.Hex(),
+		IsPremium: m.IsPremium,
+		Plan:      domain.ToPlan(m.Plan),
+		StartAt:   m.StartAt,
+		EndAt:     m.EndAt,
 	}
 }
 
@@ -39,10 +41,11 @@ func (UserSubscription) FromDomain(us domain.UserSubscription) (*UserSubscriptio
 	}
 
 	return &UserSubscription{
-		ID:      id,
-		UserID:  uid,
-		Plan:    us.Plan.String(),
-		StartAt: us.StartAt,
-		EndAt:   us.EndAt,
+		ID:        id,
+		UserID:    uid,
+		IsPremium: us.IsPremium,
+		Plan:      us.Plan.String(),
+		StartAt:   us.StartAt,
+		EndAt:     us.EndAt,
 	}, nil
 }
