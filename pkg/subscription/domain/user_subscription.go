@@ -11,15 +11,17 @@ import (
 
 type UserSubscriptionRepository interface {
 	FindUserSubscriptionByUserID(ctx *appcontext.AppContext, userID string) (*UserSubscription, error)
+	FindExpiredUserSubscriptionsByDate(ctx *appcontext.AppContext, date time.Time) ([]UserSubscription, error)
 	UpsertUserSubscription(ctx *appcontext.AppContext, subscription UserSubscription) error
 }
 
 type UserSubscription struct {
-	ID      string
-	UserID  string
-	Plan    Plan
-	StartAt time.Time
-	EndAt   time.Time
+	ID        string
+	UserID    string
+	IsPremium bool
+	Plan      Plan
+	StartAt   time.Time
+	EndAt     time.Time
 }
 
 func NewUserSubscription(userID string, plan string) (*UserSubscription, error) {
@@ -41,11 +43,12 @@ func NewUserSubscription(userID string, plan string) (*UserSubscription, error) 
 	endAt = manipulation.EndOfDate(endAt)
 
 	return &UserSubscription{
-		ID:      database.NewStringID(),
-		UserID:  userID,
-		Plan:    dPlan,
-		StartAt: time.Now(),
-		EndAt:   endAt,
+		ID:        database.NewStringID(),
+		UserID:    userID,
+		IsPremium: dPlan.IsPremium(),
+		Plan:      dPlan,
+		StartAt:   time.Now(),
+		EndAt:     endAt,
 	}, nil
 }
 
@@ -61,6 +64,7 @@ func (d *UserSubscription) UpgradeToPremium(plan string) error {
 	}
 
 	d.Plan = dPlan
+	d.IsPremium = true
 	return nil
 }
 
@@ -76,6 +80,7 @@ func (d *UserSubscription) ExtendDuration(duration time.Duration) error {
 
 func (d *UserSubscription) DowngradeToFreePlan() error {
 	d.Plan = PlanFree
+	d.IsPremium = false
 	d.StartAt = time.Time{}
 	d.EndAt = time.Time{}
 	return nil

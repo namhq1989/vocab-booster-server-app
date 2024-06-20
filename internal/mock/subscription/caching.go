@@ -40,31 +40,31 @@ func (m *MockCachingRepository) EXPECT() *MockCachingRepositoryMockRecorder {
 	return m.recorder
 }
 
-// GetUserSubscriptionPlan mocks base method.
-func (m *MockCachingRepository) GetUserSubscriptionPlan(ctx *appcontext.AppContext, userID string) (*domain.Plan, error) {
+// GetUserSubscription mocks base method.
+func (m *MockCachingRepository) GetUserSubscription(ctx *appcontext.AppContext, userID string) (*domain.UserSubscription, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserSubscriptionPlan", ctx, userID)
-	ret0, _ := ret[0].(*domain.Plan)
+	ret := m.ctrl.Call(m, "GetUserSubscription", ctx, userID)
+	ret0, _ := ret[0].(*domain.UserSubscription)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetUserSubscriptionPlan indicates an expected call of GetUserSubscriptionPlan.
-func (mr *MockCachingRepositoryMockRecorder) GetUserSubscriptionPlan(ctx, userID any) *gomock.Call {
+// GetUserSubscription indicates an expected call of GetUserSubscription.
+func (mr *MockCachingRepositoryMockRecorder) GetUserSubscription(ctx, userID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserSubscriptionPlan", reflect.TypeOf((*MockCachingRepository)(nil).GetUserSubscriptionPlan), ctx, userID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserSubscription", reflect.TypeOf((*MockCachingRepository)(nil).GetUserSubscription), ctx, userID)
 }
 
-// SetUserSubscriptionPlan mocks base method.
-func (m *MockCachingRepository) SetUserSubscriptionPlan(ctx *appcontext.AppContext, userID, plan string) error {
+// SetUserSubscription mocks base method.
+func (m *MockCachingRepository) SetUserSubscription(ctx *appcontext.AppContext, userID string, plan domain.UserSubscription) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUserSubscriptionPlan", ctx, userID, plan)
+	ret := m.ctrl.Call(m, "SetUserSubscription", ctx, userID, plan)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// SetUserSubscriptionPlan indicates an expected call of SetUserSubscriptionPlan.
-func (mr *MockCachingRepositoryMockRecorder) SetUserSubscriptionPlan(ctx, userID, plan any) *gomock.Call {
+// SetUserSubscription indicates an expected call of SetUserSubscription.
+func (mr *MockCachingRepositoryMockRecorder) SetUserSubscription(ctx, userID, plan any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUserSubscriptionPlan", reflect.TypeOf((*MockCachingRepository)(nil).SetUserSubscriptionPlan), ctx, userID, plan)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUserSubscription", reflect.TypeOf((*MockCachingRepository)(nil).SetUserSubscription), ctx, userID, plan)
 }

@@ -27,10 +27,6 @@ func (s *getMeTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (*getMeTestSuite) AfterTest(_, _ string) {
-	// do nothing
-}
-
 func (s *getMeTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockUserRepository = mockuser.NewMockUserRepository(s.mockCtrl)

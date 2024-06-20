@@ -35,6 +35,8 @@ tasks:
       - mockgen -source=pkg/subscription/domain/user_subscription.go -destination=internal/mock/subscription/user_subscription.go -package=mocksubscription
       - mockgen -source=pkg/subscription/domain/user_subscription_history.go -destination=internal/mock/subscription/user_subscription_history.go -package=mocksubscription
       - mockgen -source=pkg/subscription/domain/caching.go -destination=internal/mock/subscription/caching.go -package=mocksubscription
+      - mockgen -source=pkg/subscription/domain/queue.go -destination=internal/mock/subscription/queue.go -package=mocksubscription
+      - mockgen -source=pkg/subscription/domain/service.go -destination=internal/mock/subscription/service.go -package=mocksubscription
       - mockgen -source=pkg/subscription/domain/user_subscription_hub.go -destination=internal/mock/subscription/user_subscription_hub.go -package=mocksubscription
 
   test:

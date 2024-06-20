@@ -28,10 +28,6 @@ func (s *createUserSubscriptionTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (*createUserSubscriptionTestSuite) AfterTest(_, _ string) {
-	// do nothing
-}
-
 func (s *createUserSubscriptionTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockUserSubscriptionHub = mocksubscription.NewMockUserSubscriptionHub(s.mockCtrl)

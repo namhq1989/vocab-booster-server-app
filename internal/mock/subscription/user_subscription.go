@@ -11,6 +11,7 @@ package mocksubscription
 
 import (
 	reflect "reflect"
+	time "time"
 
 	appcontext "github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	domain "github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
@@ -38,6 +39,21 @@ func NewMockUserSubscriptionRepository(ctrl *gomock.Controller) *MockUserSubscri
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockUserSubscriptionRepository) EXPECT() *MockUserSubscriptionRepositoryMockRecorder {
 	return m.recorder
+}
+
+// FindExpiredUserSubscriptionsByDate mocks base method.
+func (m *MockUserSubscriptionRepository) FindExpiredUserSubscriptionsByDate(ctx *appcontext.AppContext, date time.Time) ([]domain.UserSubscription, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindExpiredUserSubscriptionsByDate", ctx, date)
+	ret0, _ := ret[0].([]domain.UserSubscription)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindExpiredUserSubscriptionsByDate indicates an expected call of FindExpiredUserSubscriptionsByDate.
+func (mr *MockUserSubscriptionRepositoryMockRecorder) FindExpiredUserSubscriptionsByDate(ctx, date any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindExpiredUserSubscriptionsByDate", reflect.TypeOf((*MockUserSubscriptionRepository)(nil).FindExpiredUserSubscriptionsByDate), ctx, date)
 }
 
 // FindUserSubscriptionByUserID mocks base method.
