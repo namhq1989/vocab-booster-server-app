@@ -3,12 +3,14 @@ package database
 import "go.mongodb.org/mongo-driver/mongo"
 
 var Collections = struct {
-	User string
+	User        string
+	UserJourney string
 
 	UserSubscription        string
 	UserSubscriptionHistory string
 }{
-	User: "user.users",
+	User:        "user.users",
+	UserJourney: "users.journeys",
 
 	UserSubscription:        "subscription.userSubscriptions",
 	UserSubscriptionHistory: "subscription.userSubscriptionHistories",
