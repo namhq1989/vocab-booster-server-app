@@ -76,19 +76,23 @@ func addLanguageMiddleware(e *echo.Echo) {
 		return func(c echo.Context) error {
 			// parse the Accept-Language header
 			accept := c.Request().Header.Get("Accept-Language")
-			tag, _, _ := language.ParseAcceptLanguage(accept)
 
-			// match the best supported language
-			matched, _, _ := supportedLanguages.Match(tag...)
+			// use "vi" as default if no match
+			lang := language.Vietnamese.String()
 
-			// Use "en" as default if no match
-			lang := language.English.String()
-			if matched == language.Vietnamese {
-				lang = language.Vietnamese.String()
+			if accept != "" {
+				tag, _, _ := language.ParseAcceptLanguage(accept)
+
+				// match the best supported language
+				matched, _, _ := supportedLanguages.Match(tag...)
+
+				if matched == language.English {
+					lang = language.English.String()
+				}
 			}
 
 			// set the language in the context
-			c.Set("lang", lang)
+			c.Get("ctx").(*appcontext.AppContext).SetLang(lang)
 
 			// Call the next handler in the chain
 			return next(c)

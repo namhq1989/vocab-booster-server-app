@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
@@ -79,6 +81,7 @@ func main() {
 		&auth.Module{},
 		&user.Module{},
 		&subscription.Module{},
+		&exercise.Module{},
 	}
 
 	// start

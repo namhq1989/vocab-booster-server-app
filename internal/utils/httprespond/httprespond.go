@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"reflect"
 
-	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
-
 	"github.com/labstack/echo/v4"
-	"golang.org/x/text/language"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 func isDataNil(data interface{}) bool {
@@ -20,16 +19,16 @@ func isDataNil(data interface{}) bool {
 }
 
 func sendResponse(c echo.Context, httpCode int, err error, data interface{}) error {
-	lang := c.Get("lang").(string)
-	if lang == "" {
-		lang = language.English.String()
-	}
+	var (
+		ctx  = c.Get("ctx").(*appcontext.AppContext)
+		lang = ctx.GetLang()
+	)
 
 	if isDataNil(data) {
 		data = echo.Map{}
 	}
 
-	code, message := apperrors.GetMessage(lang, err)
+	code, message := apperrors.GetMessage(lang.String(), err)
 
 	return c.JSON(httpCode, echo.Map{
 		"data":    data,
