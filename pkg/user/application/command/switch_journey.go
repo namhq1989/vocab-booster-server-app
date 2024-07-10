@@ -1,6 +1,8 @@
 package command
 
 import (
+	"slices"
+
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
@@ -35,11 +37,9 @@ func (h SwitchJourneyHandler) SwitchJourney(ctx *appcontext.AppContext, performe
 
 	ctx.Logger().Text("find journey with requested lang in user's journeys")
 	var journey *domain.Journey
-	for _, j := range journeys {
-		if j.Lang.String() == req.Lang {
-			journey = &j
-			break
-		}
+	var index = slices.IndexFunc(journeys, func(journey domain.Journey) bool { return journey.Lang.String() == req.Lang })
+	if index >= 0 {
+		journey = &journeys[index]
 	}
 
 	if journey == nil {
@@ -53,12 +53,11 @@ func (h SwitchJourneyHandler) SwitchJourney(ctx *appcontext.AppContext, performe
 
 	ctx.Logger().Text("find current is learning journey")
 	var currentLearningJourney *domain.Journey
-	for _, j := range journeys {
-		if j.IsLearning {
-			currentLearningJourney = &j
-			break
-		}
+	var currentLearningIndex = slices.IndexFunc(journeys, func(journey domain.Journey) bool { return journey.IsLearning })
+	if currentLearningIndex >= 0 {
+		currentLearningJourney = &journeys[currentLearningIndex]
 	}
+
 	if currentLearningJourney != nil {
 		ctx.Logger().Text("set current learning journey isLearning to false")
 		_ = currentLearningJourney.SetIsLearning(false)
