@@ -3,8 +3,6 @@ package appjwt
 import (
 	"strings"
 
-	"github.com/namhq1989/vocab-booster-server-app/internal/database"
-
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 
 	"github.com/labstack/echo/v4"
@@ -18,9 +16,6 @@ func (j JWT) RequireLoggedIn(next echo.HandlerFunc) echo.HandlerFunc {
 			ctx   = c.Get("ctx").(*appcontext.AppContext)
 			token = strings.TrimPrefix(c.Request().Header.Get("Authorization"), "Bearer ")
 		)
-
-		ctx.SetUserID(database.NewStringID())
-		return next(c)
 
 		claims, err := j.ParseAccessToken(ctx, token)
 		if claims == nil || err != nil {
