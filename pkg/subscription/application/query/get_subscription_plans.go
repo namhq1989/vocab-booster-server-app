@@ -1,9 +1,9 @@
 package query
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/dto"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type GetSubscriptionPlansHandler struct{}

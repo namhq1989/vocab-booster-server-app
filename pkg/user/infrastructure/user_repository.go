@@ -6,11 +6,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/infrastructure/dbmodel"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

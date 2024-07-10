@@ -3,8 +3,8 @@ package grpc
 import (
 	"context"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/subscriptionpb"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"google.golang.org/grpc"
 )
 

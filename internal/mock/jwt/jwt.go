@@ -13,8 +13,8 @@ import (
 	reflect "reflect"
 
 	echo "github.com/labstack/echo/v4"
-	appcontext "github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	appjwt "github.com/namhq1989/vocab-booster-server-app/internal/utils/jwt"
+	appcontext "github.com/namhq1989/vocab-booster-utilities/appcontext"
 	gomock "go.uber.org/mock/gomock"
 )
 

@@ -3,7 +3,7 @@ package domain
 import (
 	"time"
 
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 )
 
 type SubscriptionPlan struct {

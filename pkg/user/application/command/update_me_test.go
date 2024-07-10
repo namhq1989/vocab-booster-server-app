@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	mockuser "github.com/namhq1989/vocab-booster-server-app/internal/mock/user"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application/command"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -58,7 +58,7 @@ func (s *updateMeTestSuite) Test_1_Success() {
 		Return(nil)
 
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.UpdateMe(ctx, id, dto.UpdateMeRequest{
 		Name:       "John",
 		Bio:        "",
@@ -75,7 +75,7 @@ func (s *updateMeTestSuite) Test_2_Fail_InvalidID() {
 		Return(nil, apperrors.User.InvalidUserID)
 
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.UpdateMe(ctx, "invalid id", dto.UpdateMeRequest{
 		Name:       "John",
 		Bio:        "",
@@ -96,7 +96,7 @@ func (s *updateMeTestSuite) Test_2_Fail_InvalidName() {
 		}, nil)
 
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.UpdateMe(ctx, "invalid id", dto.UpdateMeRequest{
 		Name:       "J",
 		Bio:        "",
@@ -117,7 +117,7 @@ func (s *updateMeTestSuite) Test_2_Fail_InvalidVisibility() {
 		}, nil)
 
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.UpdateMe(ctx, "invalid id", dto.UpdateMeRequest{
 		Name:       "John",
 		Bio:        "",

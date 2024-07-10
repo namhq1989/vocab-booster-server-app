@@ -2,9 +2,9 @@ package rest
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	appjwt "github.com/namhq1989/vocab-booster-server-app/internal/utils/jwt"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth/application"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type server struct {

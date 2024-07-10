@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/infrastructure/dbmodel"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"go.mongodb.org/mongo-driver/bson"

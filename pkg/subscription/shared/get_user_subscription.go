@@ -1,9 +1,9 @@
 package shared
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 func (s Service) GetUserSubscription(ctx *appcontext.AppContext, userID string) (*domain.UserSubscription, error) {

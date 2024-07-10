@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	mockuser "github.com/namhq1989/vocab-booster-server-app/internal/mock/user"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application/query"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -54,7 +54,7 @@ func (s *getMeTestSuite) Test_1_Success() {
 		}, nil)
 
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.GetMe(ctx, id, dto.GetMeRequest{})
 
 	assert.Nil(s.T(), err)
@@ -69,7 +69,7 @@ func (s *getMeTestSuite) Test_2_Fail_InvalidID() {
 		Return(nil, apperrors.User.InvalidUserID)
 
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.GetMe(ctx, "invalid id", dto.GetMeRequest{})
 
 	assert.NotNil(s.T(), err)

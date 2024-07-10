@@ -1,10 +1,10 @@
 package query
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type GetMeHandler struct {

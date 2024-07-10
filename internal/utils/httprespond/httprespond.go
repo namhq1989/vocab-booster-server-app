@@ -5,8 +5,9 @@ import (
 	"net/http"
 	"reflect"
 
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+
 	"github.com/labstack/echo/v4"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"golang.org/x/text/language"
 )
 

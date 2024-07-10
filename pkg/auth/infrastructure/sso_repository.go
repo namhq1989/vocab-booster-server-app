@@ -1,9 +1,9 @@
 package infrastructure
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/sso"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth/domain"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type SSORepository struct {

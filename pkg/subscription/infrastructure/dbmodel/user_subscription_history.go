@@ -3,7 +3,8 @@ package dbmodel
 import (
 	"time"
 
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"

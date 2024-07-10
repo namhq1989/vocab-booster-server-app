@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
 	"github.com/namhq1989/vocab-booster-server-app/internal/config"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
@@ -18,6 +17,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/internal/queue"
 	appjwt "github.com/namhq1989/vocab-booster-server-app/internal/utils/jwt"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/waiter"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 )
@@ -72,7 +72,7 @@ func (a *app) Queue() *queue.Queue {
 }
 
 func (a *app) startupModules() error {
-	ctx := appcontext.New(a.Waiter().Context())
+	ctx := appcontext.NewRest(a.Waiter().Context())
 
 	for _, module := range a.modules {
 		if err := module.Startup(ctx, a); err != nil {
