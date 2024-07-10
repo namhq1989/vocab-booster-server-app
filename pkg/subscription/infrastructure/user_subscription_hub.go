@@ -3,11 +3,11 @@ package infrastructure
 import (
 	"errors"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/infrastructure/dbmodel"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )

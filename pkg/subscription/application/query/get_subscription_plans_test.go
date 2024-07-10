@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/application/query"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/dto"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
@@ -34,7 +34,7 @@ func (*getSubscriptionPlansSuite) TearDownTest() {
 
 func (s *getSubscriptionPlansSuite) Test_1_Success() {
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.GetSubscriptionPlans(ctx, "", dto.GetSubscriptionPlansRequest{})
 
 	assert.Nil(s.T(), err)

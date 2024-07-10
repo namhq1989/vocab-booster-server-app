@@ -1,7 +1,6 @@
 package subscription
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/monolith"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/application"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/grpc"
@@ -9,6 +8,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/rest"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/shared"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/worker"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type Module struct{}

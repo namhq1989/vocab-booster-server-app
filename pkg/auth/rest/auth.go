@@ -2,10 +2,10 @@ package rest
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/httprespond"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/validation"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth/dto"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 func (s server) registerAuthRoutes() {

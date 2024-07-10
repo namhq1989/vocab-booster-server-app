@@ -5,7 +5,7 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type Operations interface {

@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	mockjwt "github.com/namhq1989/vocab-booster-server-app/internal/mock/jwt"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth/application/query"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth/dto"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth/infrastructure"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -50,7 +50,7 @@ func (s *getAccessTokenByUserIDTestSuite) Test_1_Success() {
 		Return("access_token", nil)
 
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.GetAccessTokenByUserID(ctx, dto.GetAccessTokenByUserIDRequest{UserID: database.NewStringID()})
 
 	assert.Nil(s.T(), err)
@@ -60,7 +60,7 @@ func (s *getAccessTokenByUserIDTestSuite) Test_1_Success() {
 
 func (s *getAccessTokenByUserIDTestSuite) Test_2_Fail_InvalidID() {
 	// call
-	ctx := appcontext.New(context.Background())
+	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.GetAccessTokenByUserID(ctx, dto.GetAccessTokenByUserIDRequest{UserID: "invalid id"})
 
 	assert.NotNil(s.T(), err)

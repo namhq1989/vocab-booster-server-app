@@ -5,22 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription"
-
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
-	"github.com/namhq1989/vocab-booster-server-app/core/logger"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
 	"github.com/namhq1989/vocab-booster-server-app/internal/config"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/monitoring"
 	"github.com/namhq1989/vocab-booster-server-app/internal/monolith"
 	"github.com/namhq1989/vocab-booster-server-app/internal/queue"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	appjwt "github.com/namhq1989/vocab-booster-server-app/internal/utils/jwt"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/waiter"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user"
+	"github.com/namhq1989/vocab-booster-utilities/logger"
 )
 
 func main() {

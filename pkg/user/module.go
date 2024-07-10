@@ -1,12 +1,12 @@
 package user
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/monolith"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/grpc"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/infrastructure"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/rest"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type Module struct{}

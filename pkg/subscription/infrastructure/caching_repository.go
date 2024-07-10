@@ -6,9 +6,9 @@ import (
 
 	"github.com/goccy/go-json"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type CachingRepository struct {

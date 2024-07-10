@@ -1,9 +1,9 @@
 package grpc
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/userpb"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type (

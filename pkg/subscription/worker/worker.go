@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	"github.com/hibiken/asynq"
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/internal/queue"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type (

@@ -1,11 +1,11 @@
 package application
 
 import (
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application/command"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/application/query"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 type (

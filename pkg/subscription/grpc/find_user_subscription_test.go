@@ -5,13 +5,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/core/error"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/subscriptionpb"
 	mocksubscription "github.com/namhq1989/vocab-booster-server-app/internal/mock/subscription"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/grpc"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"

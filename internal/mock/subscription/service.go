@@ -12,8 +12,8 @@ package mocksubscription
 import (
 	reflect "reflect"
 
-	appcontext "github.com/namhq1989/vocab-booster-server-app/core/appcontext"
 	domain "github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
+	appcontext "github.com/namhq1989/vocab-booster-utilities/appcontext"
 	gomock "go.uber.org/mock/gomock"
 )
 

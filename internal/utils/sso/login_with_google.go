@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/namhq1989/vocab-booster-server-app/core/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
 const googleTokenInfoURL = "https://oauth2.googleapis.com/tokeninfo?id_token=%s"
