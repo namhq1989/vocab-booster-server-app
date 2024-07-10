@@ -1,6 +1,7 @@
 package grpcclient
 
 import (
+	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/exercisepb"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/userpb"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"google.golang.org/grpc"
@@ -14,4 +15,13 @@ func NewUserClient(_ *appcontext.AppContext, addr string) (userpb.UserServiceCli
 	}
 
 	return userpb.NewUserServiceClient(conn), nil
+}
+
+func NewExerciseClient(_ *appcontext.AppContext, addr string) (exercisepb.ExerciseServiceClient, error) {
+	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return nil, err
+	}
+
+	return exercisepb.NewExerciseServiceClient(conn), nil
 }

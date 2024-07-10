@@ -1,8 +1,10 @@
 package apperrors
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
@@ -52,4 +54,12 @@ func GetMessage(lang string, err error) (code, msg string) {
 	}
 
 	return key, msg
+}
+
+func TransformGrpcError(err error) error {
+	parts := strings.Split(err.Error(), " | ")
+	if len(parts) == 2 {
+		return errors.New(parts[1])
+	}
+	return err
 }

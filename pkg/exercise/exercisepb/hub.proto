@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package exercisepb;
+
+import "exercisepb/message.proto";
+
+service ExerciseService {
+  rpc GetUserExercises(GetUserExercisesRequest) returns (GetUserExercisesResponse) {}
+}
+
+// GET USER EXERCISES
+
+message GetUserExercisesRequest {
+  string userId = 1;
+  string level = 2;
+  string lang = 3;
+}
+
+message GetUserExercisesResponse {
+  repeated UserExercise exercises = 1;
+}
