@@ -24,12 +24,12 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 	var (
 		cfg = mono.Config()
 
-		ssoRepository = infrastructure.NewSSORepository(cfg.SSOGoogleClientID, cfg.SSOGoogleClientSecret)
-		jwtRepository = infrastructure.NewJwtRepository(mono.JWT())
-		userHub       = infrastructure.NewUserHub(userGRPCClient)
+		authenticationRepository = infrastructure.NewAuthenticationRepository(mono.Authentication())
+		jwtRepository            = infrastructure.NewJwtRepository(mono.JWT())
+		userHub                  = infrastructure.NewUserHub(userGRPCClient)
 
 		// app
-		app = application.New(ssoRepository, jwtRepository, userHub)
+		app = application.New(authenticationRepository, jwtRepository, userHub)
 	)
 
 	// rest server

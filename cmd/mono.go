@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/namhq1989/vocab-booster-server-app/internal/authentication"
+
 	"github.com/labstack/echo/v4"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
 	"github.com/namhq1989/vocab-booster-server-app/internal/config"
@@ -23,16 +25,17 @@ import (
 )
 
 type app struct {
-	cfg        config.Server
-	database   *database.Database
-	caching    *caching.Caching
-	rest       *echo.Echo
-	rpc        *grpc.Server
-	jwt        *appjwt.JWT
-	monitoring *monitoring.Monitoring
-	queue      *queue.Queue
-	waiter     waiter.Waiter
-	modules    []monolith.Module
+	cfg            config.Server
+	database       *database.Database
+	caching        *caching.Caching
+	rest           *echo.Echo
+	rpc            *grpc.Server
+	jwt            *appjwt.JWT
+	monitoring     *monitoring.Monitoring
+	queue          *queue.Queue
+	authentication *authentication.Authentication
+	waiter         waiter.Waiter
+	modules        []monolith.Module
 }
 
 func (a *app) Config() config.Server {
@@ -69,6 +72,10 @@ func (a *app) Monitoring() *monitoring.Monitoring {
 
 func (a *app) Queue() *queue.Queue {
 	return a.queue
+}
+
+func (a *app) Authentication() *authentication.Authentication {
+	return a.authentication
 }
 
 func (a *app) startupModules() error {

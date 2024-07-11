@@ -35,13 +35,13 @@ type (
 var _ Instance = (*Application)(nil)
 
 func New(
-	ssoRepository domain.SSORepository,
+	authenticationRepository domain.AuthenticationRepository,
 	jwtRepository domain.JwtRepository,
 	userHub domain.UserHub,
 ) *Application {
 	return &Application{
 		appCommandHandlers: appCommandHandlers{
-			SignInWithGoogleHandler: command.NewSignInWithGoogleHandler(ssoRepository, jwtRepository, userHub),
+			SignInWithGoogleHandler: command.NewSignInWithGoogleHandler(authenticationRepository, jwtRepository, userHub),
 		},
 		appQueryHandler: appQueryHandler{
 			GetAccessTokenByUserIDHandler: query.NewGetAccessTokenByUserIDHandler(jwtRepository),

@@ -7,16 +7,16 @@ import (
 )
 
 type SignInWithGoogleHandler struct {
-	ssoRepository domain.SSORepository
-	jwtRepository domain.JwtRepository
-	userHub       domain.UserHub
+	authenticationRepository domain.AuthenticationRepository
+	jwtRepository            domain.JwtRepository
+	userHub                  domain.UserHub
 }
 
-func NewSignInWithGoogleHandler(ssoRepository domain.SSORepository, jwtRepository domain.JwtRepository, userHub domain.UserHub) SignInWithGoogleHandler {
+func NewSignInWithGoogleHandler(authenticationRepository domain.AuthenticationRepository, jwtRepository domain.JwtRepository, userHub domain.UserHub) SignInWithGoogleHandler {
 	return SignInWithGoogleHandler{
-		jwtRepository: jwtRepository,
-		ssoRepository: ssoRepository,
-		userHub:       userHub,
+		jwtRepository:            jwtRepository,
+		authenticationRepository: authenticationRepository,
+		userHub:                  userHub,
 	}
 }
 
@@ -24,7 +24,7 @@ func (h SignInWithGoogleHandler) SignInWithGoogle(ctx *appcontext.AppContext, re
 	ctx.Logger().Info("[command] new sign in with Google request", appcontext.Fields{"token": req.Token})
 
 	ctx.Logger().Text("get user's data with Google token")
-	googleUser, err := h.ssoRepository.GetUserDataWithGoogleToken(ctx, req.Token)
+	googleUser, err := h.authenticationRepository.GetUserInfoWithToken(ctx, req.Token)
 	if err != nil {
 		ctx.Logger().Error("failed to get staff data with Google token", err, appcontext.Fields{})
 		return nil, err
@@ -58,8 +58,8 @@ func (h SignInWithGoogleHandler) SignInWithGoogle(ctx *appcontext.AppContext, re
 	}, nil
 }
 
-func (h SignInWithGoogleHandler) createNewUser(ctx *appcontext.AppContext, googleUser domain.SSOGoogleUser) (*domain.User, error) {
-	ctx.Logger().Info("create new user with Google data via grpc", appcontext.Fields{"id": googleUser.ID, "email": googleUser.Email, "name": googleUser.Name})
+func (h SignInWithGoogleHandler) createNewUser(ctx *appcontext.AppContext, googleUser domain.AuthenticationUser) (*domain.User, error) {
+	ctx.Logger().Info("create new user with Google data via grpc", appcontext.Fields{"id": googleUser.UID, "email": googleUser.Email, "name": googleUser.Name})
 	id, err := h.userHub.CreateUser(ctx, googleUser.Name, googleUser.Email)
 	if err != nil {
 		ctx.Logger().Error("failed to create new user via grpc", err, appcontext.Fields{})
