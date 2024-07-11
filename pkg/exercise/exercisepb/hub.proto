@@ -6,6 +6,7 @@ import "exercisepb/message.proto";
 
 service ExerciseService {
   rpc GetUserExercises(GetUserExercisesRequest) returns (GetUserExercisesResponse) {}
+  rpc GetUserReadyForReviewExercises(GetUserReadyForReviewExercisesRequest) returns (GetUserReadyForReviewExercisesResponse) {}
 }
 
 // GET USER EXERCISES
@@ -17,5 +18,18 @@ message GetUserExercisesRequest {
 }
 
 message GetUserExercisesResponse {
+  repeated UserExercise exercises = 1;
+}
+
+
+// GET USER READY FOR REVIEW EXERCISES
+
+message GetUserReadyForReviewExercisesRequest {
+  string userId = 1;
+  string level = 2;
+  string lang = 3;
+}
+
+message GetUserReadyForReviewExercisesResponse {
   repeated UserExercise exercises = 1;
 }

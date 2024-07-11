@@ -40,6 +40,9 @@ tasks:
       - mockgen -source=pkg/subscription/domain/service.go -destination=internal/mock/subscription/service.go -package=mocksubscription
       - mockgen -source=pkg/subscription/domain/user_subscription_hub.go -destination=internal/mock/subscription/user_subscription_hub.go -package=mocksubscription
 
+      # exercise
+      - mockgen -source=pkg/exercise/domain/exercise_hub.go -destination=internal/mock/exercise/exercise_hub.go -package=mockexercise
+
   test:
     dotenv: ['.env.test']
     cmds:

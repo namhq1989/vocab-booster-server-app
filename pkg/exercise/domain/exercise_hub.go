@@ -8,6 +8,7 @@ import (
 
 type ExerciseHub interface {
 	GetExercises(ctx *appcontext.AppContext, userID, lang string) ([]Exercise, error)
+	GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]Exercise, error)
 }
 
 type Exercise struct {

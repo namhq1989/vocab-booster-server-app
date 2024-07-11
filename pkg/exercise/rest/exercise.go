@@ -16,9 +16,10 @@ func (s server) registerExerciseRoutes() {
 			ctx         = c.Get("ctx").(*appcontext.AppContext)
 			req         = c.Get("req").(dto.GetExercisesRequest)
 			performerID = ctx.GetUserID()
+			lang        = ctx.GetLang()
 		)
 
-		resp, err := s.app.GetExercises(ctx, performerID, req)
+		resp, err := s.app.GetExercises(ctx, performerID, lang, req)
 		if err != nil {
 			return httprespond.R400(c, err, nil)
 		}
@@ -27,4 +28,23 @@ func (s server) registerExerciseRoutes() {
 	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return validation.ValidateHTTPPayload[dto.GetExercisesRequest](next)
 	})
+
+	g.GET("/ready-for-review", func(c echo.Context) error {
+		var (
+			ctx         = c.Get("ctx").(*appcontext.AppContext)
+			req         = c.Get("req").(dto.GetReadyForReviewExercisesRequest)
+			performerID = ctx.GetUserID()
+			lang        = ctx.GetLang()
+		)
+
+		resp, err := s.app.GetReadyForReviewExercises(ctx, performerID, lang, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.GetReadyForReviewExercisesRequest](next)
+	})
+
 }

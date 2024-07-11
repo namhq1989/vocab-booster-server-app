@@ -2,7 +2,6 @@ package infrastructure
 
 import (
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/exercisepb"
-	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/infrastructure/mapping"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -24,7 +23,32 @@ func (r ExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang strin
 		Lang:   lang,
 	})
 	if err != nil {
-		return nil, apperrors.TransformGrpcError(err)
+		return nil, err
+	}
+
+	var (
+		result = make([]domain.Exercise, 0)
+		mapper = mapping.ExerciseMapper{}
+	)
+
+	for _, e := range resp.GetExercises() {
+		exercise, _ := mapper.FromGrpcToDomain(e)
+		if exercise != nil {
+			result = append(result, *exercise)
+
+		}
+	}
+
+	return result, nil
+}
+
+func (r ExerciseHub) GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]domain.Exercise, error) {
+	resp, err := r.client.GetUserReadyForReviewExercises(ctx.Context(), &exercisepb.GetUserReadyForReviewExercisesRequest{
+		UserId: userID,
+		Lang:   lang,
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	var (

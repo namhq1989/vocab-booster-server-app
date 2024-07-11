@@ -4,6 +4,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/language"
 )
 
 type GetExercisesHandler struct {
@@ -16,9 +17,7 @@ func NewGetExercisesHandler(exerciseHub domain.ExerciseHub) GetExercisesHandler 
 	}
 }
 
-func (h GetExercisesHandler) GetExercises(ctx *appcontext.AppContext, performerID string, _ dto.GetExercisesRequest) (*dto.GetExercisesResponse, error) {
-	lang := ctx.GetLang()
-
+func (h GetExercisesHandler) GetExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExercisesRequest) (*dto.GetExercisesResponse, error) {
 	ctx.Logger().Info("[query] new get exercises request", appcontext.Fields{"performerID": performerID, "lang": lang.String()})
 	exercises, err := h.exerciseHub.GetExercises(ctx, performerID, lang.String())
 	if err != nil {
