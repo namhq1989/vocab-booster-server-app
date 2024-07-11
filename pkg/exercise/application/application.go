@@ -5,11 +5,13 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/language"
 )
 
 type (
 	Queries interface {
-		GetExercises(ctx *appcontext.AppContext, performerID string, _ dto.GetExercisesRequest) (*dto.GetExercisesResponse, error)
+		GetExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExercisesRequest) (*dto.GetExercisesResponse, error)
+		GetReadyForReviewExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetReadyForReviewExercisesRequest) (*dto.GetReadyForReviewExercisesResponse, error)
 	}
 	Instance interface {
 		Queries
@@ -17,6 +19,7 @@ type (
 
 	appQueryHandler struct {
 		query.GetExercisesHandler
+		query.GetReadyForReviewExercisesHandler
 	}
 	Application struct {
 		appQueryHandler
@@ -30,7 +33,8 @@ func New(
 ) *Application {
 	return &Application{
 		appQueryHandler: appQueryHandler{
-			GetExercisesHandler: query.NewGetExercisesHandler(exerciseHub),
+			GetExercisesHandler:               query.NewGetExercisesHandler(exerciseHub),
+			GetReadyForReviewExercisesHandler: query.NewGetReadyForReviewExercisesHandler(exerciseHub),
 		},
 	}
 }
