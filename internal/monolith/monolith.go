@@ -2,6 +2,7 @@ package monolith
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/namhq1989/vocab-booster-server-app/internal/authentication"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
 	"github.com/namhq1989/vocab-booster-server-app/internal/config"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
@@ -23,6 +24,7 @@ type Monolith interface {
 	JWT() *appjwt.JWT
 	Monitoring() *monitoring.Monitoring
 	Queue() *queue.Queue
+	Authentication() *authentication.Authentication
 }
 
 type Module interface {

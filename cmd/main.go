@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise"
-
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/namhq1989/vocab-booster-server-app/internal/authentication"
 	"github.com/namhq1989/vocab-booster-server-app/internal/caching"
 	"github.com/namhq1989/vocab-booster-server-app/internal/config"
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
@@ -19,6 +18,7 @@ import (
 	appjwt "github.com/namhq1989/vocab-booster-server-app/internal/utils/jwt"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/waiter"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/auth"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user"
 	"github.com/namhq1989/vocab-booster-utilities/logger"
@@ -72,6 +72,9 @@ func main() {
 
 	// monitoring
 	a.monitoring = monitoring.Init(a.Rest(), cfg.SentryDSN, cfg.SentryMachine, cfg.Environment)
+
+	// authentication
+	a.authentication = authentication.NewAuthenticationClient(cfg.FirebaseServiceAccount)
 
 	// waiter
 	a.waiter = waiter.New(waiter.CatchSignals())

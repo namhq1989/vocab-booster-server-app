@@ -12,13 +12,10 @@ type (
 		IsEnvRelease bool
 		Debug        bool
 
-		// Single Sign On
-		SSOGoogleClientID     string
-		SSOGoogleClientSecret string
-
 		// Authentication
-		AccessTokenSecret string
-		AccessTokenTTL    int // seconds
+		FirebaseServiceAccount string
+		AccessTokenSecret      string
+		AccessTokenTTL         int // seconds
 
 		// MongoDB
 		MongoURL    string
@@ -55,11 +52,9 @@ func Init() Server {
 		Environment: getEnvStr("ENVIRONMENT"),
 		Debug:       getEnvBool("DEBUG"),
 
-		SSOGoogleClientID:     getEnvStr("SSO_GOOGLE_CLIENT_ID"),
-		SSOGoogleClientSecret: getEnvStr("SSO_GOOGLE_CLIENT_SECRET"),
-
-		AccessTokenSecret: getEnvStr("ACCESS_TOKEN_SECRET"),
-		AccessTokenTTL:    getEnvInt("ACCESS_TOKEN_TTL"),
+		FirebaseServiceAccount: getEnvStr("FIREBASE_SERVICE_ACCOUNT"),
+		AccessTokenSecret:      getEnvStr("ACCESS_TOKEN_SECRET"),
+		AccessTokenTTL:         getEnvInt("ACCESS_TOKEN_TTL"),
 
 		MongoURL:    getEnvStr("MONGO_URL"),
 		MongoDBName: getEnvStr("MONGO_DB_NAME"),
@@ -84,6 +79,10 @@ func Init() Server {
 	// validation
 	if cfg.Environment == "" {
 		panic(errors.New("missing ENVIRONMENT"))
+	}
+
+	if cfg.FirebaseServiceAccount == "" {
+		panic(errors.New("missing FIREBASE_SERVICE_ACCOUNT"))
 	}
 
 	if cfg.MongoURL == "" {
