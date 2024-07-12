@@ -18,6 +18,7 @@ invalid_role = "Vai trò không hợp lệ"
 invalid_file = "Tập tin không hợp lệ"
 invalid_action = "Hành động không hợp lệ"
 invalid_language = "Ngôn ngữ không hợp lệ"
+invalid_avatar = "Hình đại diện không hợp lệ"
 
 # auth
 auth_invalid_auth_token = "Token xác thực không hợp lệ"

@@ -9,7 +9,9 @@ type AuthenticationRepository interface {
 }
 
 type AuthenticationUser struct {
-	UID   string
-	Email string
-	Name  string
+	UID            string
+	Email          string
+	Name           string
+	ProviderSource string
+	ProviderUID    string
 }

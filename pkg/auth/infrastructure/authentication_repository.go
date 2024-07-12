@@ -23,8 +23,10 @@ func (r AuthenticationRepository) GetUserInfoWithToken(ctx *appcontext.AppContex
 	}
 
 	return &domain.AuthenticationUser{
-		UID:   user.UID,
-		Email: user.Email,
-		Name:  user.Name,
+		UID:            user.UID,
+		Email:          user.Email,
+		Name:           user.Name,
+		ProviderSource: user.ProviderSource,
+		ProviderUID:    user.ProviderUID,
 	}, nil
 }

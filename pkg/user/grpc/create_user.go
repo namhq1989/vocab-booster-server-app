@@ -38,6 +38,9 @@ func (h CreateUserHandler) CreateUser(ctx *appcontext.AppContext, req *userpb.Cr
 		return nil, err
 	}
 
+	ctx.Logger().Text("set data")
+	_ = user.SetProvider(req.GetProviderSource(), req.GetProviderUid())
+
 	ctx.Logger().Text("persist user in db")
 	err = h.userHub.CreateUser(ctx, *user)
 	if err != nil {

@@ -36,6 +36,8 @@ message FindUserByEmailResponse {
 message CreateUserRequest {
   string name = 1;
   string email = 2;
+  string providerSource = 3;
+  string providerUid = 4;
 }
 
 message CreateUserResponse {

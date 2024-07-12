@@ -34,10 +34,12 @@ func (r UserHub) FindUserByEmail(ctx *appcontext.AppContext, email string) (*dom
 	}, nil
 }
 
-func (r UserHub) CreateUser(ctx *appcontext.AppContext, name, email string) (string, error) {
+func (r UserHub) CreateUser(ctx *appcontext.AppContext, name, email, providerSource, providerUid string) (string, error) {
 	resp, err := r.client.CreateUser(ctx.Context(), &userpb.CreateUserRequest{
-		Name:  name,
-		Email: email,
+		Name:           name,
+		Email:          email,
+		ProviderSource: providerSource,
+		ProviderUid:    providerUid,
 	})
 	if err != nil {
 		return "", err

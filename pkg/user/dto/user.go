@@ -7,6 +7,7 @@ type User struct {
 	Name       string `json:"name"`
 	Email      string `json:"email"`
 	Bio        string `json:"bio"`
+	Avatar     string `json:"avatar"`
 	Visibility string `json:"visibility"`
 }
 
@@ -16,6 +17,7 @@ func (User) FromDomain(user domain.User) User {
 		Name:       user.Name,
 		Email:      user.Email,
 		Bio:        user.Bio,
+		Avatar:     user.Avatar,
 		Visibility: user.Visibility.String(),
 	}
 }

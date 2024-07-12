@@ -18,6 +18,7 @@ invalid_role = "Invalid role"
 invalid_file = "Invalid file"
 invalid_action = "Invalid action"
 invalid_language = "Invalid language"
+invalid_avatar = "Invalid avatar"
 
 # auth
 auth_invalid_auth_token = "Invalid auth token"
