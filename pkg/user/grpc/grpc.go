@@ -20,6 +20,10 @@ func RegisterServer(_ *appcontext.AppContext, registrar grpc.ServiceRegistrar, h
 	return nil
 }
 
+func (s server) CreateUser(bgCtx context.Context, req *userpb.CreateUserRequest) (*userpb.CreateUserResponse, error) {
+	return s.hub.CreateUser(appcontext.NewGRPC(bgCtx), req)
+}
+
 func (s server) FindUserByID(bgCtx context.Context, req *userpb.FindUserByIDRequest) (*userpb.FindUserByIDResponse, error) {
 	return s.hub.FindUserByID(appcontext.NewGRPC(bgCtx), req)
 }

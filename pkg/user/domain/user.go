@@ -1,7 +1,11 @@
 package domain
 
 import (
+	"fmt"
+	"slices"
 	"time"
+
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
@@ -19,9 +23,16 @@ type User struct {
 	Name       string
 	Email      string
 	Bio        string
+	Avatar     string
 	Visibility Visibility
+	Providers  []UserProvider
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
+}
+
+type UserProvider struct {
+	Source string
+	UID    string
 }
 
 func NewUser(name, email string) (*User, error) {
@@ -37,6 +48,7 @@ func NewUser(name, email string) (*User, error) {
 		ID:         database.NewStringID(),
 		Name:       name,
 		Email:      email,
+		Avatar:     randomAvatar(),
 		Visibility: VisibilityPublic,
 		CreatedAt:  time.Now(),
 		UpdatedAt:  time.Now(),
@@ -68,6 +80,32 @@ func (d *User) SetVisibility(visibility string) error {
 	d.Visibility = dVisibility
 	d.UpdatedAt = time.Now()
 	return nil
+}
+
+func (d *User) SetProvider(source, uid string) error {
+	index := slices.IndexFunc(d.Providers, func(provider UserProvider) bool { return provider.Source == source })
+	if index >= 0 {
+		d.Providers[index].UID = uid
+	} else {
+		d.Providers = append(d.Providers, UserProvider{
+			Source: source,
+			UID:    uid,
+		})
+	}
+	d.UpdatedAt = time.Now()
+	return nil
+}
+
+const totalAvatars = 26
+
+func randomAvatar() string {
+	r := manipulation.RandomIntInRange(1, totalAvatars)
+	return fmt.Sprintf("%d", r)
+}
+
+func (d *User) SetAvatar(value string) {
+	d.Avatar = value
+	d.UpdatedAt = time.Now()
 }
 
 func (d *User) SetUpdatedAt() {

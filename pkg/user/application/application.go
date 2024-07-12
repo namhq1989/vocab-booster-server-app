@@ -11,10 +11,7 @@ import (
 type (
 	Commands interface {
 		UpdateMe(ctx *appcontext.AppContext, performerID string, req dto.UpdateMeRequest) (*dto.UpdateMeResponse, error)
-
-		CreateJourney(ctx *appcontext.AppContext, performerID string, req dto.CreateJourneyRequest) (*dto.CreateJourneyResponse, error)
-		SwitchJourney(ctx *appcontext.AppContext, performerID string, req dto.SwitchJourneyRequest) (*dto.SwitchJourneyResponse, error)
-		GetJourneys(ctx *appcontext.AppContext, performerID string, _ dto.GetJourneysRequest) (*dto.GetJourneysResponse, error)
+		ChangeAvatar(ctx *appcontext.AppContext, performerID string, req dto.ChangeAvatarRequest) (*dto.ChangeAvatarResponse, error)
 	}
 	Queries interface {
 		GetMe(ctx *appcontext.AppContext, performerID string, _ dto.GetMeRequest) (*dto.GetMeResponse, error)
@@ -26,14 +23,10 @@ type (
 
 	appCommandHandlers struct {
 		command.UpdateMeHandler
-
-		command.CreateJourneyHandler
-		command.SwitchJourneyHandler
+		command.ChangeAvatarHandler
 	}
 	appQueryHandler struct {
 		query.GetMeHandler
-
-		query.GetJourneysHandler
 	}
 	Application struct {
 		appCommandHandlers
@@ -45,19 +38,14 @@ var _ App = (*Application)(nil)
 
 func New(
 	userRepository domain.UserRepository,
-	journeyRepository domain.JourneyRepository,
 ) *Application {
 	return &Application{
 		appCommandHandlers: appCommandHandlers{
-			UpdateMeHandler: command.NewUpdateMeHandler(userRepository),
-
-			CreateJourneyHandler: command.NewCreateJourneyHandler(journeyRepository),
-			SwitchJourneyHandler: command.NewSwitchJourneyHandler(journeyRepository),
+			UpdateMeHandler:     command.NewUpdateMeHandler(userRepository),
+			ChangeAvatarHandler: command.NewChangeAvatarHandler(userRepository),
 		},
 		appQueryHandler: appQueryHandler{
 			GetMeHandler: query.NewGetMeHandler(userRepository),
-
-			GetJourneysHandler: query.NewGetJourneysHandler(journeyRepository),
 		},
 	}
 }

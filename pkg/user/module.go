@@ -17,13 +17,12 @@ func (Module) Name() string {
 
 func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error {
 	var (
-		userRepository    = infrastructure.NewUserRepository(mono.Database())
-		journeyRepository = infrastructure.NewJourneyRepository(mono.Database())
+		userRepository = infrastructure.NewUserRepository(mono.Database())
 
 		userHub = infrastructure.NewUserHub(mono.Database())
 
 		// app
-		app = application.New(userRepository, journeyRepository)
+		app = application.New(userRepository)
 		hub = grpc.New(userHub)
 	)
 

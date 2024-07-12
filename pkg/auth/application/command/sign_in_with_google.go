@@ -60,7 +60,7 @@ func (h SignInWithGoogleHandler) SignInWithGoogle(ctx *appcontext.AppContext, re
 
 func (h SignInWithGoogleHandler) createNewUser(ctx *appcontext.AppContext, googleUser domain.AuthenticationUser) (*domain.User, error) {
 	ctx.Logger().Info("create new user with Google data via grpc", appcontext.Fields{"id": googleUser.UID, "email": googleUser.Email, "name": googleUser.Name})
-	id, err := h.userHub.CreateUser(ctx, googleUser.Name, googleUser.Email)
+	id, err := h.userHub.CreateUser(ctx, googleUser.Name, googleUser.Email, googleUser.ProviderSource, googleUser.ProviderUID)
 	if err != nil {
 		ctx.Logger().Error("failed to create new user via grpc", err, appcontext.Fields{})
 		return nil, err

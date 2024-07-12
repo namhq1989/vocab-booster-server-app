@@ -5,13 +5,14 @@ import (
 )
 
 type UserInfo struct {
-	UID           string                 `json:"uid"`
-	Email         string                 `json:"email,omitempty"`
-	EmailVerified bool                   `json:"email_verified,omitempty"`
-	Name          string                 `json:"name,omitempty"`
-	Picture       string                 `json:"picture,omitempty"`
-	ProviderID    string                 `json:"provider_id,omitempty"`
-	Claims        map[string]interface{} `json:"claims,omitempty"`
+	UID            string                 `json:"uid"`
+	Email          string                 `json:"email,omitempty"`
+	EmailVerified  bool                   `json:"email_verified,omitempty"`
+	Name           string                 `json:"name,omitempty"`
+	Picture        string                 `json:"picture,omitempty"`
+	ProviderSource string                 `json:"provider_id,omitempty"`
+	ProviderUID    string                 `json:"provider_uid,omitempty"`
+	Claims         map[string]interface{} `json:"claims,omitempty"`
 }
 
 func (a Authentication) VerifyToken(ctx *appcontext.AppContext, idToken string) (*UserInfo, error) {
@@ -24,13 +25,14 @@ func (a Authentication) VerifyToken(ctx *appcontext.AppContext, idToken string) 
 
 	ctx.Logger().Text("map token to UserInfo")
 	user := UserInfo{
-		UID:           token.UID,
-		Email:         token.Claims["email"].(string),
-		EmailVerified: token.Claims["email_verified"].(bool),
-		Name:          token.Claims["name"].(string),
-		Picture:       token.Claims["picture"].(string),
-		ProviderID:    token.Claims["firebase"].(map[string]interface{})["sign_in_provider"].(string),
-		Claims:        token.Claims,
+		UID:            token.UID,
+		Email:          token.Claims["email"].(string),
+		EmailVerified:  token.Claims["email_verified"].(bool),
+		Name:           token.Claims["name"].(string),
+		Picture:        token.Claims["picture"].(string),
+		ProviderSource: token.Claims["firebase"].(map[string]interface{})["sign_in_provider"].(string),
+		ProviderUID:    token.Claims["firebase"].(map[string]interface{})["identities"].(map[string]interface{})["google.com"].([]interface{})[0].(string),
+		Claims:         token.Claims,
 	}
 
 	ctx.Logger().Text("done verify token")
