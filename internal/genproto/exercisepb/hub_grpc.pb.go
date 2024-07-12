@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
+	ExerciseService_AnswerExercise_FullMethodName                 = "/exercisepb.ExerciseService/AnswerExercise"
 	ExerciseService_GetUserExercises_FullMethodName               = "/exercisepb.ExerciseService/GetUserExercises"
 	ExerciseService_GetUserReadyForReviewExercises_FullMethodName = "/exercisepb.ExerciseService/GetUserReadyForReviewExercises"
 )
@@ -27,6 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ExerciseServiceClient interface {
+	AnswerExercise(ctx context.Context, in *AnswerExerciseRequest, opts ...grpc.CallOption) (*AnswerExerciseResponse, error)
 	GetUserExercises(ctx context.Context, in *GetUserExercisesRequest, opts ...grpc.CallOption) (*GetUserExercisesResponse, error)
 	GetUserReadyForReviewExercises(ctx context.Context, in *GetUserReadyForReviewExercisesRequest, opts ...grpc.CallOption) (*GetUserReadyForReviewExercisesResponse, error)
 }
@@ -37,6 +39,16 @@ type exerciseServiceClient struct {
 
 func NewExerciseServiceClient(cc grpc.ClientConnInterface) ExerciseServiceClient {
 	return &exerciseServiceClient{cc}
+}
+
+func (c *exerciseServiceClient) AnswerExercise(ctx context.Context, in *AnswerExerciseRequest, opts ...grpc.CallOption) (*AnswerExerciseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AnswerExerciseResponse)
+	err := c.cc.Invoke(ctx, ExerciseService_AnswerExercise_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *exerciseServiceClient) GetUserExercises(ctx context.Context, in *GetUserExercisesRequest, opts ...grpc.CallOption) (*GetUserExercisesResponse, error) {
@@ -63,6 +75,7 @@ func (c *exerciseServiceClient) GetUserReadyForReviewExercises(ctx context.Conte
 // All implementations should embed UnimplementedExerciseServiceServer
 // for forward compatibility
 type ExerciseServiceServer interface {
+	AnswerExercise(context.Context, *AnswerExerciseRequest) (*AnswerExerciseResponse, error)
 	GetUserExercises(context.Context, *GetUserExercisesRequest) (*GetUserExercisesResponse, error)
 	GetUserReadyForReviewExercises(context.Context, *GetUserReadyForReviewExercisesRequest) (*GetUserReadyForReviewExercisesResponse, error)
 }
@@ -71,6 +84,9 @@ type ExerciseServiceServer interface {
 type UnimplementedExerciseServiceServer struct {
 }
 
+func (UnimplementedExerciseServiceServer) AnswerExercise(context.Context, *AnswerExerciseRequest) (*AnswerExerciseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnswerExercise not implemented")
+}
 func (UnimplementedExerciseServiceServer) GetUserExercises(context.Context, *GetUserExercisesRequest) (*GetUserExercisesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserExercises not implemented")
 }
@@ -87,6 +103,24 @@ type UnsafeExerciseServiceServer interface {
 
 func RegisterExerciseServiceServer(s grpc.ServiceRegistrar, srv ExerciseServiceServer) {
 	s.RegisterService(&ExerciseService_ServiceDesc, srv)
+}
+
+func _ExerciseService_AnswerExercise_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AnswerExerciseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExerciseServiceServer).AnswerExercise(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExerciseService_AnswerExercise_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExerciseServiceServer).AnswerExercise(ctx, req.(*AnswerExerciseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ExerciseService_GetUserExercises_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -132,6 +166,10 @@ var ExerciseService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "exercisepb.ExerciseService",
 	HandlerType: (*ExerciseServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AnswerExercise",
+			Handler:    _ExerciseService_AnswerExercise_Handler,
+		},
 		{
 			MethodName: "GetUserExercises",
 			Handler:    _ExerciseService_GetUserExercises_Handler,

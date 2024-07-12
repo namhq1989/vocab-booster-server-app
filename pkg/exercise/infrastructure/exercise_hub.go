@@ -17,6 +17,21 @@ func NewExerciseHub(client exercisepb.ExerciseServiceClient) ExerciseHub {
 	}
 }
 
+func (r ExerciseHub) AnswerExercise(ctx *appcontext.AppContext, payload domain.AnswerExercisePayload) (*domain.AnswerExerciseResult, error) {
+	resp, err := r.client.AnswerExercise(ctx.Context(), &exercisepb.AnswerExerciseRequest{
+		UserId:     payload.UserID,
+		ExerciseId: payload.ExerciseID,
+		IsCorrect:  payload.IsCorrect,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &domain.AnswerExerciseResult{
+		NextReviewAt: resp.GetNextReviewAt().AsTime(),
+	}, nil
+}
+
 func (r ExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang string) ([]domain.Exercise, error) {
 	resp, err := r.client.GetUserExercises(ctx.Context(), &exercisepb.GetUserExercisesRequest{
 		UserId: userID,

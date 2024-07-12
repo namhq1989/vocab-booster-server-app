@@ -40,6 +40,21 @@ func (m *MockExerciseHub) EXPECT() *MockExerciseHubMockRecorder {
 	return m.recorder
 }
 
+// AnswerExercise mocks base method.
+func (m *MockExerciseHub) AnswerExercise(ctx *appcontext.AppContext, payload domain.AnswerExercisePayload) (*domain.AnswerExerciseResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AnswerExercise", ctx, payload)
+	ret0, _ := ret[0].(*domain.AnswerExerciseResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AnswerExercise indicates an expected call of AnswerExercise.
+func (mr *MockExerciseHubMockRecorder) AnswerExercise(ctx, payload any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AnswerExercise", reflect.TypeOf((*MockExerciseHub)(nil).AnswerExercise), ctx, payload)
+}
+
 // GetExercises mocks base method.
 func (m *MockExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang string) ([]domain.Exercise, error) {
 	m.ctrl.T.Helper()

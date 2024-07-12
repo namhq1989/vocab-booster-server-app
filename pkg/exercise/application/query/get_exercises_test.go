@@ -16,25 +16,25 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-type getExercisesTest struct {
+type getExercisesTestSuite struct {
 	suite.Suite
 	handler         query.GetExercisesHandler
 	mockCtrl        *gomock.Controller
 	mockExerciseHub *mockexercise.MockExerciseHub
 }
 
-func (s *getExercisesTest) SetupSuite() {
+func (s *getExercisesTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (s *getExercisesTest) setupApplication() {
+func (s *getExercisesTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockExerciseHub = mockexercise.NewMockExerciseHub(s.mockCtrl)
 
 	s.handler = query.NewGetExercisesHandler(s.mockExerciseHub)
 }
 
-func (s *getExercisesTest) TearDownTest() {
+func (s *getExercisesTestSuite) TearDownTest() {
 	s.mockCtrl.Finish()
 }
 
@@ -42,7 +42,7 @@ func (s *getExercisesTest) TearDownTest() {
 // CASES
 //
 
-func (s *getExercisesTest) Test_1_Success() {
+func (s *getExercisesTestSuite) Test_1_Success() {
 	// mock data
 	s.mockExerciseHub.EXPECT().
 		GetExercises(gomock.Any(), gomock.Any(), gomock.Any()).
@@ -61,6 +61,6 @@ func (s *getExercisesTest) Test_1_Success() {
 // END OF CASES
 //
 
-func TestGetExercisesTest(t *testing.T) {
-	suite.Run(t, new(getExercisesTest))
+func TestGetExercisesTestSuite(t *testing.T) {
+	suite.Run(t, new(getExercisesTestSuite))
 }

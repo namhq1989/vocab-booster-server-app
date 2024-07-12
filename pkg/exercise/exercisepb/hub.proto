@@ -2,11 +2,25 @@ syntax = "proto3";
 
 package exercisepb;
 
+import "google/protobuf/timestamp.proto";
 import "exercisepb/message.proto";
 
 service ExerciseService {
+  rpc AnswerExercise(AnswerExerciseRequest) returns (AnswerExerciseResponse) {}
   rpc GetUserExercises(GetUserExercisesRequest) returns (GetUserExercisesResponse) {}
   rpc GetUserReadyForReviewExercises(GetUserReadyForReviewExercisesRequest) returns (GetUserReadyForReviewExercisesResponse) {}
+}
+
+// ANSWER EXERCISE
+
+message AnswerExerciseRequest {
+  string userId = 1;
+  string exerciseId = 2;
+  bool isCorrect = 3;
+}
+
+message AnswerExerciseResponse {
+  google.protobuf.Timestamp nextReviewAt = 1;
 }
 
 // GET USER EXERCISES
