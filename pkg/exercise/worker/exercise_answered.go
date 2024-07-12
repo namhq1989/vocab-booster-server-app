@@ -17,7 +17,7 @@ func NewExerciseAnsweredHandler(
 	}
 }
 
-func (ExerciseAnsweredHandler) ExerciseAnswered(ctx *appcontext.AppContext, payload domain.QueueExerciseAnsweredPayload) error {
+func (ExerciseAnsweredHandler) ExerciseAnswered(ctx *appcontext.AppContext, _ domain.QueueExerciseAnsweredPayload) error {
 	ctx.Logger().Text("** DO NOTHING **")
 	return nil
 }
