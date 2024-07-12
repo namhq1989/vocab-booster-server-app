@@ -22,10 +22,12 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 	}
 
 	var (
+		queueRepository = infrastructure.NewQueueRepository(mono.Queue())
+
 		exerciseHub = infrastructure.NewExerciseHub(exerciseGRPCClient)
 
 		// app
-		app = application.New(exerciseHub)
+		app = application.New(queueRepository, exerciseHub)
 	)
 
 	// rest server

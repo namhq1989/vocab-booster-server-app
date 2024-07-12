@@ -11,20 +11,20 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type getSubscriptionPlansSuite struct {
+type getSubscriptionPlansTestSuite struct {
 	suite.Suite
 	handler query.GetSubscriptionPlansHandler
 }
 
-func (s *getSubscriptionPlansSuite) SetupSuite() {
+func (s *getSubscriptionPlansTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (s *getSubscriptionPlansSuite) setupApplication() {
+func (s *getSubscriptionPlansTestSuite) setupApplication() {
 	s.handler = query.NewGetSubscriptionPlansHandler()
 }
 
-func (*getSubscriptionPlansSuite) TearDownTest() {
+func (*getSubscriptionPlansTestSuite) TearDownTest() {
 	// do nothing
 }
 
@@ -32,7 +32,7 @@ func (*getSubscriptionPlansSuite) TearDownTest() {
 // CASES
 //
 
-func (s *getSubscriptionPlansSuite) Test_1_Success() {
+func (s *getSubscriptionPlansTestSuite) Test_1_Success() {
 	// call
 	ctx := appcontext.NewRest(context.Background())
 	resp, err := s.handler.GetSubscriptionPlans(ctx, "", dto.GetSubscriptionPlansRequest{})
@@ -46,6 +46,6 @@ func (s *getSubscriptionPlansSuite) Test_1_Success() {
 // END OF CASES
 //
 
-func TestGetSubscriptionPlansSuite(t *testing.T) {
-	suite.Run(t, new(getSubscriptionPlansSuite))
+func TestGetSubscriptionPlansTestSuite(t *testing.T) {
+	suite.Run(t, new(getSubscriptionPlansTestSuite))
 }

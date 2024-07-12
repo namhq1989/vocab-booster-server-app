@@ -41,6 +41,7 @@ tasks:
 
       # exercise
       - mockgen -source=pkg/exercise/domain/exercise_hub.go -destination=internal/mock/exercise/exercise_hub.go -package=mockexercise
+      - mockgen -source=pkg/exercise/domain/queue.go -destination=internal/mock/exercise/queue.go -package=mockexercise
 
   test:
     dotenv: ['.env.test']

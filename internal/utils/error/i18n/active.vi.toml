@@ -31,8 +31,6 @@ auth_not_allowed = "Không được phép"
 user_invalid_id = "ID người dùng không hợp lệ"
 user_not_found = "Không tìm thấy người dùng"
 user_invalid_visibility = "Hiển thị người dùng không hợp lệ"
-user_invalid_journey_id = "ID ngôn ngữ học không hợp lệ"
-user_journey_not_found = "Không tìm thấy ngôn ngữ học"
 
 # gamification
 gamification_invalid_point = "Điểm không hợp lệ"
@@ -46,3 +44,6 @@ subscription_invalid_plan = "Gói đăng ký không hợp lệ"
 # payment
 payment_invalid_id = "ID thanh toán không hợp lệ"
 payment_not_found = "Không tìm thấy thanh toán"
+
+# exercise
+exercise_invalid_id = "ID bài tập không hợp lệ"
