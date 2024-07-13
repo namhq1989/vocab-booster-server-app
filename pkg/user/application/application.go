@@ -15,6 +15,7 @@ type (
 	}
 	Queries interface {
 		GetMe(ctx *appcontext.AppContext, performerID string, _ dto.GetMeRequest) (*dto.GetMeResponse, error)
+		GetStats(ctx *appcontext.AppContext, performerID string, _ dto.GetStatsRequest) (*dto.GetStatsResponse, error)
 	}
 	App interface {
 		Commands
@@ -27,6 +28,7 @@ type (
 	}
 	appQueryHandler struct {
 		query.GetMeHandler
+		query.GetStatsHandler
 	}
 	Application struct {
 		appCommandHandlers
@@ -38,6 +40,7 @@ var _ App = (*Application)(nil)
 
 func New(
 	userRepository domain.UserRepository,
+	gamificationHub domain.GamificationHub,
 ) *Application {
 	return &Application{
 		appCommandHandlers: appCommandHandlers{
@@ -45,7 +48,8 @@ func New(
 			ChangeAvatarHandler: command.NewChangeAvatarHandler(userRepository),
 		},
 		appQueryHandler: appQueryHandler{
-			GetMeHandler: query.NewGetMeHandler(userRepository),
+			GetMeHandler:    query.NewGetMeHandler(userRepository),
+			GetStatsHandler: query.NewGetStatsHandler(gamificationHub),
 		},
 	}
 }

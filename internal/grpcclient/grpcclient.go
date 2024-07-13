@@ -2,6 +2,7 @@ package grpcclient
 
 import (
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/exercisepb"
+	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/gamificationpb"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/userpb"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"google.golang.org/grpc"
@@ -24,4 +25,13 @@ func NewExerciseClient(_ *appcontext.AppContext, addr string) (exercisepb.Exerci
 	}
 
 	return exercisepb.NewExerciseServiceClient(conn), nil
+}
+
+func NewGamificationClient(_ *appcontext.AppContext, addr string) (gamificationpb.GamificationServiceClient, error) {
+	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return nil, err
+	}
+
+	return gamificationpb.NewGamificationServiceClient(conn), nil
 }
