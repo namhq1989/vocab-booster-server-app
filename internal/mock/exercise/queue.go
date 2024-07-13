@@ -40,20 +40,6 @@ func (m *MockQueueRepository) EXPECT() *MockQueueRepositoryMockRecorder {
 	return m.recorder
 }
 
-// AddAnswerExercisePoint mocks base method.
-func (m *MockQueueRepository) AddAnswerExercisePoint(ctx *appcontext.AppContext, payload domain.QueueAddAnswerExercisePoint) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddAnswerExercisePoint", ctx, payload)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// AddAnswerExercisePoint indicates an expected call of AddAnswerExercisePoint.
-func (mr *MockQueueRepositoryMockRecorder) AddAnswerExercisePoint(ctx, payload any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddAnswerExercisePoint", reflect.TypeOf((*MockQueueRepository)(nil).AddAnswerExercisePoint), ctx, payload)
-}
-
 // ExerciseAnswered mocks base method.
 func (m *MockQueueRepository) ExerciseAnswered(ctx *appcontext.AppContext, payload domain.QueueExerciseAnsweredPayload) error {
 	m.ctrl.T.Helper()
@@ -66,4 +52,18 @@ func (m *MockQueueRepository) ExerciseAnswered(ctx *appcontext.AppContext, paylo
 func (mr *MockQueueRepositoryMockRecorder) ExerciseAnswered(ctx, payload any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExerciseAnswered", reflect.TypeOf((*MockQueueRepository)(nil).ExerciseAnswered), ctx, payload)
+}
+
+// GamificationExerciseAnswered mocks base method.
+func (m *MockQueueRepository) GamificationExerciseAnswered(ctx *appcontext.AppContext, payload domain.QueueExerciseAnsweredPayload) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GamificationExerciseAnswered", ctx, payload)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GamificationExerciseAnswered indicates an expected call of GamificationExerciseAnswered.
+func (mr *MockQueueRepositoryMockRecorder) GamificationExerciseAnswered(ctx, payload any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GamificationExerciseAnswered", reflect.TypeOf((*MockQueueRepository)(nil).GamificationExerciseAnswered), ctx, payload)
 }

@@ -40,16 +40,16 @@ func (m *MockService) EXPECT() *MockServiceMockRecorder {
 	return m.recorder
 }
 
-// AddPoint mocks base method.
-func (m *MockService) AddPoint(ctx *appcontext.AppContext, point domain.Point) error {
+// ExerciseAnswered mocks base method.
+func (m *MockService) ExerciseAnswered(ctx *appcontext.AppContext, point domain.Point, completionTime domain.CompletionTime) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddPoint", ctx, point)
+	ret := m.ctrl.Call(m, "ExerciseAnswered", ctx, point, completionTime)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AddPoint indicates an expected call of AddPoint.
-func (mr *MockServiceMockRecorder) AddPoint(ctx, point any) *gomock.Call {
+// ExerciseAnswered indicates an expected call of ExerciseAnswered.
+func (mr *MockServiceMockRecorder) ExerciseAnswered(ctx, point, completionTime any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddPoint", reflect.TypeOf((*MockService)(nil).AddPoint), ctx, point)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExerciseAnswered", reflect.TypeOf((*MockService)(nil).ExerciseAnswered), ctx, point, completionTime)
 }

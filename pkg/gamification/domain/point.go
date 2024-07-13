@@ -39,7 +39,7 @@ func NewPoint(userID, exerciseID, vocabularyID, action string, point int64) (*Po
 		return nil, apperrors.Vocabulary.InvalidVocabularyID
 	}
 
-	if point <= 0 || point > 100 {
+	if point < 0 || point > 100 {
 		return nil, apperrors.Gamification.InvalidPoint
 	}
 

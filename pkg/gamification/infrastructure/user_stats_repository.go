@@ -16,21 +16,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type UserPointRepository struct {
+type UserStatsRepository struct {
 	db             *database.Database
 	collectionName string
 }
 
-func NewUserPointRepository(db *database.Database) UserPointRepository {
-	r := UserPointRepository{
+func NewUserStatsRepository(db *database.Database) UserStatsRepository {
+	r := UserStatsRepository{
 		db:             db,
-		collectionName: database.Collections.GamificationUserPoint,
+		collectionName: database.Collections.GamificationUserStats,
 	}
 	r.ensureIndexes()
 	return r
 }
 
-func (r UserPointRepository) ensureIndexes() {
+func (r UserStatsRepository) ensureIndexes() {
 	var (
 		ctx            = context.Background()
 		opts           = options.CreateIndexes().SetMaxTime(time.Minute * 30)
@@ -50,17 +50,17 @@ func (r UserPointRepository) ensureIndexes() {
 	}
 }
 
-func (r UserPointRepository) collection() *mongo.Collection {
+func (r UserStatsRepository) collection() *mongo.Collection {
 	return r.db.GetCollection(r.collectionName)
 }
 
-func (r UserPointRepository) FindUserPoint(ctx *appcontext.AppContext, userID string) (*domain.UserPoint, error) {
+func (r UserStatsRepository) FindUserStats(ctx *appcontext.AppContext, userID string) (*domain.UserStats, error) {
 	uid, err := database.ObjectIDFromString(userID)
 	if err != nil {
 		return nil, apperrors.User.InvalidUserID
 	}
 
-	var doc dbmodel.UserPoint
+	var doc dbmodel.UserStats
 	if err = r.collection().FindOne(ctx.Context(), bson.M{
 		"userId": uid,
 	}).Decode(&doc); err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
@@ -74,12 +74,16 @@ func (r UserPointRepository) FindUserPoint(ctx *appcontext.AppContext, userID st
 	return &result, nil
 }
 
-func (r UserPointRepository) IncreasePoint(ctx *appcontext.AppContext, userID string, point int64) error {
+func (r UserStatsRepository) IncreaseUserStats(ctx *appcontext.AppContext, userID string, point int64, completionTime int) error {
 	uid, err := database.ObjectIDFromString(userID)
 	if err != nil {
 		return apperrors.User.InvalidUserID
 	}
 
-	_, err = r.collection().UpdateOne(ctx.Context(), bson.M{"userId": uid}, bson.M{"$inc": bson.M{"point": point}}, options.Update().SetUpsert(true))
+	_, err = r.collection().UpdateOne(ctx.Context(),
+		bson.M{"userId": uid},
+		bson.M{"$inc": bson.M{"point": point, "completionTime": completionTime}},
+		options.Update().SetUpsert(true),
+	)
 	return err
 }

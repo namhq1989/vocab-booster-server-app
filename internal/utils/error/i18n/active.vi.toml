@@ -34,6 +34,7 @@ user_invalid_visibility = "Hiển thị người dùng không hợp lệ"
 
 # gamification
 gamification_invalid_point = "Điểm không hợp lệ"
+gamification_invalid_completion_time = "Thời gian hoàn thành không hợp lệ"
 gamification_invalid_level = "Cấp không hợp lệ"
 gamification_invalid_point_data = "Dữ liệu điểm không hợp lệ"
 

@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	GamificationService_GetUserPoint_FullMethodName = "/gamificationpb.GamificationService/GetUserPoint"
+	GamificationService_GetUserStats_FullMethodName = "/gamificationpb.GamificationService/GetUserStats"
 )
 
 // GamificationServiceClient is the client API for GamificationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GamificationServiceClient interface {
-	GetUserPoint(ctx context.Context, in *GetUserPointRequest, opts ...grpc.CallOption) (*GetUserPointResponse, error)
+	GetUserStats(ctx context.Context, in *GetUserStatsRequest, opts ...grpc.CallOption) (*GetUserStatsResponse, error)
 }
 
 type gamificationServiceClient struct {
@@ -37,10 +37,10 @@ func NewGamificationServiceClient(cc grpc.ClientConnInterface) GamificationServi
 	return &gamificationServiceClient{cc}
 }
 
-func (c *gamificationServiceClient) GetUserPoint(ctx context.Context, in *GetUserPointRequest, opts ...grpc.CallOption) (*GetUserPointResponse, error) {
+func (c *gamificationServiceClient) GetUserStats(ctx context.Context, in *GetUserStatsRequest, opts ...grpc.CallOption) (*GetUserStatsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserPointResponse)
-	err := c.cc.Invoke(ctx, GamificationService_GetUserPoint_FullMethodName, in, out, cOpts...)
+	out := new(GetUserStatsResponse)
+	err := c.cc.Invoke(ctx, GamificationService_GetUserStats_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,15 +51,15 @@ func (c *gamificationServiceClient) GetUserPoint(ctx context.Context, in *GetUse
 // All implementations should embed UnimplementedGamificationServiceServer
 // for forward compatibility
 type GamificationServiceServer interface {
-	GetUserPoint(context.Context, *GetUserPointRequest) (*GetUserPointResponse, error)
+	GetUserStats(context.Context, *GetUserStatsRequest) (*GetUserStatsResponse, error)
 }
 
 // UnimplementedGamificationServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedGamificationServiceServer struct {
 }
 
-func (UnimplementedGamificationServiceServer) GetUserPoint(context.Context, *GetUserPointRequest) (*GetUserPointResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserPoint not implemented")
+func (UnimplementedGamificationServiceServer) GetUserStats(context.Context, *GetUserStatsRequest) (*GetUserStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserStats not implemented")
 }
 
 // UnsafeGamificationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -73,20 +73,20 @@ func RegisterGamificationServiceServer(s grpc.ServiceRegistrar, srv Gamification
 	s.RegisterService(&GamificationService_ServiceDesc, srv)
 }
 
-func _GamificationService_GetUserPoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserPointRequest)
+func _GamificationService_GetUserStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserStatsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GamificationServiceServer).GetUserPoint(ctx, in)
+		return srv.(GamificationServiceServer).GetUserStats(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GamificationService_GetUserPoint_FullMethodName,
+		FullMethod: GamificationService_GetUserStats_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GamificationServiceServer).GetUserPoint(ctx, req.(*GetUserPointRequest))
+		return srv.(GamificationServiceServer).GetUserStats(ctx, req.(*GetUserStatsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -99,8 +99,8 @@ var GamificationService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GamificationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetUserPoint",
-			Handler:    _GamificationService_GetUserPoint_Handler,
+			MethodName: "GetUserStats",
+			Handler:    _GamificationService_GetUserStats_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

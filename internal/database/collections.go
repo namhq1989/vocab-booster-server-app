@@ -3,23 +3,23 @@ package database
 import "go.mongodb.org/mongo-driver/mongo"
 
 var Collections = struct {
-	User        string
-	UserJourney string
+	User string
 
 	UserSubscription        string
 	UserSubscriptionHistory string
 
-	GamificationPoint     string
-	GamificationUserPoint string
+	GamificationPoint          string
+	GamificationCompletionTime string
+	GamificationUserStats      string
 }{
-	User:        "user.users",
-	UserJourney: "users.journeys",
+	User: "user.users",
 
 	UserSubscription:        "subscription.userSubscriptions",
 	UserSubscriptionHistory: "subscription.userSubscriptionHistories",
 
-	GamificationPoint:     "gamification.points",
-	GamificationUserPoint: "gamification.userPoints",
+	GamificationPoint:          "gamification.points",
+	GamificationCompletionTime: "gamification.completionTimes",
+	GamificationUserStats:      "gamification.userStats",
 }
 
 func (db Database) GetCollection(table string) *mongo.Collection {

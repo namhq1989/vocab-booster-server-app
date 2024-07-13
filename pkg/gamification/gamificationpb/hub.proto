@@ -3,15 +3,16 @@ syntax = "proto3";
 package gamificationpb;
 
 service GamificationService {
-  rpc GetUserPoint(GetUserPointRequest) returns (GetUserPointResponse) {}
+  rpc GetUserStats(GetUserStatsRequest) returns (GetUserStatsResponse) {}
 }
 
 // GET USER POINT
 
-message GetUserPointRequest {
+message GetUserStatsRequest {
   string userId = 1;
 }
 
-message GetUserPointResponse {
+message GetUserStatsResponse {
   int64 point = 1;
+  int32 completionTime = 2;
 }

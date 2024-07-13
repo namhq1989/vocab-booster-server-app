@@ -18,18 +18,15 @@ func NewExerciseAnsweredHandler(
 }
 
 func (w ExerciseAnsweredHandler) ExerciseAnswered(ctx *appcontext.AppContext, payload domain.QueueExerciseAnsweredPayload) error {
-	if payload.Point > 0 {
-		ctx.Logger().Text("add task addAnswerExercisePoint")
-		if err := w.queueRepository.AddAnswerExercisePoint(ctx, domain.QueueAddAnswerExercisePoint{
-			UserID:     payload.UserID,
-			ExerciseID: payload.ExerciseID,
-			Point:      payload.Point,
-		}); err != nil {
-			ctx.Logger().Error("failed to add task addAnswerExercisePoint", err, appcontext.Fields{})
-			return err
-		}
-	} else {
-		ctx.Logger().Text("point is 0, skip add task addAnswerExercisePoint")
+	ctx.Logger().Text("add task gamification.exerciseAnswered")
+	if err := w.queueRepository.GamificationExerciseAnswered(ctx, domain.QueueExerciseAnsweredPayload{
+		UserID:         payload.UserID,
+		ExerciseID:     payload.ExerciseID,
+		Point:          payload.Point,
+		CompletionTime: payload.CompletionTime,
+	}); err != nil {
+		ctx.Logger().Error("failed to add task gamification.exerciseAnswered", err, appcontext.Fields{})
+		return err
 	}
 
 	return nil

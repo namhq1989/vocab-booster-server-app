@@ -8,14 +8,14 @@ import (
 
 type (
 	Hubs interface {
-		GetUserPoint(ctx *appcontext.AppContext, req *gamificationpb.GetUserPointRequest) (*gamificationpb.GetUserPointResponse, error)
+		GetUserStats(ctx *appcontext.AppContext, req *gamificationpb.GetUserStatsRequest) (*gamificationpb.GetUserStatsResponse, error)
 	}
 	App interface {
 		Hubs
 	}
 
 	appHubHandler struct {
-		GetUserPointHandler
+		GetUserStatsHandler
 	}
 	Application struct {
 		appHubHandler
@@ -25,11 +25,11 @@ type (
 var _ App = (*Application)(nil)
 
 func New(
-	userPointRepository domain.UserPointRepository,
+	userStatsRepository domain.UserStatsRepository,
 ) *Application {
 	return &Application{
 		appHubHandler: appHubHandler{
-			GetUserPointHandler: NewGetUserPointHandler(userPointRepository),
+			GetUserStatsHandler: NewGetUserStatsHandler(userStatsRepository),
 		},
 	}
 }

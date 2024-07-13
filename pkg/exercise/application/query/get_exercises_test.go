@@ -45,7 +45,7 @@ func (s *getExercisesTestSuite) TearDownTest() {
 func (s *getExercisesTestSuite) Test_1_Success() {
 	// mock data
 	s.mockExerciseHub.EXPECT().
-		GetExercises(gomock.Any(), gomock.Any(), gomock.Any()).
+		GetExercises(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
 		Return(make([]domain.Exercise, 0), nil)
 
 	// call

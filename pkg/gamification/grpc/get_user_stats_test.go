@@ -16,25 +16,25 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-type getUserPointTestSuite struct {
+type getUserStatsTestSuite struct {
 	suite.Suite
-	handler                 grpc.GetUserPointHandler
+	handler                 grpc.GetUserStatsHandler
 	mockCtrl                *gomock.Controller
-	mockUserPointRepository *mockgamification.MockUserPointRepository
+	mockUserStatsRepository *mockgamification.MockUserStatsRepository
 }
 
-func (s *getUserPointTestSuite) SetupSuite() {
+func (s *getUserStatsTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (s *getUserPointTestSuite) setupApplication() {
+func (s *getUserStatsTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
-	s.mockUserPointRepository = mockgamification.NewMockUserPointRepository(s.mockCtrl)
+	s.mockUserStatsRepository = mockgamification.NewMockUserStatsRepository(s.mockCtrl)
 
-	s.handler = grpc.NewGetUserPointHandler(s.mockUserPointRepository)
+	s.handler = grpc.NewGetUserStatsHandler(s.mockUserStatsRepository)
 }
 
-func (s *getUserPointTestSuite) TearDownTest() {
+func (s *getUserStatsTestSuite) TearDownTest() {
 	s.mockCtrl.Finish()
 }
 
@@ -42,41 +42,44 @@ func (s *getUserPointTestSuite) TearDownTest() {
 // CASES
 //
 
-func (s *getUserPointTestSuite) Test_1_Success() {
+func (s *getUserStatsTestSuite) Test_1_Success() {
 	// mock data
 	var (
-		userID       = database.NewStringID()
-		point  int64 = 500
+		userID               = database.NewStringID()
+		point          int64 = 500
+		completionTime       = 2451
 	)
 
-	s.mockUserPointRepository.EXPECT().
-		FindUserPoint(gomock.Any(), gomock.Any()).
-		Return(&domain.UserPoint{
-			ID:     database.NewStringID(),
-			UserID: userID,
-			Point:  point,
+	s.mockUserStatsRepository.EXPECT().
+		FindUserStats(gomock.Any(), gomock.Any()).
+		Return(&domain.UserStats{
+			ID:             database.NewStringID(),
+			UserID:         userID,
+			Point:          point,
+			CompletionTime: completionTime,
 		}, nil)
 
 	// call
 	ctx := appcontext.NewGRPC(context.Background())
-	resp, err := s.handler.GetUserPoint(ctx, &gamificationpb.GetUserPointRequest{
+	resp, err := s.handler.GetUserStats(ctx, &gamificationpb.GetUserStatsRequest{
 		UserId: userID,
 	})
 
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), resp)
 	assert.Equal(s.T(), point, resp.GetPoint())
+	assert.Equal(s.T(), completionTime, int(resp.GetCompletionTime()))
 }
 
-func (s *getUserPointTestSuite) Test_2_Fail_InvalidUserID() {
+func (s *getUserStatsTestSuite) Test_2_Fail_InvalidUserID() {
 	// mock data
-	s.mockUserPointRepository.EXPECT().
-		FindUserPoint(gomock.Any(), gomock.Any()).
+	s.mockUserStatsRepository.EXPECT().
+		FindUserStats(gomock.Any(), gomock.Any()).
 		Return(nil, apperrors.User.InvalidUserID)
 
 	// call
 	ctx := appcontext.NewGRPC(context.Background())
-	resp, err := s.handler.GetUserPoint(ctx, &gamificationpb.GetUserPointRequest{
+	resp, err := s.handler.GetUserStats(ctx, &gamificationpb.GetUserStatsRequest{
 		UserId: "invalid id",
 	})
 
@@ -89,6 +92,6 @@ func (s *getUserPointTestSuite) Test_2_Fail_InvalidUserID() {
 // END OF CASES
 //
 
-func TestGetUserPointTestSuite(t *testing.T) {
-	suite.Run(t, new(getUserPointTestSuite))
+func TestGetUserStatsTestSuite(t *testing.T) {
+	suite.Run(t, new(getUserStatsTestSuite))
 }
