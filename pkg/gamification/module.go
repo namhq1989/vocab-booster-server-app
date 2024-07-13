@@ -17,11 +17,12 @@ func (Module) Name() string {
 
 func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error {
 	var (
-		pointRepository     = infrastructure.NewPointRepository(mono.Database())
-		userPointRepository = infrastructure.NewUserPointRepository(mono.Database())
-		service             = shared.NewService(mono.Database(), pointRepository, userPointRepository)
+		pointRepository          = infrastructure.NewPointRepository(mono.Database())
+		completionTimeRepository = infrastructure.NewCompletionTimeRepository(mono.Database())
+		userStatsRepository      = infrastructure.NewUserStatsRepository(mono.Database())
+		service                  = shared.NewService(mono.Database(), pointRepository, completionTimeRepository, userStatsRepository)
 
-		hub = grpc.New(userPointRepository)
+		hub = grpc.New(userStatsRepository)
 	)
 
 	// grpc server
@@ -33,7 +34,8 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 	w := worker.New(
 		mono.Queue(),
 		pointRepository,
-		userPointRepository,
+		completionTimeRepository,
+		userStatsRepository,
 		service,
 	)
 	w.Start()

@@ -43,7 +43,7 @@ func (s *exerciseAnsweredTestSuite) TearDownTest() {
 func (s *exerciseAnsweredTestSuite) Test_1_Success() {
 	// mock data
 	s.mockQueueRepository.EXPECT().
-		AddAnswerExercisePoint(gomock.Any(), gomock.Any()).
+		GamificationExerciseAnswered(gomock.Any(), gomock.Any()).
 		Return(nil)
 
 	// call

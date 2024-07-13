@@ -45,7 +45,8 @@ tasks:
 
       # gamification
       - mockgen -source=pkg/gamification/domain/point.go -destination=internal/mock/gamification/point.go -package=mockgamification
-      - mockgen -source=pkg/gamification/domain/user_point.go -destination=internal/mock/gamification/user_point.go -package=mockgamification
+      - mockgen -source=pkg/gamification/domain/completion_time.go -destination=internal/mock/gamification/completion_time.go -package=mockgamification
+      - mockgen -source=pkg/gamification/domain/user_stats.go -destination=internal/mock/gamification/user_stats.go -package=mockgamification
       - mockgen -source=pkg/gamification/domain/service.go -destination=internal/mock/gamification/service.go -package=mockgamification
 
   test:

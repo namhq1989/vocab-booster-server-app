@@ -6,19 +6,22 @@ import (
 )
 
 type Service struct {
-	db                  database.Operations
-	pointRepository     domain.PointRepository
-	userPointRepository domain.UserPointRepository
+	db                       database.Operations
+	pointRepository          domain.PointRepository
+	completionTimeRepository domain.CompletionTimeRepository
+	userStatsRepository      domain.UserStatsRepository
 }
 
 func NewService(
 	db database.Operations,
 	pointRepository domain.PointRepository,
-	userPointRepository domain.UserPointRepository,
+	completionTimeRepository domain.CompletionTimeRepository,
+	userStatsRepository domain.UserStatsRepository,
 ) Service {
 	return Service{
-		db:                  db,
-		pointRepository:     pointRepository,
-		userPointRepository: userPointRepository,
+		db:                       db,
+		pointRepository:          pointRepository,
+		completionTimeRepository: completionTimeRepository,
+		userStatsRepository:      userStatsRepository,
 	}
 }

@@ -6,7 +6,7 @@ import (
 
 type QueueRepository interface {
 	ExerciseAnswered(ctx *appcontext.AppContext, payload QueueExerciseAnsweredPayload) error
-	AddAnswerExercisePoint(ctx *appcontext.AppContext, payload QueueAddAnswerExercisePoint) error
+	GamificationExerciseAnswered(ctx *appcontext.AppContext, payload QueueExerciseAnsweredPayload) error
 }
 
 type QueueExerciseAnsweredPayload struct {
@@ -14,10 +14,4 @@ type QueueExerciseAnsweredPayload struct {
 	ExerciseID     string
 	Point          int64
 	CompletionTime int
-}
-
-type QueueAddAnswerExercisePoint struct {
-	UserID     string
-	ExerciseID string
-	Point      int64
 }

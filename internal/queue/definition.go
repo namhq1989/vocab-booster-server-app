@@ -6,14 +6,14 @@ var TypeNames = struct {
 
 	ExerciseAnswered string
 
-	GamificationAddAnswerExercisePoint               string
-	GamificationAddContributeVocabularySentencePoint string
+	GamificationExerciseAnswered              string
+	GamificationVocabularySentenceContributed string
 }{
 	ScanExpiredUserSubscription: "subscription.scanExpiredUserSubscription",
 	DowngradeUserSubscription:   "subscription.downgradeUserSubscription",
 
 	ExerciseAnswered: "exercise.exerciseAnswered",
 
-	GamificationAddAnswerExercisePoint:               "gamification.addAnswerExercisePoint",
-	GamificationAddContributeVocabularySentencePoint: "gamification.addContributeVocabularySentencePoint",
+	GamificationExerciseAnswered:              "gamification.exerciseAnswered",
+	GamificationVocabularySentenceContributed: "gamification.vocabularySentenceContributed",
 }
