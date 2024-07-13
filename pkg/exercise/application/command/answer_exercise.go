@@ -22,7 +22,7 @@ func NewAnswerExerciseHandler(queueRepository domain.QueueRepository, exerciseHu
 func (h AnswerExerciseHandler) AnswerExercise(ctx *appcontext.AppContext, performerID, exerciseID string, req dto.AnswerExerciseRequest) (*dto.AnswerExerciseResponse, error) {
 	ctx.Logger().Info("[command] new answer exercise request", appcontext.Fields{
 		"performerID": performerID, "exerciseID": exerciseID,
-		"isCorrect": req.IsCorrect, "completionTime": req.CompletionTime, "points": req.Points,
+		"isCorrect": req.IsCorrect, "completionTime": req.CompletionTime, "point": req.Point,
 	})
 
 	ctx.Logger().Text("prepare payload for calling English Hub")
@@ -40,7 +40,7 @@ func (h AnswerExerciseHandler) AnswerExercise(ctx *appcontext.AppContext, perfor
 	}
 
 	ctx.Logger().Text("add queue task")
-	if err = h.enqueueTasks(ctx, performerID, req.Points, req.CompletionTime); err != nil {
+	if err = h.enqueueTasks(ctx, performerID, exerciseID, req.Point, req.CompletionTime); err != nil {
 		ctx.Logger().Error("failed to add queue task", err, appcontext.Fields{})
 	}
 
@@ -50,11 +50,12 @@ func (h AnswerExerciseHandler) AnswerExercise(ctx *appcontext.AppContext, perfor
 	}, nil
 }
 
-func (h AnswerExerciseHandler) enqueueTasks(ctx *appcontext.AppContext, performerID string, points, completionTime int) error {
+func (h AnswerExerciseHandler) enqueueTasks(ctx *appcontext.AppContext, performerID, exerciseID string, point int64, completionTime int) error {
 	ctx.Logger().Text("add task exerciseAnswered")
 	if err := h.queueRepository.ExerciseAnswered(ctx, domain.QueueExerciseAnsweredPayload{
 		UserID:         performerID,
-		Points:         points,
+		ExerciseID:     exerciseID,
+		Point:          point,
 		CompletionTime: completionTime,
 	}); err != nil {
 		ctx.Logger().Error("failed to add task exerciseAnswered", err, appcontext.Fields{})
@@ -62,14 +63,3 @@ func (h AnswerExerciseHandler) enqueueTasks(ctx *appcontext.AppContext, performe
 
 	return nil
 }
-
-// call english hub for answering
-// receive nextReviewAt, respond immediately
-// add queue task
-
-// queue task:
-// - build levels system (gamification)
-//   + add points document
-//   + aggregated points document
-//   + check pass achievement
-// -

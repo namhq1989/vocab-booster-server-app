@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/namhq1989/vocab-booster-server-app/pkg/gamification"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/namhq1989/vocab-booster-server-app/internal/authentication"
@@ -85,6 +87,7 @@ func main() {
 		&user.Module{},
 		&subscription.Module{},
 		&exercise.Module{},
+		&gamification.Module{},
 	}
 
 	// start

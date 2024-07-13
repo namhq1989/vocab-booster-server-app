@@ -32,10 +32,11 @@ func (r ExerciseHub) AnswerExercise(ctx *appcontext.AppContext, payload domain.A
 	}, nil
 }
 
-func (r ExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang string) ([]domain.Exercise, error) {
+func (r ExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang, level string) ([]domain.Exercise, error) {
 	resp, err := r.client.GetUserExercises(ctx.Context(), &exercisepb.GetUserExercisesRequest{
 		UserId: userID,
 		Lang:   lang,
+		Level:  level,
 	})
 	if err != nil {
 		return nil, err

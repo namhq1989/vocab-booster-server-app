@@ -35,6 +35,7 @@ user_invalid_visibility = "Hiển thị người dùng không hợp lệ"
 # gamification
 gamification_invalid_point = "Điểm không hợp lệ"
 gamification_invalid_level = "Cấp không hợp lệ"
+gamification_invalid_point_data = "Dữ liệu điểm không hợp lệ"
 
 # subscription
 subscription_not_found = "Không tìm thấy gói đăng ký"
@@ -47,3 +48,7 @@ payment_not_found = "Không tìm thấy thanh toán"
 
 # exercise
 exercise_invalid_id = "ID bài tập không hợp lệ"
+exercise_invalid_point = "Điểm bài tập không hợp lệ"
+
+# vocabulary
+vocabulary_invalid_id = "ID từ vựng không hợp lệ"

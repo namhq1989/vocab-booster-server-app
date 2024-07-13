@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion8
 
 const (
 	SubscriptionService_CreateUserSubscription_FullMethodName = "/subscriptionpb.SubscriptionService/CreateUserSubscription"
-	SubscriptionService_FindUserSubscription_FullMethodName   = "/subscriptionpb.SubscriptionService/FindUserSubscription"
+	SubscriptionService_GetUserSubscription_FullMethodName    = "/subscriptionpb.SubscriptionService/GetUserSubscription"
 	SubscriptionService_UpdateUserSubscription_FullMethodName = "/subscriptionpb.SubscriptionService/UpdateUserSubscription"
 	SubscriptionService_CanPerformAction_FullMethodName       = "/subscriptionpb.SubscriptionService/CanPerformAction"
 )
@@ -30,7 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SubscriptionServiceClient interface {
 	CreateUserSubscription(ctx context.Context, in *CreateUserSubscriptionRequest, opts ...grpc.CallOption) (*CreateUserSubscriptionResponse, error)
-	FindUserSubscription(ctx context.Context, in *FindUserSubscriptionRequest, opts ...grpc.CallOption) (*FindUserSubscriptionResponse, error)
+	GetUserSubscription(ctx context.Context, in *GetUserSubscriptionRequest, opts ...grpc.CallOption) (*GetUserSubscriptionResponse, error)
 	UpdateUserSubscription(ctx context.Context, in *UpdateUserSubscriptionRequest, opts ...grpc.CallOption) (*UpdateUserSubscriptionResponse, error)
 	CanPerformAction(ctx context.Context, in *CanPerformActionRequest, opts ...grpc.CallOption) (*CanPerformActionResponse, error)
 }
@@ -53,10 +53,10 @@ func (c *subscriptionServiceClient) CreateUserSubscription(ctx context.Context, 
 	return out, nil
 }
 
-func (c *subscriptionServiceClient) FindUserSubscription(ctx context.Context, in *FindUserSubscriptionRequest, opts ...grpc.CallOption) (*FindUserSubscriptionResponse, error) {
+func (c *subscriptionServiceClient) GetUserSubscription(ctx context.Context, in *GetUserSubscriptionRequest, opts ...grpc.CallOption) (*GetUserSubscriptionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindUserSubscriptionResponse)
-	err := c.cc.Invoke(ctx, SubscriptionService_FindUserSubscription_FullMethodName, in, out, cOpts...)
+	out := new(GetUserSubscriptionResponse)
+	err := c.cc.Invoke(ctx, SubscriptionService_GetUserSubscription_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (c *subscriptionServiceClient) CanPerformAction(ctx context.Context, in *Ca
 // for forward compatibility
 type SubscriptionServiceServer interface {
 	CreateUserSubscription(context.Context, *CreateUserSubscriptionRequest) (*CreateUserSubscriptionResponse, error)
-	FindUserSubscription(context.Context, *FindUserSubscriptionRequest) (*FindUserSubscriptionResponse, error)
+	GetUserSubscription(context.Context, *GetUserSubscriptionRequest) (*GetUserSubscriptionResponse, error)
 	UpdateUserSubscription(context.Context, *UpdateUserSubscriptionRequest) (*UpdateUserSubscriptionResponse, error)
 	CanPerformAction(context.Context, *CanPerformActionRequest) (*CanPerformActionResponse, error)
 }
@@ -100,8 +100,8 @@ type UnimplementedSubscriptionServiceServer struct {
 func (UnimplementedSubscriptionServiceServer) CreateUserSubscription(context.Context, *CreateUserSubscriptionRequest) (*CreateUserSubscriptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUserSubscription not implemented")
 }
-func (UnimplementedSubscriptionServiceServer) FindUserSubscription(context.Context, *FindUserSubscriptionRequest) (*FindUserSubscriptionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindUserSubscription not implemented")
+func (UnimplementedSubscriptionServiceServer) GetUserSubscription(context.Context, *GetUserSubscriptionRequest) (*GetUserSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserSubscription not implemented")
 }
 func (UnimplementedSubscriptionServiceServer) UpdateUserSubscription(context.Context, *UpdateUserSubscriptionRequest) (*UpdateUserSubscriptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserSubscription not implemented")
@@ -139,20 +139,20 @@ func _SubscriptionService_CreateUserSubscription_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SubscriptionService_FindUserSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindUserSubscriptionRequest)
+func _SubscriptionService_GetUserSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserSubscriptionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SubscriptionServiceServer).FindUserSubscription(ctx, in)
+		return srv.(SubscriptionServiceServer).GetUserSubscription(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SubscriptionService_FindUserSubscription_FullMethodName,
+		FullMethod: SubscriptionService_GetUserSubscription_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SubscriptionServiceServer).FindUserSubscription(ctx, req.(*FindUserSubscriptionRequest))
+		return srv.(SubscriptionServiceServer).GetUserSubscription(ctx, req.(*GetUserSubscriptionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -205,8 +205,8 @@ var SubscriptionService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SubscriptionService_CreateUserSubscription_Handler,
 		},
 		{
-			MethodName: "FindUserSubscription",
-			Handler:    _SubscriptionService_FindUserSubscription_Handler,
+			MethodName: "GetUserSubscription",
+			Handler:    _SubscriptionService_GetUserSubscription_Handler,
 		},
 		{
 			MethodName: "UpdateUserSubscription",

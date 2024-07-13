@@ -6,6 +6,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/application"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/infrastructure"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/rest"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/worker"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
@@ -34,6 +35,13 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 	if err = rest.RegisterServer(ctx, app, mono.Rest(), mono.JWT()); err != nil {
 		return err
 	}
+
+	// worker
+	w := worker.New(
+		mono.Queue(),
+		queueRepository,
+	)
+	w.Start()
 
 	return nil
 }
