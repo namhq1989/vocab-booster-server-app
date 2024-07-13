@@ -35,6 +35,7 @@ user_invalid_visibility = "Invalid visibility"
 # gamification
 gamification_invalid_point = "Invalid point"
 gamification_invalid_level = "Invalid level"
+gamification_invalid_point_data = "Invalid point data"
 
 # subscription
 subscription_not_found = "Subscription not found"
@@ -47,3 +48,7 @@ payment_not_found = "Payment not found"
 
 # exercise
 exercise_invalid_id = "Invalid exercise id"
+exercise_invalid_point = "Invalid exercise point"
+
+# vocabulary
+vocabulary_invalid_id = "Invalid vocabulary id"

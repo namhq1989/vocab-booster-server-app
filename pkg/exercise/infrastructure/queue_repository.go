@@ -19,3 +19,7 @@ func NewQueueRepository(queue queue.Operations) QueueRepository {
 func (r QueueRepository) ExerciseAnswered(ctx *appcontext.AppContext, payload domain.QueueExerciseAnsweredPayload) error {
 	return queue.EnqueueTask(ctx, r.queue, queue.TypeNames.ExerciseAnswered, payload, -1)
 }
+
+func (r QueueRepository) AddAnswerExercisePoint(ctx *appcontext.AppContext, payload domain.QueueAddAnswerExercisePoint) error {
+	return queue.EnqueueTask(ctx, r.queue, queue.TypeNames.GamificationAddAnswerExercisePoint, payload, -1)
+}

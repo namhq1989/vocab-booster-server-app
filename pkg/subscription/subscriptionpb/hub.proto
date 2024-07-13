@@ -7,7 +7,7 @@ import "subscriptionpb/message.proto";
 
 service SubscriptionService {
   rpc CreateUserSubscription(CreateUserSubscriptionRequest) returns (CreateUserSubscriptionResponse) {}
-  rpc FindUserSubscription(FindUserSubscriptionRequest) returns (FindUserSubscriptionResponse) {}
+  rpc GetUserSubscription(GetUserSubscriptionRequest) returns (GetUserSubscriptionResponse) {}
   rpc UpdateUserSubscription(UpdateUserSubscriptionRequest) returns (UpdateUserSubscriptionResponse) {}
   rpc CanPerformAction(CanPerformActionRequest) returns (CanPerformActionResponse) {}
 }
@@ -25,11 +25,11 @@ message CreateUserSubscriptionResponse {
 
 // GET USER SUBSCRIPTION
 
-message FindUserSubscriptionRequest {
+message GetUserSubscriptionRequest {
   string userId = 1;
 }
 
-message FindUserSubscriptionResponse {
+message GetUserSubscriptionResponse {
   SubscriptionPlan plan = 1;
 }
 

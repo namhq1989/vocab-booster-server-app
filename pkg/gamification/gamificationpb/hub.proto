@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package gamificationpb;
+
+service GamificationService {
+  rpc GetUserPoint(GetUserPointRequest) returns (GetUserPointResponse) {}
+}
+
+// GET USER POINT
+
+message GetUserPointRequest {
+  string userId = 1;
+}
+
+message GetUserPointResponse {
+  int64 point = 1;
+}

@@ -8,17 +8,17 @@ import (
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
-type FindUserSubscriptionHandler struct {
+type GetUserSubscriptionHandler struct {
 	userSubscriptionHub domain.UserSubscriptionHub
 }
 
-func NewFindUserSubscriptionHandler(userSubscriptionHub domain.UserSubscriptionHub) FindUserSubscriptionHandler {
-	return FindUserSubscriptionHandler{
+func NewGetUserSubscriptionHandler(userSubscriptionHub domain.UserSubscriptionHub) GetUserSubscriptionHandler {
+	return GetUserSubscriptionHandler{
 		userSubscriptionHub: userSubscriptionHub,
 	}
 }
 
-func (h FindUserSubscriptionHandler) FindUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.FindUserSubscriptionRequest) (*subscriptionpb.FindUserSubscriptionResponse, error) {
+func (h GetUserSubscriptionHandler) GetUserSubscription(ctx *appcontext.AppContext, req *subscriptionpb.GetUserSubscriptionRequest) (*subscriptionpb.GetUserSubscriptionResponse, error) {
 	ctx.Logger().Info("[hub] new get user subscription request", appcontext.Fields{"userID": req.GetUserId()})
 
 	ctx.Logger().Text("find subscription by user id in db")
@@ -33,7 +33,7 @@ func (h FindUserSubscriptionHandler) FindUserSubscription(ctx *appcontext.AppCon
 	}
 
 	ctx.Logger().Text("done get user subscription request")
-	return &subscriptionpb.FindUserSubscriptionResponse{
+	return &subscriptionpb.GetUserSubscriptionResponse{
 		Plan: &subscriptionpb.SubscriptionPlan{
 			Id:      us.ID,
 			Plan:    us.Plan.String(),

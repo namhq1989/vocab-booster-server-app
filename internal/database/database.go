@@ -4,10 +4,16 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+type Operations interface {
+	Transaction(ctx *appcontext.AppContext, fn func(ssCtx mongo.SessionContext) (interface{}, error)) error
+}
 
 type Database struct {
 	mongo *mongo.Database

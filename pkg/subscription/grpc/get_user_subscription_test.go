@@ -5,11 +5,10 @@ import (
 	"testing"
 	"time"
 
-	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
-
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/subscriptionpb"
 	mocksubscription "github.com/namhq1989/vocab-booster-server-app/internal/mock/subscription"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/grpc"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -18,25 +17,25 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-type findUserSubscriptionTestSuite struct {
+type getUserSubscriptionTestSuite struct {
 	suite.Suite
-	handler                 grpc.FindUserSubscriptionHandler
+	handler                 grpc.GetUserSubscriptionHandler
 	mockCtrl                *gomock.Controller
 	mockUserSubscriptionHub *mocksubscription.MockUserSubscriptionHub
 }
 
-func (s *findUserSubscriptionTestSuite) SetupSuite() {
+func (s *getUserSubscriptionTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (s *findUserSubscriptionTestSuite) setupApplication() {
+func (s *getUserSubscriptionTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockUserSubscriptionHub = mocksubscription.NewMockUserSubscriptionHub(s.mockCtrl)
 
-	s.handler = grpc.NewFindUserSubscriptionHandler(s.mockUserSubscriptionHub)
+	s.handler = grpc.NewGetUserSubscriptionHandler(s.mockUserSubscriptionHub)
 }
 
-func (s *findUserSubscriptionTestSuite) TearDownTest() {
+func (s *getUserSubscriptionTestSuite) TearDownTest() {
 	s.mockCtrl.Finish()
 }
 
@@ -44,7 +43,7 @@ func (s *findUserSubscriptionTestSuite) TearDownTest() {
 // CASES
 //
 
-func (s *findUserSubscriptionTestSuite) Test_1_Success() {
+func (s *getUserSubscriptionTestSuite) Test_1_Success() {
 	// mock data
 	var (
 		id     = database.NewStringID()
@@ -63,7 +62,7 @@ func (s *findUserSubscriptionTestSuite) Test_1_Success() {
 
 	// call
 	ctx := appcontext.NewGRPC(context.Background())
-	resp, err := s.handler.FindUserSubscription(ctx, &subscriptionpb.FindUserSubscriptionRequest{
+	resp, err := s.handler.GetUserSubscription(ctx, &subscriptionpb.GetUserSubscriptionRequest{
 		UserId: userID,
 	})
 
@@ -72,7 +71,7 @@ func (s *findUserSubscriptionTestSuite) Test_1_Success() {
 	assert.Equal(s.T(), id, resp.GetPlan().GetId())
 }
 
-func (s *findUserSubscriptionTestSuite) Test_2_Fail_NotFound() {
+func (s *getUserSubscriptionTestSuite) Test_2_Fail_NotFound() {
 	// mock data
 	s.mockUserSubscriptionHub.EXPECT().
 		FindUserSubscriptionByUserID(gomock.Any(), gomock.Any()).
@@ -80,7 +79,7 @@ func (s *findUserSubscriptionTestSuite) Test_2_Fail_NotFound() {
 
 	// call
 	ctx := appcontext.NewGRPC(context.Background())
-	resp, err := s.handler.FindUserSubscription(ctx, &subscriptionpb.FindUserSubscriptionRequest{
+	resp, err := s.handler.GetUserSubscription(ctx, &subscriptionpb.GetUserSubscriptionRequest{
 		UserId: database.NewStringID(),
 	})
 
@@ -93,6 +92,6 @@ func (s *findUserSubscriptionTestSuite) Test_2_Fail_NotFound() {
 // END OF CASES
 //
 
-func TestFindUserSubscriptionTestSuite(t *testing.T) {
-	suite.Run(t, new(findUserSubscriptionTestSuite))
+func TestGetUserSubscriptionTestSuite(t *testing.T) {
+	suite.Run(t, new(getUserSubscriptionTestSuite))
 }

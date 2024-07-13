@@ -5,19 +5,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/namhq1989/vocab-booster-server-app/internal/utils/httprespond"
-
-	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
-
-	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
-
-	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/application/command"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	mockexercise "github.com/namhq1989/vocab-booster-server-app/internal/mock/exercise"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/httprespond"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/application/command"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
 )
@@ -67,7 +63,7 @@ func (s *answerExerciseTestSuite) Test_1_Success() {
 	resp, err := s.handler.AnswerExercise(ctx, database.NewStringID(), database.NewStringID(), dto.AnswerExerciseRequest{
 		IsCorrect:      true,
 		CompletionTime: 10,
-		Points:         10,
+		Point:          10,
 	})
 
 	assert.Nil(s.T(), err)
@@ -81,7 +77,7 @@ func (s *answerExerciseTestSuite) Test_2_Fail_InvalidUserID() {
 	resp, err := s.handler.AnswerExercise(ctx, "invalid id", database.NewStringID(), dto.AnswerExerciseRequest{
 		IsCorrect:      true,
 		CompletionTime: 10,
-		Points:         10,
+		Point:          10,
 	})
 
 	assert.NotNil(s.T(), err)
@@ -95,7 +91,7 @@ func (s *answerExerciseTestSuite) Test_2_Fail_InvalidExerciseID() {
 	resp, err := s.handler.AnswerExercise(ctx, database.NewStringID(), "invalid id", dto.AnswerExerciseRequest{
 		IsCorrect:      true,
 		CompletionTime: 10,
-		Points:         10,
+		Point:          10,
 	})
 
 	assert.NotNil(s.T(), err)
