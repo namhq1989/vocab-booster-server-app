@@ -5,7 +5,6 @@ import (
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
-
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 

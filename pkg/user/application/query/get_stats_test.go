@@ -20,6 +20,7 @@ type getStatsTestSuite struct {
 	handler             query.GetStatsHandler
 	mockCtrl            *gomock.Controller
 	mockGamificationHub *mockuser.MockGamificationHub
+	mockExerciseHub     *mockuser.MockExerciseHub
 }
 
 func (s *getStatsTestSuite) SetupSuite() {
@@ -29,8 +30,9 @@ func (s *getStatsTestSuite) SetupSuite() {
 func (s *getStatsTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockGamificationHub = mockuser.NewMockGamificationHub(s.mockCtrl)
+	s.mockExerciseHub = mockuser.NewMockExerciseHub(s.mockCtrl)
 
-	s.handler = query.NewGetStatsHandler(s.mockGamificationHub)
+	s.handler = query.NewGetStatsHandler(s.mockGamificationHub, s.mockExerciseHub)
 }
 
 func (s *getStatsTestSuite) TearDownTest() {
@@ -44,8 +46,10 @@ func (s *getStatsTestSuite) TearDownTest() {
 func (s *getStatsTestSuite) Test_1_Success() {
 	// mock data
 	var (
-		point          int64 = 1000
-		completionTime       = 5000
+		point                     int64 = 1000
+		completionTime                  = 5000
+		masteredExercises               = 100
+		waitingForReviewExercises       = 300
 	)
 
 	s.mockGamificationHub.EXPECT().
@@ -53,6 +57,13 @@ func (s *getStatsTestSuite) Test_1_Success() {
 		Return(&domain.GamificationUserStats{
 			Point:          point,
 			CompletionTime: completionTime,
+		}, nil)
+
+	s.mockExerciseHub.EXPECT().
+		GetUserStats(gomock.Any(), gomock.Any()).
+		Return(&domain.ExerciseUserStats{
+			Mastered:         masteredExercises,
+			WaitingForReview: waitingForReviewExercises,
 		}, nil)
 
 	// call
@@ -63,6 +74,8 @@ func (s *getStatsTestSuite) Test_1_Success() {
 	assert.NotNil(s.T(), resp)
 	assert.Equal(s.T(), point, resp.Point)
 	assert.Equal(s.T(), completionTime, resp.CompletionTime)
+	assert.Equal(s.T(), masteredExercises, resp.MasteredExercises)
+	assert.Equal(s.T(), waitingForReviewExercises, resp.WaitingForReviewExercises)
 }
 
 //
