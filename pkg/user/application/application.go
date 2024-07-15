@@ -41,6 +41,7 @@ var _ App = (*Application)(nil)
 func New(
 	userRepository domain.UserRepository,
 	gamificationHub domain.GamificationHub,
+	exerciseHub domain.ExerciseHub,
 ) *Application {
 	return &Application{
 		appCommandHandlers: appCommandHandlers{
@@ -49,7 +50,7 @@ func New(
 		},
 		appQueryHandler: appQueryHandler{
 			GetMeHandler:    query.NewGetMeHandler(userRepository),
-			GetStatsHandler: query.NewGetStatsHandler(gamificationHub),
+			GetStatsHandler: query.NewGetStatsHandler(gamificationHub, exerciseHub),
 		},
 	}
 }

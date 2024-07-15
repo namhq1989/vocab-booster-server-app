@@ -22,14 +22,20 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 		return err
 	}
 
+	exerciseGRPCClient, err := grpcclient.NewExerciseClient(ctx, mono.Config().EndpointExerciseGrpc)
+	if err != nil {
+		return err
+	}
+
 	var (
 		userRepository = infrastructure.NewUserRepository(mono.Database())
 
 		userHub         = infrastructure.NewUserHub(mono.Database())
 		gamificationHub = infrastructure.NewGamificationHub(gamificationGRPCClient)
+		exerciseHub     = infrastructure.NewExerciseHub(exerciseGRPCClient)
 
 		// app
-		app = application.New(userRepository, gamificationHub)
+		app = application.New(userRepository, gamificationHub, exerciseHub)
 		hub = grpc.New(userHub)
 	)
 
