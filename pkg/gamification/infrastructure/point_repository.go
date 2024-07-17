@@ -71,64 +71,63 @@ func (r PointRepository) AggregateUserPointsInTimeRange(ctx *appcontext.AppConte
 
 	var pipelines = mongo.Pipeline{}
 
-	pipelines = append(pipelines, bson.D{
-		{
-			Key: "$match", Value: bson.D{
-				{
-					Key: "userId", Value: uid,
-				},
-				{
-					Key: "createdAt", Value: bson.M{
-						"$gte": from,
-						"$lte": to,
+	pipelines = append(pipelines,
+		bson.D{
+			{
+				Key: "$match", Value: bson.D{
+					{
+						Key: "userId", Value: uid,
 					},
-				},
-			},
-		},
-	})
-
-	pipelines = append(pipelines, bson.D{
-		{
-			Key: "$group", Value: bson.D{
-				{
-					Key: "_id", Value: bson.D{
-						{
-							Key: "$dateToString", Value: bson.M{
-								"format": "%d/%m",
-								"date":   "$createdAt",
-							},
+					{
+						Key: "createdAt", Value: bson.M{
+							"$gte": from,
+							"$lte": to,
 						},
 					},
 				},
-				{
-					Key: "point", Value: bson.M{
-						"$sum": "$point",
+			},
+		},
+		bson.D{
+			{
+				Key: "$group", Value: bson.D{
+					{
+						Key: "_id", Value: bson.D{
+							{
+								Key: "$dateToString", Value: bson.M{
+									"format": "%d/%m",
+									"date":   "$createdAt",
+								},
+							},
+						},
 					},
-				},
-				{
-					Key: "createdAt", Value: bson.M{
-						"$first": "$createdAt",
+					{
+						Key: "point", Value: bson.M{
+							"$sum": "$point",
+						},
+					},
+					{
+						Key: "createdAt", Value: bson.M{
+							"$first": "$createdAt",
+						},
 					},
 				},
 			},
 		},
-	})
-
-	pipelines = append(pipelines, bson.D{
-		{
-			Key: "$project", Value: bson.D{
-				{Key: "_id", Value: 1},
-				{Key: "point", Value: 1},
-				{Key: "createdAt", Value: 1},
+		bson.D{
+			{
+				Key: "$project", Value: bson.D{
+					{Key: "_id", Value: 1},
+					{Key: "point", Value: 1},
+					{Key: "createdAt", Value: 1},
+				},
 			},
 		},
-	})
-
-	pipelines = append(pipelines, bson.D{
-		{
-			Key: "$sort", Value: bson.M{"createdAt": 1},
+		bson.D{
+			{
+				Key: "$sort", Value: bson.M{"createdAt": 1},
+			},
 		},
-	})
+	)
 
 	cursor, err := r.collection().Aggregate(ctx.Context(), pipelines)
 	if err != nil {
