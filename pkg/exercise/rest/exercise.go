@@ -82,4 +82,21 @@ func (s server) registerExerciseRoutes() {
 	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return validation.ValidateHTTPPayload[dto.GetExerciseCollectionsRequest](next)
 	})
+
+	g.GET("/recent-points-chart", func(c echo.Context) error {
+		var (
+			ctx         = c.Get("ctx").(*appcontext.AppContext)
+			req         = c.Get("req").(dto.GetRecentPointsChartRequest)
+			performerID = ctx.GetUserID()
+		)
+
+		resp, err := s.app.GetRecentPointsChart(ctx, performerID, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.GetRecentPointsChartRequest](next)
+	})
 }

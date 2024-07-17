@@ -22,13 +22,19 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 		return err
 	}
 
+	gamificationGRPCClient, err := grpcclient.NewGamificationClient(ctx, mono.Config().GRPCPort)
+	if err != nil {
+		return err
+	}
+
 	var (
 		queueRepository = infrastructure.NewQueueRepository(mono.Queue())
 
-		exerciseHub = infrastructure.NewExerciseHub(exerciseGRPCClient)
+		exerciseHub     = infrastructure.NewExerciseHub(exerciseGRPCClient)
+		gamificationHub = infrastructure.NewGamificationHub(gamificationGRPCClient)
 
 		// app
-		app = application.New(queueRepository, exerciseHub)
+		app = application.New(queueRepository, exerciseHub, gamificationHub)
 	)
 
 	// rest server

@@ -26,10 +26,18 @@ func IsYesterday(t time.Time) bool {
 	return t.Year() == yesterday.Year() && t.Month() == yesterday.Month() && t.Day() == yesterday.Day()
 }
 
+func StartOfDate(t time.Time) time.Time {
+	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+}
+
 func EndOfDate(t time.Time) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 0, t.Location())
 }
 
 func ConvertToProtoTimestamp(t time.Time) *timestamp.Timestamp {
 	return timestamppb.New(t)
+}
+
+func FormatDDMM(t time.Time) string {
+	return t.Format("02/01")
 }

@@ -11,6 +11,7 @@ package mockgamification
 
 import (
 	reflect "reflect"
+	time "time"
 
 	domain "github.com/namhq1989/vocab-booster-server-app/pkg/gamification/domain"
 	appcontext "github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -38,6 +39,21 @@ func NewMockPointRepository(ctrl *gomock.Controller) *MockPointRepository {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockPointRepository) EXPECT() *MockPointRepositoryMockRecorder {
 	return m.recorder
+}
+
+// AggregateUserPointsInTimeRange mocks base method.
+func (m *MockPointRepository) AggregateUserPointsInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AggregateUserPointsInTimeRange", ctx, userID, from, to)
+	ret0, _ := ret[0].([]domain.UserAggregatedPoint)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AggregateUserPointsInTimeRange indicates an expected call of AggregateUserPointsInTimeRange.
+func (mr *MockPointRepositoryMockRecorder) AggregateUserPointsInTimeRange(ctx, userID, from, to any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AggregateUserPointsInTimeRange", reflect.TypeOf((*MockPointRepository)(nil).AggregateUserPointsInTimeRange), ctx, userID, from, to)
 }
 
 // CreatePoint mocks base method.

@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	GamificationService_GetUserStats_FullMethodName = "/gamificationpb.GamificationService/GetUserStats"
+	GamificationService_GetUserStats_FullMethodName             = "/gamificationpb.GamificationService/GetUserStats"
+	GamificationService_GetUserRecentPointsChart_FullMethodName = "/gamificationpb.GamificationService/GetUserRecentPointsChart"
 )
 
 // GamificationServiceClient is the client API for GamificationService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GamificationServiceClient interface {
 	GetUserStats(ctx context.Context, in *GetUserStatsRequest, opts ...grpc.CallOption) (*GetUserStatsResponse, error)
+	GetUserRecentPointsChart(ctx context.Context, in *GetUserRecentPointsChartRequest, opts ...grpc.CallOption) (*GetUserRecentPointsChartResponse, error)
 }
 
 type gamificationServiceClient struct {
@@ -46,11 +48,21 @@ func (c *gamificationServiceClient) GetUserStats(ctx context.Context, in *GetUse
 	return out, nil
 }
 
+func (c *gamificationServiceClient) GetUserRecentPointsChart(ctx context.Context, in *GetUserRecentPointsChartRequest, opts ...grpc.CallOption) (*GetUserRecentPointsChartResponse, error) {
+	out := new(GetUserRecentPointsChartResponse)
+	err := c.cc.Invoke(ctx, GamificationService_GetUserRecentPointsChart_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GamificationServiceServer is the server API for GamificationService service.
 // All implementations should embed UnimplementedGamificationServiceServer
 // for forward compatibility
 type GamificationServiceServer interface {
 	GetUserStats(context.Context, *GetUserStatsRequest) (*GetUserStatsResponse, error)
+	GetUserRecentPointsChart(context.Context, *GetUserRecentPointsChartRequest) (*GetUserRecentPointsChartResponse, error)
 }
 
 // UnimplementedGamificationServiceServer should be embedded to have forward compatible implementations.
@@ -59,6 +71,9 @@ type UnimplementedGamificationServiceServer struct {
 
 func (UnimplementedGamificationServiceServer) GetUserStats(context.Context, *GetUserStatsRequest) (*GetUserStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserStats not implemented")
+}
+func (UnimplementedGamificationServiceServer) GetUserRecentPointsChart(context.Context, *GetUserRecentPointsChartRequest) (*GetUserRecentPointsChartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserRecentPointsChart not implemented")
 }
 
 // UnsafeGamificationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -90,6 +105,24 @@ func _GamificationService_GetUserStats_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GamificationService_GetUserRecentPointsChart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRecentPointsChartRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GamificationServiceServer).GetUserRecentPointsChart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GamificationService_GetUserRecentPointsChart_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GamificationServiceServer).GetUserRecentPointsChart(ctx, req.(*GetUserRecentPointsChartRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GamificationService_ServiceDesc is the grpc.ServiceDesc for GamificationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -100,6 +133,10 @@ var GamificationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserStats",
 			Handler:    _GamificationService_GetUserStats_Handler,
+		},
+		{
+			MethodName: "GetUserRecentPointsChart",
+			Handler:    _GamificationService_GetUserRecentPointsChart_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

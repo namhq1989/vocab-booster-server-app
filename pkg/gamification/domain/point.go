@@ -10,6 +10,7 @@ import (
 
 type PointRepository interface {
 	CreatePoint(ctx *appcontext.AppContext, point Point) error
+	AggregateUserPointsInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]UserAggregatedPoint, error)
 }
 
 type Point struct {
@@ -65,4 +66,13 @@ func NewPoint(userID, exerciseID, vocabularyID, action string, point int64) (*Po
 		Point:        point,
 		CreatedAt:    time.Now(),
 	}, nil
+}
+
+//
+// AGGREGATES POINTS
+//
+
+type UserAggregatedPoint struct {
+	Date  string
+	Point int64
 }

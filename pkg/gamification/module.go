@@ -22,7 +22,7 @@ func (Module) Startup(ctx *appcontext.AppContext, mono monolith.Monolith) error 
 		userStatsRepository      = infrastructure.NewUserStatsRepository(mono.Database())
 		service                  = shared.NewService(mono.Database(), pointRepository, completionTimeRepository, userStatsRepository)
 
-		hub = grpc.New(userStatsRepository)
+		hub = grpc.New(userStatsRepository, pointRepository)
 	)
 
 	// grpc server

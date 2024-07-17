@@ -2,8 +2,12 @@ syntax = "proto3";
 
 package gamificationpb;
 
+import "gamificationpb/message.proto";
+
+
 service GamificationService {
   rpc GetUserStats(GetUserStatsRequest) returns (GetUserStatsResponse) {}
+  rpc GetUserRecentPointsChart(GetUserRecentPointsChartRequest) returns (GetUserRecentPointsChartResponse) {}
 }
 
 // GET USER POINT
@@ -16,3 +20,14 @@ message GetUserStatsResponse {
   int64 point = 1;
   int32 completionTime = 2;
 }
+
+// GET USER RECENT POINTS CHART
+
+message GetUserRecentPointsChartRequest {
+  string userId = 1;
+}
+
+message GetUserRecentPointsChartResponse {
+  repeated UserAggregatedPoint points = 1;
+}
+
