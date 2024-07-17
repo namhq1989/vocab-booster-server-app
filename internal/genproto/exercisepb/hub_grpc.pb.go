@@ -22,6 +22,7 @@ const (
 	ExerciseService_AnswerExercise_FullMethodName                 = "/exercisepb.ExerciseService/AnswerExercise"
 	ExerciseService_GetUserExercises_FullMethodName               = "/exercisepb.ExerciseService/GetUserExercises"
 	ExerciseService_GetUserReadyForReviewExercises_FullMethodName = "/exercisepb.ExerciseService/GetUserReadyForReviewExercises"
+	ExerciseService_GetExerciseCollections_FullMethodName         = "/exercisepb.ExerciseService/GetExerciseCollections"
 	ExerciseService_GetUserStats_FullMethodName                   = "/exercisepb.ExerciseService/GetUserStats"
 )
 
@@ -32,6 +33,7 @@ type ExerciseServiceClient interface {
 	AnswerExercise(ctx context.Context, in *AnswerExerciseRequest, opts ...grpc.CallOption) (*AnswerExerciseResponse, error)
 	GetUserExercises(ctx context.Context, in *GetUserExercisesRequest, opts ...grpc.CallOption) (*GetUserExercisesResponse, error)
 	GetUserReadyForReviewExercises(ctx context.Context, in *GetUserReadyForReviewExercisesRequest, opts ...grpc.CallOption) (*GetUserReadyForReviewExercisesResponse, error)
+	GetExerciseCollections(ctx context.Context, in *GetExerciseCollectionsRequest, opts ...grpc.CallOption) (*GetExerciseCollectionsResponse, error)
 	GetUserStats(ctx context.Context, in *GetUserStatsRequest, opts ...grpc.CallOption) (*GetUserStatsResponse, error)
 }
 
@@ -73,6 +75,16 @@ func (c *exerciseServiceClient) GetUserReadyForReviewExercises(ctx context.Conte
 	return out, nil
 }
 
+func (c *exerciseServiceClient) GetExerciseCollections(ctx context.Context, in *GetExerciseCollectionsRequest, opts ...grpc.CallOption) (*GetExerciseCollectionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetExerciseCollectionsResponse)
+	err := c.cc.Invoke(ctx, ExerciseService_GetExerciseCollections_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *exerciseServiceClient) GetUserStats(ctx context.Context, in *GetUserStatsRequest, opts ...grpc.CallOption) (*GetUserStatsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserStatsResponse)
@@ -90,6 +102,7 @@ type ExerciseServiceServer interface {
 	AnswerExercise(context.Context, *AnswerExerciseRequest) (*AnswerExerciseResponse, error)
 	GetUserExercises(context.Context, *GetUserExercisesRequest) (*GetUserExercisesResponse, error)
 	GetUserReadyForReviewExercises(context.Context, *GetUserReadyForReviewExercisesRequest) (*GetUserReadyForReviewExercisesResponse, error)
+	GetExerciseCollections(context.Context, *GetExerciseCollectionsRequest) (*GetExerciseCollectionsResponse, error)
 	GetUserStats(context.Context, *GetUserStatsRequest) (*GetUserStatsResponse, error)
 }
 
@@ -105,6 +118,9 @@ func (UnimplementedExerciseServiceServer) GetUserExercises(context.Context, *Get
 }
 func (UnimplementedExerciseServiceServer) GetUserReadyForReviewExercises(context.Context, *GetUserReadyForReviewExercisesRequest) (*GetUserReadyForReviewExercisesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserReadyForReviewExercises not implemented")
+}
+func (UnimplementedExerciseServiceServer) GetExerciseCollections(context.Context, *GetExerciseCollectionsRequest) (*GetExerciseCollectionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetExerciseCollections not implemented")
 }
 func (UnimplementedExerciseServiceServer) GetUserStats(context.Context, *GetUserStatsRequest) (*GetUserStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserStats not implemented")
@@ -175,6 +191,24 @@ func _ExerciseService_GetUserReadyForReviewExercises_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExerciseService_GetExerciseCollections_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetExerciseCollectionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExerciseServiceServer).GetExerciseCollections(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExerciseService_GetExerciseCollections_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExerciseServiceServer).GetExerciseCollections(ctx, req.(*GetExerciseCollectionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ExerciseService_GetUserStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserStatsRequest)
 	if err := dec(in); err != nil {
@@ -211,6 +245,10 @@ var ExerciseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserReadyForReviewExercises",
 			Handler:    _ExerciseService_GetUserReadyForReviewExercises_Handler,
+		},
+		{
+			MethodName: "GetExerciseCollections",
+			Handler:    _ExerciseService_GetExerciseCollections_Handler,
 		},
 		{
 			MethodName: "GetUserStats",

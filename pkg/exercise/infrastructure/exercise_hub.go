@@ -82,3 +82,28 @@ func (r ExerciseHub) GetReadyForReviewExercises(ctx *appcontext.AppContext, user
 
 	return result, nil
 }
+
+func (r ExerciseHub) GetExerciseCollections(ctx *appcontext.AppContext, userID, lang string) ([]domain.ExerciseCollection, error) {
+	resp, err := r.client.GetExerciseCollections(ctx.Context(), &exercisepb.GetExerciseCollectionsRequest{
+		UserId: userID,
+		Lang:   lang,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var (
+		result = make([]domain.ExerciseCollection, 0)
+		mapper = mapping.ExerciseCollectionMapper{}
+	)
+
+	for _, e := range resp.GetCollections() {
+		collection, _ := mapper.FromGrpcToDomain(e)
+		if collection != nil {
+			result = append(result, *collection)
+
+		}
+	}
+
+	return result, nil
+}

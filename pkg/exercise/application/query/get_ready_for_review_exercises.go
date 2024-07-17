@@ -19,6 +19,8 @@ func NewGetReadyForReviewExercisesHandler(exerciseHub domain.ExerciseHub) GetRea
 
 func (h GetReadyForReviewExercisesHandler) GetReadyForReviewExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetReadyForReviewExercisesRequest) (*dto.GetReadyForReviewExercisesResponse, error) {
 	ctx.Logger().Info("[query] new get ready for review exercises request", appcontext.Fields{"performerID": performerID, "lang": lang.String()})
+
+	ctx.Logger().Text("fetch exercises via grpc")
 	exercises, err := h.exerciseHub.GetReadyForReviewExercises(ctx, performerID, lang.String())
 	if err != nil {
 		ctx.Logger().Error("failed to get ready for review exercises", err, appcontext.Fields{})

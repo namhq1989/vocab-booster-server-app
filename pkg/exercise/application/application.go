@@ -16,6 +16,7 @@ type (
 	Queries interface {
 		GetExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExercisesRequest) (*dto.GetExercisesResponse, error)
 		GetReadyForReviewExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetReadyForReviewExercisesRequest) (*dto.GetReadyForReviewExercisesResponse, error)
+		GetExerciseCollections(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExerciseCollectionsRequest) (*dto.GetExerciseCollectionResponse, error)
 	}
 	Instance interface {
 		Commands
@@ -28,6 +29,7 @@ type (
 	appQueryHandler struct {
 		query.GetExercisesHandler
 		query.GetReadyForReviewExercisesHandler
+		query.GetExerciseCollectionsHandler
 	}
 	Application struct {
 		appCommandHandlers
@@ -48,6 +50,7 @@ func New(
 		appQueryHandler: appQueryHandler{
 			GetExercisesHandler:               query.NewGetExercisesHandler(exerciseHub),
 			GetReadyForReviewExercisesHandler: query.NewGetReadyForReviewExercisesHandler(exerciseHub),
+			GetExerciseCollectionsHandler:     query.NewGetExerciseCollectionsHandler(exerciseHub),
 		},
 	}
 }

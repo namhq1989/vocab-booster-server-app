@@ -64,4 +64,22 @@ func (s server) registerExerciseRoutes() {
 	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return validation.ValidateHTTPPayload[dto.AnswerExerciseRequest](next)
 	})
+
+	g.GET("/collections", func(c echo.Context) error {
+		var (
+			ctx         = c.Get("ctx").(*appcontext.AppContext)
+			req         = c.Get("req").(dto.GetExerciseCollectionsRequest)
+			performerID = ctx.GetUserID()
+			lang        = ctx.GetLang()
+		)
+
+		resp, err := s.app.GetExerciseCollections(ctx, performerID, lang, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.GetExerciseCollectionsRequest](next)
+	})
 }

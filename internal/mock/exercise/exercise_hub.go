@@ -55,6 +55,21 @@ func (mr *MockExerciseHubMockRecorder) AnswerExercise(ctx, payload any) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AnswerExercise", reflect.TypeOf((*MockExerciseHub)(nil).AnswerExercise), ctx, payload)
 }
 
+// GetExerciseCollections mocks base method.
+func (m *MockExerciseHub) GetExerciseCollections(ctx *appcontext.AppContext, userID, lang string) ([]domain.ExerciseCollection, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetExerciseCollections", ctx, userID, lang)
+	ret0, _ := ret[0].([]domain.ExerciseCollection)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetExerciseCollections indicates an expected call of GetExerciseCollections.
+func (mr *MockExerciseHubMockRecorder) GetExerciseCollections(ctx, userID, lang any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExerciseCollections", reflect.TypeOf((*MockExerciseHub)(nil).GetExerciseCollections), ctx, userID, lang)
+}
+
 // GetExercises mocks base method.
 func (m *MockExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang, level string) ([]domain.Exercise, error) {
 	m.ctrl.T.Helper()
