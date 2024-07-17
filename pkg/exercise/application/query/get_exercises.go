@@ -18,10 +18,10 @@ func NewGetExercisesHandler(exerciseHub domain.ExerciseHub) GetExercisesHandler 
 }
 
 func (h GetExercisesHandler) GetExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, req dto.GetExercisesRequest) (*dto.GetExercisesResponse, error) {
-	ctx.Logger().Info("[query] new get exercises request", appcontext.Fields{"performerID": performerID, "lang": lang.String(), "level": req.Level})
+	ctx.Logger().Info("[query] new get exercises request", appcontext.Fields{"performerID": performerID, "lang": lang.String(), "collectionID": req.CollectionID})
 
 	ctx.Logger().Text("fetch exercises via grpc")
-	exercises, err := h.exerciseHub.GetExercises(ctx, performerID, lang.String(), req.Level)
+	exercises, err := h.exerciseHub.GetExercises(ctx, performerID, lang.String(), req.CollectionID)
 	if err != nil {
 		ctx.Logger().Error("failed to get exercises", err, appcontext.Fields{})
 		return nil, err

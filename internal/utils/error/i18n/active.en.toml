@@ -50,6 +50,7 @@ payment_not_found = "Payment not found"
 # exercise
 exercise_invalid_id = "Invalid exercise id"
 exercise_invalid_point = "Invalid exercise point"
+exercise_invalid_collection_id = "Invalid exercise collection id"
 
 # vocabulary
 vocabulary_invalid_id = "Invalid vocabulary id"
