@@ -9,6 +9,7 @@ import (
 type (
 	Hubs interface {
 		GetUserStats(ctx *appcontext.AppContext, req *gamificationpb.GetUserStatsRequest) (*gamificationpb.GetUserStatsResponse, error)
+		GetUserRecentPointsChart(ctx *appcontext.AppContext, req *gamificationpb.GetUserRecentPointsChartRequest) (*gamificationpb.GetUserRecentPointsChartResponse, error)
 	}
 	App interface {
 		Hubs
@@ -16,6 +17,7 @@ type (
 
 	appHubHandler struct {
 		GetUserStatsHandler
+		GetUserRecentPointsChartHandler
 	}
 	Application struct {
 		appHubHandler
@@ -26,10 +28,12 @@ var _ App = (*Application)(nil)
 
 func New(
 	userStatsRepository domain.UserStatsRepository,
+	pointRepository domain.PointRepository,
 ) *Application {
 	return &Application{
 		appHubHandler: appHubHandler{
-			GetUserStatsHandler: NewGetUserStatsHandler(userStatsRepository),
+			GetUserStatsHandler:             NewGetUserStatsHandler(userStatsRepository),
+			GetUserRecentPointsChartHandler: NewGetUserRecentPointsChartHandler(pointRepository),
 		},
 	}
 }

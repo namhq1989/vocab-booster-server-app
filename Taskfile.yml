@@ -42,8 +42,9 @@ tasks:
       - mockgen -source=pkg/subscription/domain/user_subscription_hub.go -destination=internal/mock/subscription/user_subscription_hub.go -package=mocksubscription
 
       # exercise
-      - mockgen -source=pkg/exercise/domain/exercise_hub.go -destination=internal/mock/exercise/exercise_hub.go -package=mockexercise
       - mockgen -source=pkg/exercise/domain/queue.go -destination=internal/mock/exercise/queue.go -package=mockexercise
+      - mockgen -source=pkg/exercise/domain/exercise_hub.go -destination=internal/mock/exercise/exercise_hub.go -package=mockexercise
+      - mockgen -source=pkg/exercise/domain/gamification_hub.go -destination=internal/mock/exercise/gamification_hub.go -package=mockexercise
 
       # gamification
       - mockgen -source=pkg/gamification/domain/point.go -destination=internal/mock/gamification/point.go -package=mockgamification

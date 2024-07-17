@@ -23,3 +23,7 @@ func RegisterServer(_ *appcontext.AppContext, registrar grpc.ServiceRegistrar, h
 func (s server) GetUserStats(bgCtx context.Context, req *gamificationpb.GetUserStatsRequest) (*gamificationpb.GetUserStatsResponse, error) {
 	return s.hub.GetUserStats(appcontext.NewGRPC(bgCtx), req)
 }
+
+func (s server) GetUserRecentPointsChart(bgCtx context.Context, req *gamificationpb.GetUserRecentPointsChartRequest) (*gamificationpb.GetUserRecentPointsChartResponse, error) {
+	return s.hub.GetUserRecentPointsChart(appcontext.NewGRPC(bgCtx), req)
+}
