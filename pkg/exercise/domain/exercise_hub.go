@@ -12,22 +12,7 @@ type ExerciseHub interface {
 	AnswerExercise(ctx *appcontext.AppContext, payload AnswerExercisePayload) (*AnswerExerciseResult, error)
 	GetExercises(ctx *appcontext.AppContext, userID, lang, level string) ([]Exercise, error)
 	GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]Exercise, error)
-}
-
-type Exercise struct {
-	ID            string
-	Audio         string
-	Level         string
-	Content       string
-	Translated    string
-	Vocabulary    string
-	CorrectAnswer string
-	Options       []string
-	CorrectStreak int
-	IsFavorite    bool
-	IsMastered    bool
-	UpdatedAt     time.Time
-	NextReviewAt  time.Time
+	GetExerciseCollections(ctx *appcontext.AppContext, userID, lang string) ([]ExerciseCollection, error)
 }
 
 type AnswerExercisePayload struct {

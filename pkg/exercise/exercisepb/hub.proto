@@ -9,6 +9,8 @@ service ExerciseService {
   rpc AnswerExercise(AnswerExerciseRequest) returns (AnswerExerciseResponse) {}
   rpc GetUserExercises(GetUserExercisesRequest) returns (GetUserExercisesResponse) {}
   rpc GetUserReadyForReviewExercises(GetUserReadyForReviewExercisesRequest) returns (GetUserReadyForReviewExercisesResponse) {}
+  rpc GetExerciseCollections(GetExerciseCollectionsRequest) returns (GetExerciseCollectionsResponse) {}
+  rpc GetUserStats(GetUserStatsRequest) returns (GetUserStatsResponse) {}
 }
 
 // ANSWER EXERCISE
@@ -46,4 +48,26 @@ message GetUserReadyForReviewExercisesRequest {
 
 message GetUserReadyForReviewExercisesResponse {
   repeated UserExercise exercises = 1;
+}
+
+// GET EXERCISE COLLECTIONS
+
+message GetExerciseCollectionsRequest {
+  string userId = 1;
+  string lang = 2;
+}
+
+message GetExerciseCollectionsResponse {
+  repeated ExerciseCollection collections = 1;
+}
+
+// GET USER STATS
+
+message GetUserStatsRequest {
+  string userId = 1;
+}
+
+message GetUserStatsResponse {
+  int32 mastered = 1;
+  int32 waitingForReview = 2;
 }
