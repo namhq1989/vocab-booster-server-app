@@ -9,12 +9,13 @@ type ExerciseCollectionMapper struct{}
 
 func (ExerciseCollectionMapper) FromGrpcToDomain(collection *exercisepb.ExerciseCollection) (*domain.ExerciseCollection, error) {
 	result := domain.ExerciseCollection{
-		ID:             collection.GetId(),
-		Name:           collection.GetName(),
-		Slug:           collection.GetSlug(),
-		Translated:     collection.GetTranslated(),
-		StatsExercises: int(collection.GetStatsExercises()),
-		Image:          collection.GetImage(),
+		ID:              collection.GetId(),
+		Name:            collection.GetName(),
+		Slug:            collection.GetSlug(),
+		Translated:      collection.GetTranslated(),
+		StatsExercises:  int(collection.GetStatsExercises()),
+		StatsInteracted: int(collection.GetStatsInteracted()),
+		Image:           collection.GetImage(),
 	}
 
 	return &result, nil
