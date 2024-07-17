@@ -1,7 +1,7 @@
 package dto
 
 type GetExercisesRequest struct {
-	Level string `query:"level"`
+	CollectionID string `query:"collectionId" validate:"required" message:"exercise_invalid_collection_id"`
 }
 
 type GetExercisesResponse struct {
