@@ -13,6 +13,7 @@ type ExerciseHub interface {
 	GetExercises(ctx *appcontext.AppContext, userID, lang, collectionID string) ([]Exercise, error)
 	GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]Exercise, error)
 	GetExerciseCollections(ctx *appcontext.AppContext, userID, lang string) ([]ExerciseCollection, error)
+	AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]UserAggregatedExercise, error)
 }
 
 type AnswerExercisePayload struct {

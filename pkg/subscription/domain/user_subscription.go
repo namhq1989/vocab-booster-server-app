@@ -40,7 +40,7 @@ func NewUserSubscription(userID string, plan string) (*UserSubscription, error) 
 		return nil, apperrors.Subscription.InvalidPlan
 	}
 
-	endAt := time.Now().AddDate(0, 0, int(subscriptionPlan.Duration.Hours()))
+	endAt := manipulation.Now().AddDate(0, 0, int(subscriptionPlan.Duration.Hours()))
 	endAt = manipulation.EndOfDate(endAt)
 
 	return &UserSubscription{
@@ -48,7 +48,7 @@ func NewUserSubscription(userID string, plan string) (*UserSubscription, error) 
 		UserID:    userID,
 		IsPremium: dPlan.IsPremium(),
 		Plan:      dPlan,
-		StartAt:   time.Now(),
+		StartAt:   manipulation.Now(),
 		EndAt:     endAt,
 	}, nil
 }
@@ -71,7 +71,7 @@ func (d *UserSubscription) UpgradeToPremium(plan string) error {
 
 func (d *UserSubscription) ExtendDuration(duration time.Duration) error {
 	if d.EndAt.IsZero() {
-		d.EndAt = time.Now().AddDate(0, 0, int(duration.Hours()))
+		d.EndAt = manipulation.Now().AddDate(0, 0, int(duration.Hours()))
 	} else {
 		d.EndAt = d.EndAt.AddDate(0, 0, int(duration.Hours()))
 	}

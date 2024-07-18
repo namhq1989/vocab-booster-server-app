@@ -11,6 +11,7 @@ service ExerciseService {
   rpc GetUserReadyForReviewExercises(GetUserReadyForReviewExercisesRequest) returns (GetUserReadyForReviewExercisesResponse) {}
   rpc GetExerciseCollections(GetExerciseCollectionsRequest) returns (GetExerciseCollectionsResponse) {}
   rpc GetUserStats(GetUserStatsRequest) returns (GetUserStatsResponse) {}
+  rpc GetUserRecentExercisesChart(GetUserRecentExercisesChartRequest) returns (GetUserRecentExercisesChartResponse) {}
 }
 
 // ANSWER EXERCISE
@@ -69,4 +70,16 @@ message GetUserStatsRequest {
 message GetUserStatsResponse {
   int32 mastered = 1;
   int32 waitingForReview = 2;
+}
+
+// GET USER RECENT EXERCISES CHART
+
+message GetUserRecentExercisesChartRequest {
+  string userId = 1;
+  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp to = 3;
+}
+
+message GetUserRecentExercisesChartResponse {
+  repeated UserAggregatedExercise exercises = 1;
 }

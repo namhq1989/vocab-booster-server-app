@@ -50,8 +50,8 @@ func NewUser(name, email string) (*User, error) {
 		Email:      email,
 		Avatar:     randomAvatar(),
 		Visibility: VisibilityPublic,
-		CreatedAt:  time.Now(),
-		UpdatedAt:  time.Now(),
+		CreatedAt:  manipulation.Now(),
+		UpdatedAt:  manipulation.Now(),
 	}, nil
 }
 
@@ -61,13 +61,13 @@ func (d *User) SetName(name string) error {
 	}
 
 	d.Name = name
-	d.UpdatedAt = time.Now()
+	d.UpdatedAt = manipulation.Now()
 	return nil
 }
 
 func (d *User) SetBio(bio string) error {
 	d.Bio = bio
-	d.UpdatedAt = time.Now()
+	d.UpdatedAt = manipulation.Now()
 	return nil
 }
 
@@ -78,7 +78,7 @@ func (d *User) SetVisibility(visibility string) error {
 	}
 
 	d.Visibility = dVisibility
-	d.UpdatedAt = time.Now()
+	d.UpdatedAt = manipulation.Now()
 	return nil
 }
 
@@ -92,7 +92,7 @@ func (d *User) SetProvider(source, uid string) error {
 			UID:    uid,
 		})
 	}
-	d.UpdatedAt = time.Now()
+	d.UpdatedAt = manipulation.Now()
 	return nil
 }
 
@@ -105,9 +105,9 @@ func randomAvatar() string {
 
 func (d *User) SetAvatar(value string) {
 	d.Avatar = value
-	d.UpdatedAt = time.Now()
+	d.UpdatedAt = manipulation.Now()
 }
 
 func (d *User) SetUpdatedAt() {
-	d.UpdatedAt = time.Now()
+	d.UpdatedAt = manipulation.Now()
 }

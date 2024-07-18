@@ -18,6 +18,7 @@ type (
 		GetReadyForReviewExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetReadyForReviewExercisesRequest) (*dto.GetReadyForReviewExercisesResponse, error)
 		GetExerciseCollections(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExerciseCollectionsRequest) (*dto.GetExerciseCollectionResponse, error)
 		GetRecentPointsChart(ctx *appcontext.AppContext, performerID string, _ dto.GetRecentPointsChartRequest) (*dto.GetRecentPointsChartResponse, error)
+		GetRecentExercisesChart(ctx *appcontext.AppContext, performerID string, _ dto.GetRecentExercisesChartRequest) (*dto.GetRecentExercisesChartResponse, error)
 	}
 	Instance interface {
 		Commands
@@ -32,6 +33,7 @@ type (
 		query.GetReadyForReviewExercisesHandler
 		query.GetExerciseCollectionsHandler
 		query.GetRecentPointsChartHandler
+		query.GetRecentExercisesChartHandler
 	}
 	Application struct {
 		appCommandHandlers
@@ -55,6 +57,7 @@ func New(
 			GetReadyForReviewExercisesHandler: query.NewGetReadyForReviewExercisesHandler(exerciseHub),
 			GetExerciseCollectionsHandler:     query.NewGetExerciseCollectionsHandler(exerciseHub),
 			GetRecentPointsChartHandler:       query.NewGetRecentPointsChartHandler(gamificationHub),
+			GetRecentExercisesChartHandler:    query.NewGetRecentExercisesChartHandler(exerciseHub),
 		},
 	}
 }

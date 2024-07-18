@@ -17,3 +17,12 @@ type Exercise struct {
 	UpdatedAt     time.Time
 	NextReviewAt  time.Time
 }
+
+//
+// AGGREGATED EXERCISES
+//
+
+type UserAggregatedExercise struct {
+	Date     string
+	Exercise int64
+}

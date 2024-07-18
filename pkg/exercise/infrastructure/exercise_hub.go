@@ -1,7 +1,10 @@
 package infrastructure
 
 import (
+	"time"
+
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/exercisepb"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/infrastructure/mapping"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -101,6 +104,32 @@ func (r ExerciseHub) GetExerciseCollections(ctx *appcontext.AppContext, userID, 
 		collection, _ := mapper.FromGrpcToDomain(e)
 		if collection != nil {
 			result = append(result, *collection)
+
+		}
+	}
+
+	return result, nil
+}
+
+func (r ExerciseHub) AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedExercise, error) {
+	resp, err := r.client.GetUserRecentExercisesChart(ctx.Context(), &exercisepb.GetUserRecentExercisesChartRequest{
+		UserId: userID,
+		From:   manipulation.ConvertToProtoTimestamp(from),
+		To:     manipulation.ConvertToProtoTimestamp(to),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var (
+		result = make([]domain.UserAggregatedExercise, 0)
+		mapper = mapping.UserAggregatedExerciseMapper{}
+	)
+
+	for _, p := range resp.GetExercises() {
+		exercise, _ := mapper.FromGrpcToDomain(p)
+		if exercise != nil {
+			result = append(result, *exercise)
 
 		}
 	}

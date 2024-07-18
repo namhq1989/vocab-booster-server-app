@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package gamificationpb;
 
+import "google/protobuf/timestamp.proto";
 import "gamificationpb/message.proto";
-
 
 service GamificationService {
   rpc GetUserStats(GetUserStatsRequest) returns (GetUserStatsResponse) {}
@@ -25,6 +25,8 @@ message GetUserStatsResponse {
 
 message GetUserRecentPointsChartRequest {
   string userId = 1;
+  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp to = 3;
 }
 
 message GetUserRecentPointsChartResponse {

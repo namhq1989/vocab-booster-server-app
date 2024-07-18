@@ -94,8 +94,9 @@ func (r PointRepository) AggregateUserPointsInTimeRange(ctx *appcontext.AppConte
 						Key: "_id", Value: bson.D{
 							{
 								Key: "$dateToString", Value: bson.M{
-									"format": "%d/%m",
-									"date":   "$createdAt",
+									"format":   "%d/%m",
+									"date":     "$createdAt",
+									"timezone": manipulation.GetServerTimezone(),
 								},
 							},
 						},
