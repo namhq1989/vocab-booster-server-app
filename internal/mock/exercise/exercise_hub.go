@@ -11,6 +11,7 @@ package mockexercise
 
 import (
 	reflect "reflect"
+	time "time"
 
 	domain "github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	appcontext "github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -38,6 +39,21 @@ func NewMockExerciseHub(ctrl *gomock.Controller) *MockExerciseHub {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockExerciseHub) EXPECT() *MockExerciseHubMockRecorder {
 	return m.recorder
+}
+
+// AggregateUserExercisesInTimeRange mocks base method.
+func (m *MockExerciseHub) AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedExercise, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AggregateUserExercisesInTimeRange", ctx, userID, from, to)
+	ret0, _ := ret[0].([]domain.UserAggregatedExercise)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AggregateUserExercisesInTimeRange indicates an expected call of AggregateUserExercisesInTimeRange.
+func (mr *MockExerciseHubMockRecorder) AggregateUserExercisesInTimeRange(ctx, userID, from, to any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AggregateUserExercisesInTimeRange", reflect.TypeOf((*MockExerciseHub)(nil).AggregateUserExercisesInTimeRange), ctx, userID, from, to)
 }
 
 // AnswerExercise mocks base method.
@@ -71,18 +87,18 @@ func (mr *MockExerciseHubMockRecorder) GetExerciseCollections(ctx, userID, lang 
 }
 
 // GetExercises mocks base method.
-func (m *MockExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang, level string) ([]domain.Exercise, error) {
+func (m *MockExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang, collectionID string) ([]domain.Exercise, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExercises", ctx, userID, lang, level)
+	ret := m.ctrl.Call(m, "GetExercises", ctx, userID, lang, collectionID)
 	ret0, _ := ret[0].([]domain.Exercise)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExercises indicates an expected call of GetExercises.
-func (mr *MockExerciseHubMockRecorder) GetExercises(ctx, userID, lang, level any) *gomock.Call {
+func (mr *MockExerciseHubMockRecorder) GetExercises(ctx, userID, lang, collectionID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExercises", reflect.TypeOf((*MockExerciseHub)(nil).GetExercises), ctx, userID, lang, level)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExercises", reflect.TypeOf((*MockExerciseHub)(nil).GetExercises), ctx, userID, lang, collectionID)
 }
 
 // GetReadyForReviewExercises mocks base method.

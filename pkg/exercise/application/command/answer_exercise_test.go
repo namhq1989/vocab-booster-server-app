@@ -3,12 +3,12 @@ package command_test
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	mockexercise "github.com/namhq1989/vocab-booster-server-app/internal/mock/exercise"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/httprespond"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/application/command"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
@@ -48,7 +48,7 @@ func (s *answerExerciseTestSuite) TearDownTest() {
 
 func (s *answerExerciseTestSuite) Test_1_Success() {
 	// mock data
-	nextReviewAt := time.Now()
+	nextReviewAt := manipulation.Now()
 
 	s.mockExerciseHub.EXPECT().
 		AnswerExercise(gomock.Any(), gomock.Any()).

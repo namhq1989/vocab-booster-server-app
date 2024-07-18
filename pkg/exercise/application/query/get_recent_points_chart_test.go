@@ -44,7 +44,7 @@ func (s *getRecentPointsChartTestSuite) TearDownTest() {
 func (s *getRecentPointsChartTestSuite) Test_1_Success() {
 	// mock data
 	s.mockGamificationHub.EXPECT().
-		GetUserRecentPointsChart(gomock.Any(), gomock.Any()).
+		GetUserRecentPointsChart(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
 		Return(make([]domain.UserAggregatedPoint, 0), nil)
 
 	// call

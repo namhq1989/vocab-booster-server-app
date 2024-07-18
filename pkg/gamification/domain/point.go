@@ -5,6 +5,7 @@ import (
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
@@ -64,12 +65,12 @@ func NewPoint(userID, exerciseID, vocabularyID, action string, point int64) (*Po
 		ExerciseID:   exerciseID,
 		VocabularyID: vocabularyID,
 		Point:        point,
-		CreatedAt:    time.Now(),
+		CreatedAt:    manipulation.Now(),
 	}, nil
 }
 
 //
-// AGGREGATES POINTS
+// AGGREGATED POINTS
 //
 
 type UserAggregatedPoint struct {

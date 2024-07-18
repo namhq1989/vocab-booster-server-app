@@ -11,6 +11,7 @@ package mockexercise
 
 import (
 	reflect "reflect"
+	time "time"
 
 	domain "github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	appcontext "github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -41,16 +42,16 @@ func (m *MockGamificationHub) EXPECT() *MockGamificationHubMockRecorder {
 }
 
 // GetUserRecentPointsChart mocks base method.
-func (m *MockGamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID string) ([]domain.UserAggregatedPoint, error) {
+func (m *MockGamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserRecentPointsChart", ctx, userID)
+	ret := m.ctrl.Call(m, "GetUserRecentPointsChart", ctx, userID, from, to)
 	ret0, _ := ret[0].([]domain.UserAggregatedPoint)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserRecentPointsChart indicates an expected call of GetUserRecentPointsChart.
-func (mr *MockGamificationHubMockRecorder) GetUserRecentPointsChart(ctx, userID any) *gomock.Call {
+func (mr *MockGamificationHubMockRecorder) GetUserRecentPointsChart(ctx, userID, from, to any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserRecentPointsChart", reflect.TypeOf((*MockGamificationHub)(nil).GetUserRecentPointsChart), ctx, userID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserRecentPointsChart", reflect.TypeOf((*MockGamificationHub)(nil).GetUserRecentPointsChart), ctx, userID, from, to)
 }

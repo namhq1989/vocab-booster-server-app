@@ -1,7 +1,10 @@
 package infrastructure
 
 import (
+	"time"
+
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/gamificationpb"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/infrastructure/mapping"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -17,9 +20,11 @@ func NewGamificationHub(client gamificationpb.GamificationServiceClient) Gamific
 	}
 }
 
-func (r GamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID string) ([]domain.UserAggregatedPoint, error) {
+func (r GamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
 	resp, err := r.client.GetUserRecentPointsChart(ctx.Context(), &gamificationpb.GetUserRecentPointsChartRequest{
 		UserId: userID,
+		From:   manipulation.ConvertToProtoTimestamp(from),
+		To:     manipulation.ConvertToProtoTimestamp(to),
 	})
 	if err != nil {
 		return nil, err

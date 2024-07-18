@@ -5,6 +5,7 @@ import (
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
@@ -39,6 +40,6 @@ func NewCompletionTime(userID, action string, seconds int) (*CompletionTime, err
 		UserID:    userID,
 		Action:    dAction,
 		Seconds:   seconds,
-		CreatedAt: time.Now(),
+		CreatedAt: manipulation.Now(),
 	}, nil
 }

@@ -1,11 +1,28 @@
 package manipulation
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
+
+var (
+	serverTimezone = ""
+	serverLocation = time.Now().Location()
+)
+
+func GetServerTimezone() string {
+	if serverTimezone != "" {
+		return serverTimezone
+	}
+
+	now := time.Now()
+	_, offset := now.Zone()
+	serverTimezone = fmt.Sprintf("%+03d:%02d", offset/3600, offset%3600/60)
+	return serverTimezone
+}
 
 func StartOfToday() time.Time {
 	now := time.Now()
@@ -39,5 +56,13 @@ func ConvertToProtoTimestamp(t time.Time) *timestamp.Timestamp {
 }
 
 func FormatDDMM(t time.Time) string {
-	return t.Format("02/01")
+	return t.In(serverLocation).Format("02/01")
+}
+
+func ConvertToUTC(t time.Time) time.Time {
+	return t.UTC()
+}
+
+func Now() time.Time {
+	return time.Now().UTC()
 }

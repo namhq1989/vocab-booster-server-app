@@ -3,10 +3,10 @@ package worker_test
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	mocksubscription "github.com/namhq1989/vocab-booster-server-app/internal/mock/subscription"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/subscription/worker"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -54,8 +54,8 @@ func (s *downgradeUserSubscriptionTestSuite) Test_1_Success() {
 			ID:      database.NewStringID(),
 			UserID:  database.NewStringID(),
 			Plan:    domain.PlanPremiumMonthly,
-			StartAt: time.Now(),
-			EndAt:   time.Now(),
+			StartAt: manipulation.Now(),
+			EndAt:   manipulation.Now(),
 		},
 	})
 

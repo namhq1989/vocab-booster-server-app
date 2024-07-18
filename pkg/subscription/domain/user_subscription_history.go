@@ -4,6 +4,7 @@ import (
 	"time"
 
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
@@ -33,6 +34,6 @@ func NewUserSubscriptionHistory(userID, paymentID string) (*UserSubscriptionHist
 		ID:        database.NewStringID(),
 		UserID:    userID,
 		PaymentID: paymentID,
-		CreatedAt: time.Now(),
+		CreatedAt: manipulation.Now(),
 	}, nil
 }
