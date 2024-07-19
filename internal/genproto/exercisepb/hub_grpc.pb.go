@@ -25,6 +25,7 @@ const (
 	ExerciseService_GetExerciseCollections_FullMethodName         = "/exercisepb.ExerciseService/GetExerciseCollections"
 	ExerciseService_GetUserStats_FullMethodName                   = "/exercisepb.ExerciseService/GetUserStats"
 	ExerciseService_GetUserRecentExercisesChart_FullMethodName    = "/exercisepb.ExerciseService/GetUserRecentExercisesChart"
+	ExerciseService_ChangeExerciseFavorite_FullMethodName         = "/exercisepb.ExerciseService/ChangeExerciseFavorite"
 )
 
 // ExerciseServiceClient is the client API for ExerciseService service.
@@ -37,6 +38,7 @@ type ExerciseServiceClient interface {
 	GetExerciseCollections(ctx context.Context, in *GetExerciseCollectionsRequest, opts ...grpc.CallOption) (*GetExerciseCollectionsResponse, error)
 	GetUserStats(ctx context.Context, in *GetUserStatsRequest, opts ...grpc.CallOption) (*GetUserStatsResponse, error)
 	GetUserRecentExercisesChart(ctx context.Context, in *GetUserRecentExercisesChartRequest, opts ...grpc.CallOption) (*GetUserRecentExercisesChartResponse, error)
+	ChangeExerciseFavorite(ctx context.Context, in *ChangeExerciseFavoriteRequest, opts ...grpc.CallOption) (*ChangeExerciseFavoriteResponse, error)
 }
 
 type exerciseServiceClient struct {
@@ -107,6 +109,16 @@ func (c *exerciseServiceClient) GetUserRecentExercisesChart(ctx context.Context,
 	return out, nil
 }
 
+func (c *exerciseServiceClient) ChangeExerciseFavorite(ctx context.Context, in *ChangeExerciseFavoriteRequest, opts ...grpc.CallOption) (*ChangeExerciseFavoriteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ChangeExerciseFavoriteResponse)
+	err := c.cc.Invoke(ctx, ExerciseService_ChangeExerciseFavorite_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExerciseServiceServer is the server API for ExerciseService service.
 // All implementations should embed UnimplementedExerciseServiceServer
 // for forward compatibility
@@ -117,6 +129,7 @@ type ExerciseServiceServer interface {
 	GetExerciseCollections(context.Context, *GetExerciseCollectionsRequest) (*GetExerciseCollectionsResponse, error)
 	GetUserStats(context.Context, *GetUserStatsRequest) (*GetUserStatsResponse, error)
 	GetUserRecentExercisesChart(context.Context, *GetUserRecentExercisesChartRequest) (*GetUserRecentExercisesChartResponse, error)
+	ChangeExerciseFavorite(context.Context, *ChangeExerciseFavoriteRequest) (*ChangeExerciseFavoriteResponse, error)
 }
 
 // UnimplementedExerciseServiceServer should be embedded to have forward compatible implementations.
@@ -140,6 +153,9 @@ func (UnimplementedExerciseServiceServer) GetUserStats(context.Context, *GetUser
 }
 func (UnimplementedExerciseServiceServer) GetUserRecentExercisesChart(context.Context, *GetUserRecentExercisesChartRequest) (*GetUserRecentExercisesChartResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserRecentExercisesChart not implemented")
+}
+func (UnimplementedExerciseServiceServer) ChangeExerciseFavorite(context.Context, *ChangeExerciseFavoriteRequest) (*ChangeExerciseFavoriteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeExerciseFavorite not implemented")
 }
 
 // UnsafeExerciseServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -261,6 +277,24 @@ func _ExerciseService_GetUserRecentExercisesChart_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExerciseService_ChangeExerciseFavorite_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeExerciseFavoriteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExerciseServiceServer).ChangeExerciseFavorite(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExerciseService_ChangeExerciseFavorite_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExerciseServiceServer).ChangeExerciseFavorite(ctx, req.(*ChangeExerciseFavoriteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExerciseService_ServiceDesc is the grpc.ServiceDesc for ExerciseService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -291,6 +325,10 @@ var ExerciseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserRecentExercisesChart",
 			Handler:    _ExerciseService_GetUserRecentExercisesChart_Handler,
+		},
+		{
+			MethodName: "ChangeExerciseFavorite",
+			Handler:    _ExerciseService_ChangeExerciseFavorite_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

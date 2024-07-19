@@ -71,6 +71,21 @@ func (mr *MockExerciseHubMockRecorder) AnswerExercise(ctx, payload any) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AnswerExercise", reflect.TypeOf((*MockExerciseHub)(nil).AnswerExercise), ctx, payload)
 }
 
+// ChangeExerciseFavorite mocks base method.
+func (m *MockExerciseHub) ChangeExerciseFavorite(ctx *appcontext.AppContext, userID, exerciseID string, isFavorite bool) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ChangeExerciseFavorite", ctx, userID, exerciseID, isFavorite)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ChangeExerciseFavorite indicates an expected call of ChangeExerciseFavorite.
+func (mr *MockExerciseHubMockRecorder) ChangeExerciseFavorite(ctx, userID, exerciseID, isFavorite any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangeExerciseFavorite", reflect.TypeOf((*MockExerciseHub)(nil).ChangeExerciseFavorite), ctx, userID, exerciseID, isFavorite)
+}
+
 // GetExerciseCollections mocks base method.
 func (m *MockExerciseHub) GetExerciseCollections(ctx *appcontext.AppContext, userID, lang string) ([]domain.ExerciseCollection, error) {
 	m.ctrl.T.Helper()

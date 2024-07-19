@@ -136,3 +136,16 @@ func (r ExerciseHub) AggregateUserExercisesInTimeRange(ctx *appcontext.AppContex
 
 	return result, nil
 }
+
+func (r ExerciseHub) ChangeExerciseFavorite(ctx *appcontext.AppContext, userID, exerciseID string, isFavorite bool) (bool, error) {
+	resp, err := r.client.ChangeExerciseFavorite(ctx.Context(), &exercisepb.ChangeExerciseFavoriteRequest{
+		UserId:     userID,
+		ExerciseId: exerciseID,
+		IsFavorite: isFavorite,
+	})
+	if err != nil {
+		return false, err
+	}
+
+	return resp.GetIsFavorite(), nil
+}
