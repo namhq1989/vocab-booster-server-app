@@ -14,6 +14,7 @@ type ExerciseHub interface {
 	GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]Exercise, error)
 	GetExerciseCollections(ctx *appcontext.AppContext, userID, lang string) ([]ExerciseCollection, error)
 	AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]UserAggregatedExercise, error)
+	ChangeExerciseFavorite(ctx *appcontext.AppContext, userID, exerciseID string, isFavorite bool) (bool, error)
 }
 
 type AnswerExercisePayload struct {

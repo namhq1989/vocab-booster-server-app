@@ -12,6 +12,7 @@ import (
 type (
 	Commands interface {
 		AnswerExercise(ctx *appcontext.AppContext, performerID, exerciseID string, req dto.AnswerExerciseRequest) (*dto.AnswerExerciseResponse, error)
+		ChangeExerciseFavorite(ctx *appcontext.AppContext, performerID, exerciseID string, req dto.ChangeExerciseFavoriteRequest) (*dto.ChangeExerciseFavoriteResponse, error)
 	}
 	Queries interface {
 		GetExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExercisesRequest) (*dto.GetExercisesResponse, error)
@@ -27,6 +28,7 @@ type (
 
 	appCommandHandlers struct {
 		command.AnswerExerciseHandler
+		command.ChangeExerciseFavoriteHandler
 	}
 	appQueryHandler struct {
 		query.GetExercisesHandler
@@ -50,7 +52,8 @@ func New(
 ) *Application {
 	return &Application{
 		appCommandHandlers: appCommandHandlers{
-			AnswerExerciseHandler: command.NewAnswerExerciseHandler(queueRepository, exerciseHub),
+			AnswerExerciseHandler:         command.NewAnswerExerciseHandler(queueRepository, exerciseHub),
+			ChangeExerciseFavoriteHandler: command.NewChangeExerciseFavoriteHandler(exerciseHub),
 		},
 		appQueryHandler: appQueryHandler{
 			GetExercisesHandler:               query.NewGetExercisesHandler(exerciseHub),

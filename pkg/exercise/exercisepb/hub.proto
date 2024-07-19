@@ -12,6 +12,7 @@ service ExerciseService {
   rpc GetExerciseCollections(GetExerciseCollectionsRequest) returns (GetExerciseCollectionsResponse) {}
   rpc GetUserStats(GetUserStatsRequest) returns (GetUserStatsResponse) {}
   rpc GetUserRecentExercisesChart(GetUserRecentExercisesChartRequest) returns (GetUserRecentExercisesChartResponse) {}
+  rpc ChangeExerciseFavorite(ChangeExerciseFavoriteRequest) returns (ChangeExerciseFavoriteResponse) {}
 }
 
 // ANSWER EXERCISE
@@ -82,4 +83,16 @@ message GetUserRecentExercisesChartRequest {
 
 message GetUserRecentExercisesChartResponse {
   repeated UserAggregatedExercise exercises = 1;
+}
+
+// CHANGE EXERCISE FAVORITE
+
+message ChangeExerciseFavoriteRequest {
+  string userId = 1;
+  string exerciseId = 2;
+  bool isFavorite = 3;
+}
+
+message ChangeExerciseFavoriteResponse {
+  bool isFavorite = 1;
 }

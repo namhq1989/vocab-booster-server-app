@@ -116,4 +116,22 @@ func (s server) registerExerciseRoutes() {
 	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return validation.ValidateHTTPPayload[dto.GetRecentExercisesChartRequest](next)
 	})
+
+	g.PATCH("/:id/favorite", func(c echo.Context) error {
+		var (
+			ctx         = c.Get("ctx").(*appcontext.AppContext)
+			req         = c.Get("req").(dto.ChangeExerciseFavoriteRequest)
+			performerID = ctx.GetUserID()
+			exerciseID  = c.Param("id")
+		)
+
+		resp, err := s.app.ChangeExerciseFavorite(ctx, performerID, exerciseID, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.ChangeExerciseFavoriteRequest](next)
+	})
 }
