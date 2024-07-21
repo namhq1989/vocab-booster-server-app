@@ -21,7 +21,7 @@ func NewSignInWithGoogleHandler(authenticationRepository domain.AuthenticationRe
 }
 
 func (h SignInWithGoogleHandler) SignInWithGoogle(ctx *appcontext.AppContext, req dto.SignInWithGoogleRequest) (*dto.SignInWithGoogleResponse, error) {
-	ctx.Logger().Info("[command] new sign in with Google request", appcontext.Fields{"token": req.Token})
+	ctx.Logger().Info("[command] new sign in with Google request", appcontext.Fields{"token": req.Token, "timezone": req.Timezone})
 
 	ctx.Logger().Text("get user's data with Google token")
 	googleUser, err := h.authenticationRepository.GetUserInfoWithToken(ctx, req.Token)
@@ -38,7 +38,7 @@ func (h SignInWithGoogleHandler) SignInWithGoogle(ctx *appcontext.AppContext, re
 	}
 	if user == nil {
 		ctx.Logger().ErrorText("user not found, create new one")
-		user, err = h.createNewUser(ctx, *googleUser)
+		user, err = h.createNewUser(ctx, *googleUser, req.Timezone)
 		if err != nil {
 			ctx.Logger().Error("failed to create new user", err, appcontext.Fields{})
 			return nil, err
@@ -58,9 +58,9 @@ func (h SignInWithGoogleHandler) SignInWithGoogle(ctx *appcontext.AppContext, re
 	}, nil
 }
 
-func (h SignInWithGoogleHandler) createNewUser(ctx *appcontext.AppContext, googleUser domain.AuthenticationUser) (*domain.User, error) {
+func (h SignInWithGoogleHandler) createNewUser(ctx *appcontext.AppContext, googleUser domain.AuthenticationUser, timezone string) (*domain.User, error) {
 	ctx.Logger().Info("create new user with Google data via grpc", appcontext.Fields{"id": googleUser.UID, "email": googleUser.Email, "name": googleUser.Name})
-	id, err := h.userHub.CreateUser(ctx, googleUser.Name, googleUser.Email, googleUser.ProviderSource, googleUser.ProviderUID)
+	id, err := h.userHub.CreateUser(ctx, googleUser.Name, googleUser.Email, timezone, googleUser.ProviderSource, googleUser.ProviderUID)
 	if err != nil {
 		ctx.Logger().Error("failed to create new user via grpc", err, appcontext.Fields{})
 		return nil, err

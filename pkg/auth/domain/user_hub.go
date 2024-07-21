@@ -6,7 +6,7 @@ import (
 
 type UserHub interface {
 	FindUserByEmail(ctx *appcontext.AppContext, email string) (*User, error)
-	CreateUser(ctx *appcontext.AppContext, name, email, providerSource, providerUid string) (string, error)
+	CreateUser(ctx *appcontext.AppContext, name, email, timezone, providerSource, providerUid string) (string, error)
 }
 
 type User struct {

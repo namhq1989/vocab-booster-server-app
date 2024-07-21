@@ -4,11 +4,10 @@ import (
 	"context"
 	"testing"
 
-	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
-
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/userpb"
 	mockuser "github.com/namhq1989/vocab-booster-server-app/internal/mock/user"
+	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/grpc"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
