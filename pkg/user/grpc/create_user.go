@@ -18,7 +18,7 @@ func NewCreateUserHandler(userHub domain.UserHub) CreateUserHandler {
 }
 
 func (h CreateUserHandler) CreateUser(ctx *appcontext.AppContext, req *userpb.CreateUserRequest) (*userpb.CreateUserResponse, error) {
-	ctx.Logger().Info("[hub] new create user request", appcontext.Fields{"name": req.GetName(), "email": req.GetEmail()})
+	ctx.Logger().Info("[hub] new create user request", appcontext.Fields{"name": req.GetName(), "email": req.GetEmail(), "timezone": req.GetTimezone()})
 
 	ctx.Logger().Text("check email existence")
 	user, err := h.userHub.FindUserByEmail(ctx, req.GetEmail())
@@ -32,7 +32,7 @@ func (h CreateUserHandler) CreateUser(ctx *appcontext.AppContext, req *userpb.Cr
 	}
 
 	ctx.Logger().Text("create new user's model")
-	user, err = domain.NewUser(req.GetName(), req.GetEmail())
+	user, err = domain.NewUser(req.GetName(), req.GetEmail(), req.GetTimezone())
 	if err != nil {
 		ctx.Logger().Error("failed to create new user's model", err, appcontext.Fields{})
 		return nil, err

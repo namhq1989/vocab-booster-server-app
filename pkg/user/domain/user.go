@@ -5,12 +5,12 @@ import (
 	"slices"
 	"time"
 
-	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
-
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
+	"github.com/namhq1989/vocab-booster-server-app/internal/utils/manipulation"
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/validation"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 )
 
 type UserRepository interface {
@@ -26,6 +26,7 @@ type User struct {
 	Avatar     string
 	Visibility Visibility
 	Providers  []UserProvider
+	Timezone   timezone.Timezone
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 }
@@ -35,7 +36,7 @@ type UserProvider struct {
 	UID    string
 }
 
-func NewUser(name, email string) (*User, error) {
+func NewUser(name, email, tz string) (*User, error) {
 	if !validation.IsValidUserName(name) {
 		return nil, apperrors.Common.InvalidName
 	}
@@ -44,12 +45,15 @@ func NewUser(name, email string) (*User, error) {
 		return nil, apperrors.Common.InvalidEmail
 	}
 
+	dTimezone, _ := timezone.GetTimezoneData(tz)
+
 	return &User{
 		ID:         database.NewStringID(),
 		Name:       name,
 		Email:      email,
 		Avatar:     randomAvatar(),
 		Visibility: VisibilityPublic,
+		Timezone:   *dTimezone,
 		CreatedAt:  manipulation.Now(),
 		UpdatedAt:  manipulation.Now(),
 	}, nil
@@ -105,6 +109,13 @@ func randomAvatar() string {
 
 func (d *User) SetAvatar(value string) {
 	d.Avatar = value
+	d.UpdatedAt = manipulation.Now()
+}
+
+func (d *User) SetTimezone(tz string) {
+	dTimezone, _ := timezone.GetTimezoneData(tz)
+
+	d.Timezone = *dTimezone
 	d.UpdatedAt = manipulation.Now()
 }
 

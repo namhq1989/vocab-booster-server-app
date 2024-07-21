@@ -3,6 +3,8 @@ package dbmodel
 import (
 	"time"
 
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
+
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
@@ -16,6 +18,7 @@ type User struct {
 	Avatar     string             `bson:"avatar"`
 	Bio        string             `bson:"bio"`
 	Visibility string             `bson:"visibility"`
+	Timezone   string             `bson:"timezone"`
 	Providers  []UserProvider     `bson:"providers"`
 	CreatedAt  time.Time          `bson:"createdAt"`
 	UpdatedAt  time.Time          `bson:"updatedAt"`
@@ -35,6 +38,8 @@ func (m User) ToDomain() domain.User {
 		})
 	}
 
+	dTimezone, _ := timezone.GetTimezoneData(m.Timezone)
+
 	return domain.User{
 		ID:         m.ID.Hex(),
 		Name:       m.Name,
@@ -42,6 +47,7 @@ func (m User) ToDomain() domain.User {
 		Avatar:     m.Avatar,
 		Bio:        m.Bio,
 		Visibility: domain.Visibility(m.Visibility),
+		Timezone:   *dTimezone,
 		Providers:  providers,
 		CreatedAt:  m.CreatedAt,
 		UpdatedAt:  m.UpdatedAt,
@@ -69,6 +75,7 @@ func (User) FromDomain(user domain.User) (*User, error) {
 		Avatar:     user.Avatar,
 		Bio:        user.Bio,
 		Visibility: user.Visibility.String(),
+		Timezone:   user.Timezone.Identifier,
 		Providers:  providers,
 		CreatedAt:  user.CreatedAt,
 		UpdatedAt:  user.UpdatedAt,
