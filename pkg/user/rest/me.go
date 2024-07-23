@@ -33,9 +33,10 @@ func (s server) registerMeRoutes() {
 			ctx         = c.Get("ctx").(*appcontext.AppContext)
 			req         = c.Get("req").(dto.GetStatsRequest)
 			performerID = ctx.GetUserID()
+			tz          = ctx.GetTimezone()
 		)
 
-		resp, err := s.app.GetStats(ctx, performerID, req)
+		resp, err := s.app.GetStats(ctx, performerID, tz, req)
 		if err != nil {
 			return httprespond.R400(c, err, nil)
 		}

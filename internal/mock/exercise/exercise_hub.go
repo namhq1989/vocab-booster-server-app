@@ -42,18 +42,18 @@ func (m *MockExerciseHub) EXPECT() *MockExerciseHubMockRecorder {
 }
 
 // AggregateUserExercisesInTimeRange mocks base method.
-func (m *MockExerciseHub) AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedExercise, error) {
+func (m *MockExerciseHub) AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]domain.UserAggregatedExercise, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AggregateUserExercisesInTimeRange", ctx, userID, from, to)
+	ret := m.ctrl.Call(m, "AggregateUserExercisesInTimeRange", ctx, userID, timezone, from, to)
 	ret0, _ := ret[0].([]domain.UserAggregatedExercise)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AggregateUserExercisesInTimeRange indicates an expected call of AggregateUserExercisesInTimeRange.
-func (mr *MockExerciseHubMockRecorder) AggregateUserExercisesInTimeRange(ctx, userID, from, to any) *gomock.Call {
+func (mr *MockExerciseHubMockRecorder) AggregateUserExercisesInTimeRange(ctx, userID, timezone, from, to any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AggregateUserExercisesInTimeRange", reflect.TypeOf((*MockExerciseHub)(nil).AggregateUserExercisesInTimeRange), ctx, userID, from, to)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AggregateUserExercisesInTimeRange", reflect.TypeOf((*MockExerciseHub)(nil).AggregateUserExercisesInTimeRange), ctx, userID, timezone, from, to)
 }
 
 // AnswerExercise mocks base method.
@@ -117,16 +117,16 @@ func (mr *MockExerciseHubMockRecorder) GetExercises(ctx, userID, lang, collectio
 }
 
 // GetReadyForReviewExercises mocks base method.
-func (m *MockExerciseHub) GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]domain.Exercise, error) {
+func (m *MockExerciseHub) GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang, timezone string) ([]domain.Exercise, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetReadyForReviewExercises", ctx, userID, lang)
+	ret := m.ctrl.Call(m, "GetReadyForReviewExercises", ctx, userID, lang, timezone)
 	ret0, _ := ret[0].([]domain.Exercise)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetReadyForReviewExercises indicates an expected call of GetReadyForReviewExercises.
-func (mr *MockExerciseHubMockRecorder) GetReadyForReviewExercises(ctx, userID, lang any) *gomock.Call {
+func (mr *MockExerciseHubMockRecorder) GetReadyForReviewExercises(ctx, userID, lang, timezone any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetReadyForReviewExercises", reflect.TypeOf((*MockExerciseHub)(nil).GetReadyForReviewExercises), ctx, userID, lang)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetReadyForReviewExercises", reflect.TypeOf((*MockExerciseHub)(nil).GetReadyForReviewExercises), ctx, userID, lang, timezone)
 }

@@ -61,10 +61,11 @@ func (r ExerciseHub) GetExercises(ctx *appcontext.AppContext, userID, lang, coll
 	return result, nil
 }
 
-func (r ExerciseHub) GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]domain.Exercise, error) {
+func (r ExerciseHub) GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang, timezone string) ([]domain.Exercise, error) {
 	resp, err := r.client.GetUserReadyForReviewExercises(ctx.Context(), &exercisepb.GetUserReadyForReviewExercisesRequest{
-		UserId: userID,
-		Lang:   lang,
+		UserId:   userID,
+		Lang:     lang,
+		Timezone: timezone,
 	})
 	if err != nil {
 		return nil, err
@@ -111,11 +112,12 @@ func (r ExerciseHub) GetExerciseCollections(ctx *appcontext.AppContext, userID, 
 	return result, nil
 }
 
-func (r ExerciseHub) AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedExercise, error) {
+func (r ExerciseHub) AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]domain.UserAggregatedExercise, error) {
 	resp, err := r.client.GetUserRecentExercisesChart(ctx.Context(), &exercisepb.GetUserRecentExercisesChartRequest{
-		UserId: userID,
-		From:   manipulation.ConvertToProtoTimestamp(from),
-		To:     manipulation.ConvertToProtoTimestamp(to),
+		UserId:   userID,
+		Timezone: timezone,
+		From:     manipulation.ConvertToProtoTimestamp(from),
+		To:       manipulation.ConvertToProtoTimestamp(to),
 	})
 	if err != nil {
 		return nil, err

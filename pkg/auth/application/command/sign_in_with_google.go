@@ -46,7 +46,7 @@ func (h SignInWithGoogleHandler) SignInWithGoogle(ctx *appcontext.AppContext, re
 	}
 
 	ctx.Logger().Info("user found, generate access token", appcontext.Fields{"userID": user.ID})
-	accessToken, err := h.jwtRepository.GenerateAccessToken(ctx, user.ID)
+	accessToken, err := h.jwtRepository.GenerateAccessToken(ctx, user.ID, req.Timezone)
 	if err != nil {
 		ctx.Logger().Error("failed to generate access token", err, appcontext.Fields{})
 		return nil, err

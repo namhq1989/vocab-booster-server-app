@@ -6,6 +6,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 )
 
 type GetStatsHandler struct {
@@ -20,7 +21,7 @@ func NewGetStatsHandler(gamificationHub domain.GamificationHub, exerciseHub doma
 	}
 }
 
-func (h GetStatsHandler) GetStats(ctx *appcontext.AppContext, performerID string, _ dto.GetStatsRequest) (*dto.GetStatsResponse, error) {
+func (h GetStatsHandler) GetStats(ctx *appcontext.AppContext, performerID string, tz timezone.Timezone, _ dto.GetStatsRequest) (*dto.GetStatsResponse, error) {
 	ctx.Logger().Info("[query] new get stats request", appcontext.Fields{"userID": performerID})
 
 	var (
@@ -46,7 +47,7 @@ func (h GetStatsHandler) GetStats(ctx *appcontext.AppContext, performerID string
 	go func() {
 		defer wg.Done()
 		ctx.Logger().Text("get exercise stats")
-		stats, err := h.exerciseHub.GetUserStats(ctx, performerID)
+		stats, err := h.exerciseHub.GetUserStats(ctx, performerID, tz.Identifier)
 		if err != nil {
 			ctx.Logger().Error("failed to get gamification stats", err, appcontext.Fields{})
 			return

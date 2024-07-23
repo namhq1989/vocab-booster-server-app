@@ -11,9 +11,9 @@ import (
 type ExerciseHub interface {
 	AnswerExercise(ctx *appcontext.AppContext, payload AnswerExercisePayload) (*AnswerExerciseResult, error)
 	GetExercises(ctx *appcontext.AppContext, userID, lang, collectionID string) ([]Exercise, error)
-	GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang string) ([]Exercise, error)
+	GetReadyForReviewExercises(ctx *appcontext.AppContext, userID, lang, timezone string) ([]Exercise, error)
 	GetExerciseCollections(ctx *appcontext.AppContext, userID, lang string) ([]ExerciseCollection, error)
-	AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]UserAggregatedExercise, error)
+	AggregateUserExercisesInTimeRange(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]UserAggregatedExercise, error)
 	ChangeExerciseFavorite(ctx *appcontext.AppContext, userID, exerciseID string, isFavorite bool) (bool, error)
 }
 

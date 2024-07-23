@@ -10,6 +10,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -44,12 +45,12 @@ func (s *getRecentPointsChartTestSuite) TearDownTest() {
 func (s *getRecentPointsChartTestSuite) Test_1_Success() {
 	// mock data
 	s.mockGamificationHub.EXPECT().
-		GetUserRecentPointsChart(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
+		GetUserRecentPointsChart(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
 		Return(make([]domain.UserAggregatedPoint, 0), nil)
 
 	// call
 	ctx := appcontext.NewRest(context.Background())
-	resp, err := s.handler.GetRecentPointsChart(ctx, database.NewStringID(), dto.GetRecentPointsChartRequest{})
+	resp, err := s.handler.GetRecentPointsChart(ctx, database.NewStringID(), *timezone.UTC, dto.GetRecentPointsChartRequest{})
 
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), resp)

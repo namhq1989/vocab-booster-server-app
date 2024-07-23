@@ -23,6 +23,7 @@ func (j JWT) RequireLoggedIn(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		ctx.SetUserID(claims.UserID)
+		ctx.SetTimezone(claims.Timezone)
 		return next(c)
 	}
 }

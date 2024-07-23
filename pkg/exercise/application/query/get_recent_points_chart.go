@@ -5,6 +5,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 )
 
 type GetRecentPointsChartHandler struct {
@@ -17,15 +18,15 @@ func NewGetRecentPointsChartHandler(gamificationHub domain.GamificationHub) GetR
 	}
 }
 
-func (h GetRecentPointsChartHandler) GetRecentPointsChart(ctx *appcontext.AppContext, performerID string, _ dto.GetRecentPointsChartRequest) (*dto.GetRecentPointsChartResponse, error) {
-	ctx.Logger().Info("[query] new get recent points chart request", appcontext.Fields{"performerID": performerID})
+func (h GetRecentPointsChartHandler) GetRecentPointsChart(ctx *appcontext.AppContext, performerID string, timezone timezone.Timezone, _ dto.GetRecentPointsChartRequest) (*dto.GetRecentPointsChartResponse, error) {
+	ctx.Logger().Info("[query] new get recent points chart request", appcontext.Fields{"performerID": performerID, "timezone": timezone.Identifier})
 
 	ctx.Logger().Text("define time range")
 	to := manipulation.Now()
 	from := manipulation.StartOfDate(to.AddDate(0, 0, -6))
 
 	ctx.Logger().Text("fetch points via grpc")
-	points, err := h.gamificationHub.GetUserRecentPointsChart(ctx, performerID, from, to)
+	points, err := h.gamificationHub.GetUserRecentPointsChart(ctx, timezone.Identifier, performerID, from, to)
 	if err != nil {
 		ctx.Logger().Error("failed to get recent points chart", err, appcontext.Fields{})
 		return nil, err

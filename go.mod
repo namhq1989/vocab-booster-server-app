@@ -13,7 +13,7 @@ require (
 	github.com/hibiken/asynq v0.24.1
 	github.com/hibiken/asynqmon v0.7.2
 	github.com/labstack/echo/v4 v4.10.0
-	github.com/namhq1989/vocab-booster-utilities v0.0.6
+	github.com/namhq1989/vocab-booster-utilities v0.0.8
 	github.com/nicksnyder/go-i18n/v2 v2.4.0
 	github.com/redis/go-redis/v9 v9.5.3
 	github.com/stretchr/testify v1.9.0

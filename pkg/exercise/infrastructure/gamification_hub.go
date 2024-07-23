@@ -20,11 +20,12 @@ func NewGamificationHub(client gamificationpb.GamificationServiceClient) Gamific
 	}
 }
 
-func (r GamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
+func (r GamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
 	resp, err := r.client.GetUserRecentPointsChart(ctx.Context(), &gamificationpb.GetUserRecentPointsChartRequest{
-		UserId: userID,
-		From:   manipulation.ConvertToProtoTimestamp(from),
-		To:     manipulation.ConvertToProtoTimestamp(to),
+		UserId:   userID,
+		Timezone: timezone,
+		From:     manipulation.ConvertToProtoTimestamp(from),
+		To:       manipulation.ConvertToProtoTimestamp(to),
 	})
 	if err != nil {
 		return nil, err

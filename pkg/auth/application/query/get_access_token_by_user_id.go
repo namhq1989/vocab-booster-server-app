@@ -27,8 +27,13 @@ func (h GetAccessTokenByUserIDHandler) GetAccessTokenByUserID(ctx *appcontext.Ap
 		return nil, apperrors.User.InvalidUserID
 	}
 
+	// set default timezone to UTC +7
+	if req.Timezone == "" {
+		req.Timezone = "Asia/Ho_Chi_Minh"
+	}
+
 	ctx.Logger().Text("generate new access token")
-	token, err := h.jwtRepository.GenerateAccessToken(ctx, req.UserID)
+	token, err := h.jwtRepository.GenerateAccessToken(ctx, req.UserID, req.Timezone)
 	if err != nil {
 		return nil, err
 	}

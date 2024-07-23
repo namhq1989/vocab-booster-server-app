@@ -41,16 +41,16 @@ func (m *MockExerciseHub) EXPECT() *MockExerciseHubMockRecorder {
 }
 
 // GetUserStats mocks base method.
-func (m *MockExerciseHub) GetUserStats(ctx *appcontext.AppContext, userID string) (*domain.ExerciseUserStats, error) {
+func (m *MockExerciseHub) GetUserStats(ctx *appcontext.AppContext, userID, timezone string) (*domain.ExerciseUserStats, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserStats", ctx, userID)
+	ret := m.ctrl.Call(m, "GetUserStats", ctx, userID, timezone)
 	ret0, _ := ret[0].(*domain.ExerciseUserStats)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserStats indicates an expected call of GetUserStats.
-func (mr *MockExerciseHubMockRecorder) GetUserStats(ctx, userID any) *gomock.Call {
+func (mr *MockExerciseHubMockRecorder) GetUserStats(ctx, userID, timezone any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserStats", reflect.TypeOf((*MockExerciseHub)(nil).GetUserStats), ctx, userID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserStats", reflect.TypeOf((*MockExerciseHub)(nil).GetUserStats), ctx, userID, timezone)
 }

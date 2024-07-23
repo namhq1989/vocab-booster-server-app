@@ -6,6 +6,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 )
 
 type (
@@ -15,7 +16,7 @@ type (
 	}
 	Queries interface {
 		GetMe(ctx *appcontext.AppContext, performerID string, _ dto.GetMeRequest) (*dto.GetMeResponse, error)
-		GetStats(ctx *appcontext.AppContext, performerID string, _ dto.GetStatsRequest) (*dto.GetStatsResponse, error)
+		GetStats(ctx *appcontext.AppContext, performerID string, tz timezone.Timezone, _ dto.GetStatsRequest) (*dto.GetStatsResponse, error)
 	}
 	App interface {
 		Commands

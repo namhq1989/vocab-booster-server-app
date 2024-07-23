@@ -15,6 +15,6 @@ func NewJwtRepository(jwt appjwt.Operations) JwtRepository {
 	}
 }
 
-func (r JwtRepository) GenerateAccessToken(ctx *appcontext.AppContext, userID string) (string, error) {
-	return r.jwt.GenerateAccessToken(ctx, userID)
+func (r JwtRepository) GenerateAccessToken(ctx *appcontext.AppContext, userID, timezone string) (string, error) {
+	return r.jwt.GenerateAccessToken(ctx, userID, timezone)
 }
