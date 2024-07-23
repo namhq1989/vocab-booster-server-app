@@ -45,7 +45,7 @@ func (s *getUserRecentPointsChartTestSuite) TearDownTest() {
 func (s *getUserRecentPointsChartTestSuite) Test_1_Success() {
 	// mock data
 	s.mockPointRepository.EXPECT().
-		AggregateUserPointsInTimeRange(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
+		AggregateUserPointsInTimeRange(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
 		Return(make([]domain.UserAggregatedPoint, 0), nil)
 
 	// call
@@ -62,7 +62,7 @@ func (s *getUserRecentPointsChartTestSuite) Test_1_Success() {
 func (s *getUserRecentPointsChartTestSuite) Test_2_Fail_InvalidUserID() {
 	// mock data
 	s.mockPointRepository.EXPECT().
-		AggregateUserPointsInTimeRange(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
+		AggregateUserPointsInTimeRange(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
 		Return(nil, apperrors.User.InvalidUserID)
 
 	// call

@@ -11,6 +11,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 	"github.com/namhq1989/vocab-booster-utilities/language"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -45,12 +46,12 @@ func (s *getReadyForReviewExercisesTestSuite) TearDownTest() {
 func (s *getReadyForReviewExercisesTestSuite) Test_1_Success() {
 	// mock data
 	s.mockExerciseHub.EXPECT().
-		GetReadyForReviewExercises(gomock.Any(), gomock.Any(), gomock.Any()).
+		GetReadyForReviewExercises(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).
 		Return(make([]domain.Exercise, 0), nil)
 
 	// call
 	ctx := appcontext.NewRest(context.Background())
-	resp, err := s.handler.GetReadyForReviewExercises(ctx, database.NewStringID(), language.Vietnamese, dto.GetReadyForReviewExercisesRequest{})
+	resp, err := s.handler.GetReadyForReviewExercises(ctx, database.NewStringID(), language.Vietnamese, *timezone.UTC, dto.GetReadyForReviewExercisesRequest{})
 
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), resp)

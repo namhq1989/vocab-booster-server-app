@@ -11,7 +11,7 @@ import (
 
 type PointRepository interface {
 	CreatePoint(ctx *appcontext.AppContext, point Point) error
-	AggregateUserPointsInTimeRange(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]UserAggregatedPoint, error)
+	AggregateUserPointsInTimeRange(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]UserAggregatedPoint, error)
 }
 
 type Point struct {

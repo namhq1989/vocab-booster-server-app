@@ -35,9 +35,10 @@ func (s server) registerExerciseRoutes() {
 			req         = c.Get("req").(dto.GetReadyForReviewExercisesRequest)
 			performerID = ctx.GetUserID()
 			lang        = ctx.GetLang()
+			tz          = ctx.GetTimezone()
 		)
 
-		resp, err := s.app.GetReadyForReviewExercises(ctx, performerID, lang, req)
+		resp, err := s.app.GetReadyForReviewExercises(ctx, performerID, lang, tz, req)
 		if err != nil {
 			return httprespond.R400(c, err, nil)
 		}
@@ -88,9 +89,10 @@ func (s server) registerExerciseRoutes() {
 			ctx         = c.Get("ctx").(*appcontext.AppContext)
 			req         = c.Get("req").(dto.GetRecentPointsChartRequest)
 			performerID = ctx.GetUserID()
+			tz          = ctx.GetTimezone()
 		)
 
-		resp, err := s.app.GetRecentPointsChart(ctx, performerID, req)
+		resp, err := s.app.GetRecentPointsChart(ctx, performerID, tz, req)
 		if err != nil {
 			return httprespond.R400(c, err, nil)
 		}
@@ -105,9 +107,10 @@ func (s server) registerExerciseRoutes() {
 			ctx         = c.Get("ctx").(*appcontext.AppContext)
 			req         = c.Get("req").(dto.GetRecentExercisesChartRequest)
 			performerID = ctx.GetUserID()
+			tz          = ctx.GetTimezone()
 		)
 
-		resp, err := s.app.GetRecentExercisesChart(ctx, performerID, req)
+		resp, err := s.app.GetRecentExercisesChart(ctx, performerID, tz, req)
 		if err != nil {
 			return httprespond.R400(c, err, nil)
 		}

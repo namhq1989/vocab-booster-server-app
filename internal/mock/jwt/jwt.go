@@ -42,18 +42,18 @@ func (m *MockOperations) EXPECT() *MockOperationsMockRecorder {
 }
 
 // GenerateAccessToken mocks base method.
-func (m *MockOperations) GenerateAccessToken(ctx *appcontext.AppContext, userID string) (string, error) {
+func (m *MockOperations) GenerateAccessToken(ctx *appcontext.AppContext, userID, timezone string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GenerateAccessToken", ctx, userID)
+	ret := m.ctrl.Call(m, "GenerateAccessToken", ctx, userID, timezone)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GenerateAccessToken indicates an expected call of GenerateAccessToken.
-func (mr *MockOperationsMockRecorder) GenerateAccessToken(ctx, userID any) *gomock.Call {
+func (mr *MockOperationsMockRecorder) GenerateAccessToken(ctx, userID, timezone any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenerateAccessToken", reflect.TypeOf((*MockOperations)(nil).GenerateAccessToken), ctx, userID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenerateAccessToken", reflect.TypeOf((*MockOperations)(nil).GenerateAccessToken), ctx, userID, timezone)
 }
 
 // ParseAccessToken mocks base method.

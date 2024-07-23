@@ -11,7 +11,7 @@ import (
 type Operations interface {
 	RequireLoggedIn(next echo.HandlerFunc) echo.HandlerFunc
 
-	GenerateAccessToken(ctx *appcontext.AppContext, userID string) (string, error)
+	GenerateAccessToken(ctx *appcontext.AppContext, userID, timezone string) (string, error)
 	ParseAccessToken(ctx *appcontext.AppContext, token string) (*Claims, error)
 }
 
@@ -25,7 +25,8 @@ type JWT struct {
 }
 
 type Claims struct {
-	UserID string `json:"userId"`
+	UserID   string `json:"userId"`
+	Timezone string `json:"timezone"`
 	jwt.StandardClaims
 }
 

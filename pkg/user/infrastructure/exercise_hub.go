@@ -16,9 +16,10 @@ func NewExerciseHub(client exercisepb.ExerciseServiceClient) ExerciseHub {
 	}
 }
 
-func (r ExerciseHub) GetUserStats(ctx *appcontext.AppContext, userID string) (*domain.ExerciseUserStats, error) {
+func (r ExerciseHub) GetUserStats(ctx *appcontext.AppContext, userID, timezone string) (*domain.ExerciseUserStats, error) {
 	resp, err := r.client.GetUserStats(ctx.Context(), &exercisepb.GetUserStatsRequest{
-		UserId: userID,
+		UserId:   userID,
+		Timezone: timezone,
 	})
 	if err != nil {
 		return nil, err

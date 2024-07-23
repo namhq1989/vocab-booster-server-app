@@ -45,6 +45,7 @@ message GetUserExercisesResponse {
 message GetUserReadyForReviewExercisesRequest {
   string userId = 1;
   string lang = 2;
+  string timezone = 3;
 }
 
 message GetUserReadyForReviewExercisesResponse {
@@ -66,6 +67,7 @@ message GetExerciseCollectionsResponse {
 
 message GetUserStatsRequest {
   string userId = 1;
+  string timezone = 2;
 }
 
 message GetUserStatsResponse {
@@ -77,8 +79,9 @@ message GetUserStatsResponse {
 
 message GetUserRecentExercisesChartRequest {
   string userId = 1;
-  google.protobuf.Timestamp from = 2;
-  google.protobuf.Timestamp to = 3;
+  string timezone = 2;
+  google.protobuf.Timestamp from = 3;
+  google.protobuf.Timestamp to = 4;
 }
 
 message GetUserRecentExercisesChartResponse {

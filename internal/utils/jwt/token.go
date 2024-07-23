@@ -9,8 +9,8 @@ import (
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
 
-func (j JWT) GenerateAccessToken(ctx *appcontext.AppContext, userID string) (string, error) {
-	accessToken, _, err := j.generateAccessToken(userID)
+func (j JWT) GenerateAccessToken(ctx *appcontext.AppContext, userID, timezone string) (string, error) {
+	accessToken, _, err := j.generateAccessToken(userID, timezone)
 	if err != nil {
 		ctx.Logger().Error("failed to generate access token", err, appcontext.Fields{"userID": userID})
 		return "", err
@@ -19,10 +19,11 @@ func (j JWT) GenerateAccessToken(ctx *appcontext.AppContext, userID string) (str
 	return accessToken, nil
 }
 
-func (j JWT) generateAccessToken(userID string) (string, time.Time, error) {
+func (j JWT) generateAccessToken(userID, timezone string) (string, time.Time, error) {
 	exp := time.Now().Add(j.accessTokenTTL)
 	claims := &Claims{
-		UserID: userID,
+		UserID:   userID,
+		Timezone: timezone,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: exp.Unix(),
 		},

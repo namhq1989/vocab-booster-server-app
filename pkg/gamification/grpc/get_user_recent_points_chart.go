@@ -17,10 +17,10 @@ func NewGetUserRecentPointsChartHandler(pointRepository domain.PointRepository) 
 }
 
 func (h GetUserRecentPointsChartHandler) GetUserRecentPointsChart(ctx *appcontext.AppContext, req *gamificationpb.GetUserRecentPointsChartRequest) (*gamificationpb.GetUserRecentPointsChartResponse, error) {
-	ctx.Logger().Info("[hub] new get user recent points chart request", appcontext.Fields{"userID": req.GetUserId(), "from": req.GetFrom().AsTime(), "to": req.GetTo().AsTime()})
+	ctx.Logger().Info("[hub] new get user recent points chart request", appcontext.Fields{"userID": req.GetUserId(), "timezone": req.GetTimezone(), "from": req.GetFrom().AsTime(), "to": req.GetTo().AsTime()})
 
 	ctx.Logger().Text("find in db")
-	points, err := h.pointRepository.AggregateUserPointsInTimeRange(ctx, req.GetUserId(), req.GetFrom().AsTime(), req.GetTo().AsTime())
+	points, err := h.pointRepository.AggregateUserPointsInTimeRange(ctx, req.GetUserId(), req.GetTimezone(), req.GetFrom().AsTime(), req.GetTo().AsTime())
 	if err != nil {
 		ctx.Logger().Error("failed to find in db", err, appcontext.Fields{})
 		return nil, err

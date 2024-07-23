@@ -46,7 +46,7 @@ func (s *getAccessTokenByUserIDTestSuite) TearDownTest() {
 func (s *getAccessTokenByUserIDTestSuite) Test_1_Success() {
 	// mock data
 	s.mockJwt.EXPECT().
-		GenerateAccessToken(gomock.Any(), gomock.Any()).
+		GenerateAccessToken(gomock.Any(), gomock.Any(), gomock.Any()).
 		Return("access_token", nil)
 
 	// call

@@ -42,16 +42,16 @@ func (m *MockGamificationHub) EXPECT() *MockGamificationHubMockRecorder {
 }
 
 // GetUserRecentPointsChart mocks base method.
-func (m *MockGamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
+func (m *MockGamificationHub) GetUserRecentPointsChart(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserRecentPointsChart", ctx, userID, from, to)
+	ret := m.ctrl.Call(m, "GetUserRecentPointsChart", ctx, userID, timezone, from, to)
 	ret0, _ := ret[0].([]domain.UserAggregatedPoint)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserRecentPointsChart indicates an expected call of GetUserRecentPointsChart.
-func (mr *MockGamificationHubMockRecorder) GetUserRecentPointsChart(ctx, userID, from, to any) *gomock.Call {
+func (mr *MockGamificationHubMockRecorder) GetUserRecentPointsChart(ctx, userID, timezone, from, to any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserRecentPointsChart", reflect.TypeOf((*MockGamificationHub)(nil).GetUserRecentPointsChart), ctx, userID, from, to)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserRecentPointsChart", reflect.TypeOf((*MockGamificationHub)(nil).GetUserRecentPointsChart), ctx, userID, timezone, from, to)
 }

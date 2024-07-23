@@ -10,6 +10,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/user/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
@@ -60,7 +61,7 @@ func (s *getStatsTestSuite) Test_1_Success() {
 		}, nil)
 
 	s.mockExerciseHub.EXPECT().
-		GetUserStats(gomock.Any(), gomock.Any()).
+		GetUserStats(gomock.Any(), gomock.Any(), gomock.Any()).
 		Return(&domain.ExerciseUserStats{
 			Mastered:         masteredExercises,
 			WaitingForReview: waitingForReviewExercises,
@@ -68,7 +69,7 @@ func (s *getStatsTestSuite) Test_1_Success() {
 
 	// call
 	ctx := appcontext.NewRest(context.Background())
-	resp, err := s.handler.GetStats(ctx, database.NewStringID(), dto.GetStatsRequest{})
+	resp, err := s.handler.GetStats(ctx, database.NewStringID(), *timezone.UTC, dto.GetStatsRequest{})
 
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), resp)

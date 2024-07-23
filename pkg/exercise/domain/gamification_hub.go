@@ -7,7 +7,7 @@ import (
 )
 
 type GamificationHub interface {
-	GetUserRecentPointsChart(ctx *appcontext.AppContext, userID string, from, to time.Time) ([]UserAggregatedPoint, error)
+	GetUserRecentPointsChart(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]UserAggregatedPoint, error)
 }
 
 type UserAggregatedPoint struct {

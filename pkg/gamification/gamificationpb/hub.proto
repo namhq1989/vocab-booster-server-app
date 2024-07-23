@@ -25,8 +25,9 @@ message GetUserStatsResponse {
 
 message GetUserRecentPointsChartRequest {
   string userId = 1;
-  google.protobuf.Timestamp from = 2;
-  google.protobuf.Timestamp to = 3;
+  string timezone = 2;
+  google.protobuf.Timestamp from = 3;
+  google.protobuf.Timestamp to = 4;
 }
 
 message GetUserRecentPointsChartResponse {

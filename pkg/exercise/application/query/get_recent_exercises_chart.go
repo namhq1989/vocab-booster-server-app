@@ -5,6 +5,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 )
 
 type GetRecentExercisesChartHandler struct {
@@ -17,7 +18,7 @@ func NewGetRecentExercisesChartHandler(exerciseHub domain.ExerciseHub) GetRecent
 	}
 }
 
-func (h GetRecentExercisesChartHandler) GetRecentExercisesChart(ctx *appcontext.AppContext, performerID string, _ dto.GetRecentExercisesChartRequest) (*dto.GetRecentExercisesChartResponse, error) {
+func (h GetRecentExercisesChartHandler) GetRecentExercisesChart(ctx *appcontext.AppContext, performerID string, tz timezone.Timezone, _ dto.GetRecentExercisesChartRequest) (*dto.GetRecentExercisesChartResponse, error) {
 	ctx.Logger().Info("[query] new get recent exercises chart request", appcontext.Fields{"performerID": performerID})
 
 	ctx.Logger().Text("define time range")
@@ -25,7 +26,7 @@ func (h GetRecentExercisesChartHandler) GetRecentExercisesChart(ctx *appcontext.
 	from := manipulation.StartOfDate(to.AddDate(0, 0, -6))
 
 	ctx.Logger().Text("fetch exercises via grpc")
-	exercises, err := h.exerciseHub.AggregateUserExercisesInTimeRange(ctx, performerID, from, to)
+	exercises, err := h.exerciseHub.AggregateUserExercisesInTimeRange(ctx, performerID, tz.Identifier, from, to)
 	if err != nil {
 		ctx.Logger().Error("failed to get recent exercises chart", err, appcontext.Fields{})
 		return nil, err
