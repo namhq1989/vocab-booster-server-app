@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package vocabularypb;
+
+import "google/protobuf/timestamp.proto";
+
+message Multilingual {
+  string english = 1;
+  string vietnamese = 2;
+}
+
+message Vocabulary {
+  string id = 1;
+  string authorId = 2;
+  string term = 3;
+  repeated VocabularyDefinition definitions = 4;
+  repeated string partsOfSpeech = 5;
+  string ipa = 6;
+  string audio = 7;
+  repeated string synonyms = 8;
+  repeated string antonyms = 9;
+}
+
+message VocabularyDefinition {
+  string pos = 1;
+  Multilingual definition = 2;
+}

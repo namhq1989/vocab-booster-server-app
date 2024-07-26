@@ -3,6 +3,7 @@ package mapping
 import (
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/exercisepb"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 )
 
 type ExerciseMapper struct{}
@@ -12,8 +13,7 @@ func (ExerciseMapper) FromGrpcToDomain(exercise *exercisepb.UserExercise) (*doma
 		ID:            exercise.GetId(),
 		Audio:         exercise.GetAudio(),
 		Level:         exercise.GetLevel(),
-		Content:       exercise.GetContent(),
-		Translated:    exercise.GetTranslated(),
+		Content:       dto.ConvertGrpcDataToMultilingual(exercise.GetContent()),
 		Vocabulary:    exercise.GetVocabulary(),
 		CorrectAnswer: exercise.GetCorrectAnswer(),
 		Options:       exercise.GetOptions(),

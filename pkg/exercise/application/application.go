@@ -19,7 +19,7 @@ type (
 		GetExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExercisesRequest) (*dto.GetExercisesResponse, error)
 		GetReadyForReviewExercises(ctx *appcontext.AppContext, performerID string, lang language.Language, tz timezone.Timezone, _ dto.GetReadyForReviewExercisesRequest) (*dto.GetReadyForReviewExercisesResponse, error)
 		GetExerciseCollections(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetExerciseCollectionsRequest) (*dto.GetExerciseCollectionResponse, error)
-		GetRecentPointsChart(ctx *appcontext.AppContext, performerID string, timezone timezone.Timezone, _ dto.GetRecentPointsChartRequest) (*dto.GetRecentPointsChartResponse, error)
+		GetRecentPointsChart(ctx *appcontext.AppContext, performerID string, tz timezone.Timezone, _ dto.GetRecentPointsChartRequest) (*dto.GetRecentPointsChartResponse, error)
 		GetRecentExercisesChart(ctx *appcontext.AppContext, performerID string, tz timezone.Timezone, _ dto.GetRecentExercisesChartRequest) (*dto.GetRecentExercisesChartResponse, error)
 	}
 	Instance interface {

@@ -1,13 +1,16 @@
 package domain
 
-import "time"
+import (
+	"time"
+
+	"github.com/namhq1989/vocab-booster-utilities/language"
+)
 
 type Exercise struct {
 	ID            string
 	Audio         string
 	Level         string
-	Content       string
-	Translated    string
+	Content       language.Multilingual
 	Vocabulary    string
 	CorrectAnswer string
 	Options       []string

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/namhq1989/vocab-booster-server-app/pkg/vocabulary"
+
 	"github.com/namhq1989/vocab-booster-server-app/pkg/gamification"
 
 	"github.com/labstack/echo/v4"
@@ -61,7 +63,7 @@ func main() {
 	a.queue = queue.Init(cfg.QueueRedisURL, cfg.QueueConcurrency)
 
 	// init queue's dashboard
-	a.rest.Any(fmt.Sprintf("%s/*", queue.DashboardPath), echo.WrapHandler(queue.EnableDashboard(cfg.QueueRedisURL)), middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+	a.rest.Any(fmt.Sprintf("%s/*", queue.DashboardPath), echo.WrapHandler(queue.EnableDashboard(cfg.QueueRedisURL)), middleware.BasicAuth(func(username, password string, _ echo.Context) (bool, error) {
 		if !cfg.IsEnvRelease {
 			return true, nil
 		}
@@ -88,6 +90,7 @@ func main() {
 		&subscription.Module{},
 		&exercise.Module{},
 		&gamification.Module{},
+		&vocabulary.Module{},
 	}
 
 	// start

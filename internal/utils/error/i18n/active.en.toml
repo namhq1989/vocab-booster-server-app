@@ -54,3 +54,5 @@ exercise_invalid_collection_id = "Invalid exercise collection id"
 
 # vocabulary
 vocabulary_invalid_id = "Invalid vocabulary id"
+vocabulary_invalid_term = "Invalid vocabulary term"
+
