@@ -2,16 +2,16 @@ package dto
 
 import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
+	"github.com/namhq1989/vocab-booster-utilities/language"
 )
 
 type ExerciseCollection struct {
-	ID              string `json:"id"`
-	Name            string `json:"name"`
-	Slug            string `json:"slug"`
-	Translated      string `json:"translated"`
-	StatsExercises  int    `json:"statsExercises"`
-	StatsInteracted int    `json:"statsInteracted"`
-	Image           string `json:"image"`
+	ID              string                `json:"id"`
+	Name            language.Multilingual `json:"name"`
+	Slug            string                `json:"slug"`
+	StatsExercises  int                   `json:"statsExercises"`
+	StatsInteracted int                   `json:"statsInteracted"`
+	Image           string                `json:"image"`
 }
 
 func (ExerciseCollection) FromDomain(collection domain.ExerciseCollection) ExerciseCollection {
@@ -19,7 +19,6 @@ func (ExerciseCollection) FromDomain(collection domain.ExerciseCollection) Exerc
 		ID:              collection.ID,
 		Name:            collection.Name,
 		Slug:            collection.Slug,
-		Translated:      collection.Translated,
 		StatsExercises:  collection.StatsExercises,
 		StatsInteracted: collection.StatsInteracted,
 		Image:           collection.Image,

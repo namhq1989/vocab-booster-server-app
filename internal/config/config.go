@@ -38,8 +38,9 @@ type (
 		AblyAPIKey string
 
 		// Endpoint
-		EndpointEnglishHub   string
-		EndpointExerciseGrpc string
+		EndpointEnglishHub     string
+		EndpointExerciseGrpc   string
+		EndpointVocabularyGrpc string
 	}
 )
 
@@ -71,8 +72,9 @@ func Init() Server {
 
 		AblyAPIKey: getEnvStr("ABLY_API_KEY"),
 
-		EndpointEnglishHub:   getEnvStr("ENDPOINT_ENGLISH_HUB"),
-		EndpointExerciseGrpc: getEnvStr("ENDPOINT_EXERCISE_GRPC"),
+		EndpointEnglishHub:     getEnvStr("ENDPOINT_ENGLISH_HUB"),
+		EndpointExerciseGrpc:   getEnvStr("ENDPOINT_EXERCISE_GRPC"),
+		EndpointVocabularyGrpc: getEnvStr("ENDPOINT_VOCABULARY_GRPC"),
 	}
 	cfg.IsEnvRelease = cfg.Environment == "release"
 
@@ -116,6 +118,9 @@ func Init() Server {
 	}
 	if cfg.EndpointExerciseGrpc == "" {
 		panic(errors.New("missing ENDPOINT_EXERCISE_GRPC"))
+	}
+	if cfg.EndpointVocabularyGrpc == "" {
+		panic(errors.New("missing ENDPOINT_VOCABULARY_GRPC"))
 	}
 
 	return cfg

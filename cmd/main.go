@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/namhq1989/vocab-booster-server-app/pkg/vocabulary"
+
 	"github.com/namhq1989/vocab-booster-server-app/pkg/gamification"
 
 	"github.com/labstack/echo/v4"
@@ -88,6 +90,7 @@ func main() {
 		&subscription.Module{},
 		&exercise.Module{},
 		&gamification.Module{},
+		&vocabulary.Module{},
 	}
 
 	// start

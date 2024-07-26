@@ -3,13 +3,14 @@ package dto
 import (
 	"github.com/namhq1989/vocab-booster-server-app/internal/utils/httprespond"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
+	"github.com/namhq1989/vocab-booster-utilities/language"
 )
 
 type Exercise struct {
 	ID            string                    `json:"id"`
 	Audio         string                    `json:"audio"`
 	Level         string                    `json:"level"`
-	Content       string                    `json:"content"`
+	Content       language.Multilingual     `json:"content"`
 	Translated    string                    `json:"translated"`
 	Vocabulary    string                    `json:"vocabulary"`
 	CorrectAnswer string                    `json:"correctAnswer"`
@@ -27,7 +28,6 @@ func (Exercise) FromDomain(exercise domain.Exercise) Exercise {
 		Audio:         exercise.Audio,
 		Level:         exercise.Level,
 		Content:       exercise.Content,
-		Translated:    exercise.Translated,
 		Vocabulary:    exercise.Vocabulary,
 		CorrectAnswer: exercise.CorrectAnswer,
 		Options:       exercise.Options,

@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: vocab-booster-server-app/pkg/exercise/exercisepb
+    default: vocab-booster-server-app/pkg/vocabulary/vocabularypb
     except:
       - buf.build/googleapis/googleapis
 plugins:
