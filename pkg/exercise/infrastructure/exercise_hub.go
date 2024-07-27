@@ -25,6 +25,7 @@ func (r ExerciseHub) AnswerExercise(ctx *appcontext.AppContext, payload domain.A
 		UserId:     payload.UserID,
 		ExerciseId: payload.ExerciseID,
 		IsCorrect:  payload.IsCorrect,
+		Timezone:   payload.Timezone,
 	})
 	if err != nil {
 		return nil, err

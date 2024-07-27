@@ -8,39 +8,37 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-var (
-	serverTimezone = ""
-	serverLocation = time.Now().Location()
-)
-
-func GetServerTimezone() string {
-	if serverTimezone != "" {
-		return serverTimezone
+func getLocation(tz string) *time.Location {
+	if tz == "" {
+		return time.UTC
 	}
 
-	now := time.Now()
-	_, offset := now.Zone()
-	serverTimezone = fmt.Sprintf("%+03d:%02d", offset/3600, offset%3600/60)
-	return serverTimezone
+	loc, err := time.LoadLocation(tz)
+	if err != nil {
+		fmt.Printf("invalid timezone '%s', defaulting to UTC: %v\n", tz, err)
+		return time.UTC
+	}
+	return loc
 }
 
-func StartOfToday() time.Time {
-	now := time.Now()
-	return time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+func Now(tz string) time.Time {
+	loc := getLocation(tz)
+	return time.Now().In(loc)
 }
 
-func StartOfYesterday() time.Time {
-	return StartOfToday().AddDate(0, 0, -1)
+func NowUTC() time.Time {
+	return time.Now().UTC()
 }
 
-func IsToday(t time.Time) bool {
-	today := StartOfToday()
-	return t.Year() == today.Year() && t.Month() == today.Month() && t.Day() == today.Day()
+func StartOfToday(tz string) time.Time {
+	loc := getLocation(tz)
+	now := time.Now().In(loc)
+	return time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, loc)
 }
 
-func IsYesterday(t time.Time) bool {
-	yesterday := StartOfYesterday()
-	return t.Year() == yesterday.Year() && t.Month() == yesterday.Month() && t.Day() == yesterday.Day()
+func StartOfYesterday(tz string) time.Time {
+	today := StartOfToday(tz)
+	return today.AddDate(0, 0, -1)
 }
 
 func StartOfDate(t time.Time) time.Time {
@@ -55,14 +53,51 @@ func ConvertToProtoTimestamp(t time.Time) *timestamp.Timestamp {
 	return timestamppb.New(t)
 }
 
-func FormatDDMM(t time.Time) string {
-	return t.In(serverLocation).Format("02/01")
+func FormatDDMM(t time.Time, tz string) string {
+	return t.In(getLocation(tz)).Format("02/01")
 }
 
-func ConvertToUTC(t time.Time) time.Time {
-	return t.UTC()
+func IsToday(t time.Time, tz string) bool {
+	today := StartOfToday(tz)
+	t = t.In(today.Location())
+	return t.Year() == today.Year() && t.Month() == today.Month() && t.Day() == today.Day()
 }
 
-func Now() time.Time {
-	return time.Now().UTC()
+func IsYesterday(t time.Time, tz string) bool {
+	yesterday := StartOfYesterday(tz)
+	t = t.In(yesterday.Location())
+	return t.Year() == yesterday.Year() && t.Month() == yesterday.Month() && t.Day() == yesterday.Day()
+}
+
+func ToSQLTimestamp(t time.Time, tz string) string {
+	loc := getLocation(tz)
+	t = t.In(loc)
+	return t.Format("2006-01-02 15:04:05.999999-07:00")
+}
+
+func ToSQLDate(t time.Time, tz string) string {
+	loc := getLocation(tz)
+	t = t.In(loc)
+	if t.Hour() > 0 || t.Minute() > 0 || t.Second() > 0 {
+		t = t.Add(24 * time.Hour).Truncate(24 * time.Hour)
+	}
+	return t.Format("2006-01-02")
+}
+
+func ToSQLDateFrom(t time.Time, tz string) string {
+	loc := getLocation(tz)
+	t = t.In(loc)
+	if t.Hour() > 0 || t.Minute() > 0 || t.Second() > 0 || t.Nanosecond() > 0 {
+		t = t.Add(24 * time.Hour).Truncate(24 * time.Hour)
+	} else {
+		t = t.Truncate(24 * time.Hour)
+	}
+	return t.Format("2006-01-02")
+}
+
+func ToSQLDateTo(t time.Time, tz string) string {
+	loc := getLocation(tz)
+	t = t.In(loc)
+	t = t.Truncate(24 * time.Hour)
+	return t.Format("2006-01-02")
 }

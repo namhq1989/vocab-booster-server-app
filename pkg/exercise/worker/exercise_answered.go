@@ -24,6 +24,7 @@ func (w ExerciseAnsweredHandler) ExerciseAnswered(ctx *appcontext.AppContext, pa
 		ExerciseID:     payload.ExerciseID,
 		Point:          payload.Point,
 		CompletionTime: payload.CompletionTime,
+		Timezone:       payload.Timezone,
 	}); err != nil {
 		ctx.Logger().Error("failed to add task gamification.exerciseAnswered", err, appcontext.Fields{})
 		return err

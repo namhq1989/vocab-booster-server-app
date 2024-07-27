@@ -21,9 +21,10 @@ type AnswerExercisePayload struct {
 	UserID     string
 	ExerciseID string
 	IsCorrect  bool
+	Timezone   string
 }
 
-func NewAnswerExercisePayload(userID, exerciseID string, isCorrect bool) (*AnswerExercisePayload, error) {
+func NewAnswerExercisePayload(userID, exerciseID string, isCorrect bool, timezone string) (*AnswerExercisePayload, error) {
 	if !database.IsValidObjectID(userID) {
 		return nil, apperrors.User.InvalidUserID
 	}
@@ -36,6 +37,7 @@ func NewAnswerExercisePayload(userID, exerciseID string, isCorrect bool) (*Answe
 		UserID:     userID,
 		ExerciseID: exerciseID,
 		IsCorrect:  isCorrect,
+		Timezone:   timezone,
 	}, nil
 }
 

@@ -34,6 +34,6 @@ func NewUserSubscriptionHistory(userID, paymentID string) (*UserSubscriptionHist
 		ID:        database.NewStringID(),
 		UserID:    userID,
 		PaymentID: paymentID,
-		CreatedAt: manipulation.Now(),
+		CreatedAt: manipulation.NowUTC(),
 	}, nil
 }

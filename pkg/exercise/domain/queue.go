@@ -14,4 +14,5 @@ type QueueExerciseAnsweredPayload struct {
 	ExerciseID     string
 	Point          int64
 	CompletionTime int
+	Timezone       string
 }

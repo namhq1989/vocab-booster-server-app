@@ -12,7 +12,7 @@ import (
 
 type (
 	Commands interface {
-		AnswerExercise(ctx *appcontext.AppContext, performerID, exerciseID string, req dto.AnswerExerciseRequest) (*dto.AnswerExerciseResponse, error)
+		AnswerExercise(ctx *appcontext.AppContext, performerID, exerciseID string, tz timezone.Timezone, req dto.AnswerExerciseRequest) (*dto.AnswerExerciseResponse, error)
 		ChangeExerciseFavorite(ctx *appcontext.AppContext, performerID, exerciseID string, req dto.ChangeExerciseFavoriteRequest) (*dto.ChangeExerciseFavoriteResponse, error)
 	}
 	Queries interface {

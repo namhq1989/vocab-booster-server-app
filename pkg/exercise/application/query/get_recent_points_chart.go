@@ -18,15 +18,15 @@ func NewGetRecentPointsChartHandler(gamificationHub domain.GamificationHub) GetR
 	}
 }
 
-func (h GetRecentPointsChartHandler) GetRecentPointsChart(ctx *appcontext.AppContext, performerID string, timezone timezone.Timezone, _ dto.GetRecentPointsChartRequest) (*dto.GetRecentPointsChartResponse, error) {
-	ctx.Logger().Info("[query] new get recent points chart request", appcontext.Fields{"performerID": performerID, "timezone": timezone.Identifier})
+func (h GetRecentPointsChartHandler) GetRecentPointsChart(ctx *appcontext.AppContext, performerID string, tz timezone.Timezone, _ dto.GetRecentPointsChartRequest) (*dto.GetRecentPointsChartResponse, error) {
+	ctx.Logger().Info("[query] new get recent points chart request", appcontext.Fields{"performerID": performerID, "timezone": tz.Identifier})
 
 	ctx.Logger().Text("define time range")
-	to := manipulation.Now()
+	to := manipulation.Now(tz.Identifier)
 	from := manipulation.StartOfDate(to.AddDate(0, 0, -6))
 
 	ctx.Logger().Text("fetch points via grpc")
-	points, err := h.gamificationHub.GetUserRecentPointsChart(ctx, timezone.Identifier, performerID, from, to)
+	points, err := h.gamificationHub.GetUserRecentPointsChart(ctx, performerID, tz.Identifier, from, to)
 	if err != nil {
 		ctx.Logger().Error("failed to get recent points chart", err, appcontext.Fields{})
 		return nil, err
