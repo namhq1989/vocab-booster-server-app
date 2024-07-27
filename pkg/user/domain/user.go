@@ -54,8 +54,8 @@ func NewUser(name, email, tz string) (*User, error) {
 		Avatar:     randomAvatar(),
 		Visibility: VisibilityPublic,
 		Timezone:   *dTimezone,
-		CreatedAt:  manipulation.Now(),
-		UpdatedAt:  manipulation.Now(),
+		CreatedAt:  manipulation.NowUTC(),
+		UpdatedAt:  manipulation.NowUTC(),
 	}, nil
 }
 
@@ -65,13 +65,13 @@ func (d *User) SetName(name string) error {
 	}
 
 	d.Name = name
-	d.UpdatedAt = manipulation.Now()
+	d.SetUpdatedAt()
 	return nil
 }
 
 func (d *User) SetBio(bio string) error {
 	d.Bio = bio
-	d.UpdatedAt = manipulation.Now()
+	d.SetUpdatedAt()
 	return nil
 }
 
@@ -82,7 +82,7 @@ func (d *User) SetVisibility(visibility string) error {
 	}
 
 	d.Visibility = dVisibility
-	d.UpdatedAt = manipulation.Now()
+	d.SetUpdatedAt()
 	return nil
 }
 
@@ -96,7 +96,7 @@ func (d *User) SetProvider(source, uid string) error {
 			UID:    uid,
 		})
 	}
-	d.UpdatedAt = manipulation.Now()
+	d.SetUpdatedAt()
 	return nil
 }
 
@@ -109,16 +109,16 @@ func randomAvatar() string {
 
 func (d *User) SetAvatar(value string) {
 	d.Avatar = value
-	d.UpdatedAt = manipulation.Now()
+	d.SetUpdatedAt()
 }
 
 func (d *User) SetTimezone(tz string) {
 	dTimezone, _ := timezone.GetTimezoneData(tz)
 
 	d.Timezone = *dTimezone
-	d.UpdatedAt = manipulation.Now()
+	d.SetUpdatedAt()
 }
 
 func (d *User) SetUpdatedAt() {
-	d.UpdatedAt = manipulation.Now()
+	d.UpdatedAt = manipulation.NowUTC()
 }

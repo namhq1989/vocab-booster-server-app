@@ -22,7 +22,7 @@ func NewScanExpiredUserSubscriptionHandler(
 }
 
 func (w ScanExpiredUserSubscriptionHandler) ScanExpiredUserSubscription(ctx *appcontext.AppContext, _ domain.QueueScanExpiredUserSubscription) error {
-	startOfToday := manipulation.StartOfToday()
+	startOfToday := manipulation.StartOfToday("")
 
 	ctx.Logger().Info("[worker] find all docs that expired", appcontext.Fields{"date": startOfToday.String()})
 	uss, err := w.userSubscriptionRepository.FindExpiredUserSubscriptionsByDate(ctx, startOfToday)

@@ -22,7 +22,7 @@ func (h GetRecentExercisesChartHandler) GetRecentExercisesChart(ctx *appcontext.
 	ctx.Logger().Info("[query] new get recent exercises chart request", appcontext.Fields{"performerID": performerID})
 
 	ctx.Logger().Text("define time range")
-	to := manipulation.Now()
+	to := manipulation.Now(tz.Identifier)
 	from := manipulation.StartOfDate(to.AddDate(0, 0, -6))
 
 	ctx.Logger().Text("fetch exercises via grpc")

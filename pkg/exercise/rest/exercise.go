@@ -54,9 +54,10 @@ func (s server) registerExerciseRoutes() {
 			req         = c.Get("req").(dto.AnswerExerciseRequest)
 			exerciseID  = c.Param("id")
 			performerID = ctx.GetUserID()
+			tz          = ctx.GetTimezone()
 		)
 
-		resp, err := s.app.AnswerExercise(ctx, performerID, exerciseID, req)
+		resp, err := s.app.AnswerExercise(ctx, performerID, exerciseID, tz, req)
 		if err != nil {
 			return httprespond.R400(c, err, nil)
 		}

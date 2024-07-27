@@ -61,7 +61,7 @@ func (r PointRepository) CreatePoint(ctx *appcontext.AppContext, point domain.Po
 	return err
 }
 
-func (r PointRepository) AggregateUserPointsInTimeRange(ctx *appcontext.AppContext, userID, timezone string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
+func (r PointRepository) AggregateUserPointsInTimeRange(ctx *appcontext.AppContext, userID, tz string, from, to time.Time) ([]domain.UserAggregatedPoint, error) {
 	var result = make([]domain.UserAggregatedPoint, 0)
 
 	uid, err := database.ObjectIDFromString(userID)
@@ -96,7 +96,7 @@ func (r PointRepository) AggregateUserPointsInTimeRange(ctx *appcontext.AppConte
 								Key: "$dateToString", Value: bson.M{
 									"format":   "%d/%m",
 									"date":     "$createdAt",
-									"timezone": timezone,
+									"timezone": tz,
 								},
 							},
 						},
@@ -142,7 +142,7 @@ func (r PointRepository) AggregateUserPointsInTimeRange(ctx *appcontext.AppConte
 	}
 
 	for d := from; !d.After(to); d = d.AddDate(0, 0, 1) {
-		dateStr := manipulation.FormatDDMM(d)
+		dateStr := manipulation.FormatDDMM(d, tz)
 		docIndex := slices.IndexFunc(docs, func(point aggregatemodel.UserPoint) bool {
 			return point.Date == dateStr
 		})

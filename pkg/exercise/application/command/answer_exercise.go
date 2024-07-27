@@ -5,6 +5,7 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/exercise/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
 )
 
 type AnswerExerciseHandler struct {
@@ -19,14 +20,14 @@ func NewAnswerExerciseHandler(queueRepository domain.QueueRepository, exerciseHu
 	}
 }
 
-func (h AnswerExerciseHandler) AnswerExercise(ctx *appcontext.AppContext, performerID, exerciseID string, req dto.AnswerExerciseRequest) (*dto.AnswerExerciseResponse, error) {
+func (h AnswerExerciseHandler) AnswerExercise(ctx *appcontext.AppContext, performerID, exerciseID string, tz timezone.Timezone, req dto.AnswerExerciseRequest) (*dto.AnswerExerciseResponse, error) {
 	ctx.Logger().Info("[command] new answer exercise request", appcontext.Fields{
-		"performerID": performerID, "exerciseID": exerciseID,
+		"performerID": performerID, "exerciseID": exerciseID, "timezone": tz.Identifier,
 		"isCorrect": req.IsCorrect, "completionTime": req.CompletionTime, "point": req.Point,
 	})
 
 	ctx.Logger().Text("prepare payload for calling English Hub")
-	payload, err := domain.NewAnswerExercisePayload(performerID, exerciseID, req.IsCorrect)
+	payload, err := domain.NewAnswerExercisePayload(performerID, exerciseID, req.IsCorrect, tz.Identifier)
 	if err != nil {
 		ctx.Logger().Error("failed to prepare payload for calling English Hub", err, appcontext.Fields{})
 		return nil, err
@@ -40,7 +41,7 @@ func (h AnswerExerciseHandler) AnswerExercise(ctx *appcontext.AppContext, perfor
 	}
 
 	ctx.Logger().Text("add queue task")
-	if err = h.enqueueTasks(ctx, performerID, exerciseID, req.Point, req.CompletionTime); err != nil {
+	if err = h.enqueueTasks(ctx, performerID, exerciseID, tz.Identifier, req.Point, req.CompletionTime); err != nil {
 		ctx.Logger().Error("failed to add queue task", err, appcontext.Fields{})
 	}
 
@@ -50,13 +51,14 @@ func (h AnswerExerciseHandler) AnswerExercise(ctx *appcontext.AppContext, perfor
 	}, nil
 }
 
-func (h AnswerExerciseHandler) enqueueTasks(ctx *appcontext.AppContext, performerID, exerciseID string, point int64, completionTime int) error {
+func (h AnswerExerciseHandler) enqueueTasks(ctx *appcontext.AppContext, performerID, exerciseID, tz string, point int64, completionTime int) error {
 	ctx.Logger().Text("add task exerciseAnswered")
 	if err := h.queueRepository.ExerciseAnswered(ctx, domain.QueueExerciseAnsweredPayload{
 		UserID:         performerID,
 		ExerciseID:     exerciseID,
 		Point:          point,
 		CompletionTime: completionTime,
+		Timezone:       tz,
 	}); err != nil {
 		ctx.Logger().Error("failed to add task exerciseAnswered", err, appcontext.Fields{})
 	}

@@ -40,6 +40,6 @@ func NewCompletionTime(userID, action string, seconds int) (*CompletionTime, err
 		UserID:    userID,
 		Action:    dAction,
 		Seconds:   seconds,
-		CreatedAt: manipulation.Now(),
+		CreatedAt: manipulation.NowUTC(),
 	}, nil
 }

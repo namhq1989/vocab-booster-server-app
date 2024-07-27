@@ -65,7 +65,7 @@ func NewPoint(userID, exerciseID, vocabularyID, action string, point int64) (*Po
 		ExerciseID:   exerciseID,
 		VocabularyID: vocabularyID,
 		Point:        point,
-		CreatedAt:    manipulation.Now(),
+		CreatedAt:    manipulation.NowUTC(),
 	}, nil
 }
 
