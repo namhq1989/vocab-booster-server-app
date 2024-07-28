@@ -19,9 +19,16 @@ type Vocabulary struct {
 	Audio         string
 	Synonyms      []string
 	Antonyms      []string
+	Examples      []VocabularyExample
 }
 
 type VocabularyDefinition struct {
 	Pos        string
 	Definition language.Multilingual
+}
+
+type VocabularyMainWord struct {
+	Word string
+	Base string
+	Pos  string
 }

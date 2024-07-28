@@ -19,12 +19,26 @@ func (VocabularyMapper) FromGrpcToDomain(vocab *vocabularypb.Vocabulary) (*domai
 		Audio:         vocab.GetAudio(),
 		Synonyms:      vocab.GetSynonyms(),
 		Antonyms:      vocab.GetAntonyms(),
+		Examples:      make([]domain.VocabularyExample, 0),
 	}
 
 	for _, def := range vocab.GetDefinitions() {
 		result.Definitions = append(result.Definitions, domain.VocabularyDefinition{
 			Pos:        def.GetPos(),
 			Definition: dto.ConvertGrpcDataToMultilingual(def.GetDefinition()),
+		})
+	}
+
+	for _, example := range vocab.GetExamples() {
+		result.Examples = append(result.Examples, domain.VocabularyExample{
+			ID:      example.GetId(),
+			Audio:   example.GetAudio(),
+			Content: dto.ConvertGrpcDataToMultilingual(example.GetContent()),
+			MainWord: domain.VocabularyMainWord{
+				Word: example.GetMainWord().GetWord(),
+				Base: example.GetMainWord().GetBase(),
+				Pos:  example.GetMainWord().GetPos(),
+			},
 		})
 	}
 
