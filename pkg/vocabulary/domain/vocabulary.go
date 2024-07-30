@@ -30,6 +30,7 @@ type Vocabulary struct {
 	Synonyms      []string
 	Antonyms      []string
 	Examples      []VocabularyExample
+	IsBookmarked  bool
 }
 
 type VocabularyDefinition struct {

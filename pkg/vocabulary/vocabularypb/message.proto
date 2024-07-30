@@ -9,7 +9,7 @@ message Multilingual {
   string vietnamese = 2;
 }
 
-message BookmarkedVocabulary {
+message VocabularyBrief {
   string id = 1;
   string term = 2;
   repeated string partsOfSpeech = 3;
@@ -28,6 +28,7 @@ message Vocabulary {
   repeated string synonyms = 8;
   repeated string antonyms = 9;
   repeated VocabularyExampleBrief examples = 10;
+  bool isBookmarked = 11;
 }
 
 message VocabularyDefinition {

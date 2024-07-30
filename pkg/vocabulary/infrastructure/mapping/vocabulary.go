@@ -20,6 +20,7 @@ func (VocabularyMapper) FromGrpcToDomain(vocab *vocabularypb.Vocabulary) (*domai
 		Synonyms:      vocab.GetSynonyms(),
 		Antonyms:      vocab.GetAntonyms(),
 		Examples:      make([]domain.VocabularyExample, 0),
+		IsBookmarked:  vocab.GetIsBookmarked(),
 	}
 
 	for _, def := range vocab.GetDefinitions() {

@@ -16,6 +16,7 @@ type Vocabulary struct {
 	Synonyms      []string               `json:"synonyms"`
 	Antonyms      []string               `json:"antonyms"`
 	Examples      []VocabularyExample    `json:"examples"`
+	IsBookmarked  bool                   `json:"isBookmarked"`
 }
 
 type VocabularyDefinition struct {
@@ -40,6 +41,7 @@ func (Vocabulary) FromDomain(vocab domain.Vocabulary, lang string) Vocabulary {
 		Audio:         vocab.Audio,
 		Synonyms:      vocab.Synonyms,
 		Antonyms:      vocab.Antonyms,
+		IsBookmarked:  vocab.IsBookmarked,
 	}
 
 	for _, def := range vocab.Definitions {
