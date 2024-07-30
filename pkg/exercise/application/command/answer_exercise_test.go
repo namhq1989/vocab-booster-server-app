@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/namhq1989/vocab-booster-utilities/timezone"
+
 	"github.com/namhq1989/vocab-booster-server-app/internal/database"
 	mockexercise "github.com/namhq1989/vocab-booster-server-app/internal/mock/exercise"
 	apperrors "github.com/namhq1989/vocab-booster-server-app/internal/utils/error"
@@ -48,7 +50,7 @@ func (s *answerExerciseTestSuite) TearDownTest() {
 
 func (s *answerExerciseTestSuite) Test_1_Success() {
 	// mock data
-	nextReviewAt := manipulation.Now()
+	nextReviewAt := manipulation.NowUTC()
 
 	s.mockExerciseHub.EXPECT().
 		AnswerExercise(gomock.Any(), gomock.Any()).
@@ -60,7 +62,7 @@ func (s *answerExerciseTestSuite) Test_1_Success() {
 
 	// call
 	ctx := appcontext.NewRest(context.Background())
-	resp, err := s.handler.AnswerExercise(ctx, database.NewStringID(), database.NewStringID(), dto.AnswerExerciseRequest{
+	resp, err := s.handler.AnswerExercise(ctx, database.NewStringID(), database.NewStringID(), *timezone.UTC, dto.AnswerExerciseRequest{
 		IsCorrect:      true,
 		CompletionTime: 10,
 		Point:          10,
@@ -74,7 +76,7 @@ func (s *answerExerciseTestSuite) Test_1_Success() {
 func (s *answerExerciseTestSuite) Test_2_Fail_InvalidUserID() {
 	// call
 	ctx := appcontext.NewRest(context.Background())
-	resp, err := s.handler.AnswerExercise(ctx, "invalid id", database.NewStringID(), dto.AnswerExerciseRequest{
+	resp, err := s.handler.AnswerExercise(ctx, "invalid id", database.NewStringID(), *timezone.UTC, dto.AnswerExerciseRequest{
 		IsCorrect:      true,
 		CompletionTime: 10,
 		Point:          10,
@@ -88,7 +90,7 @@ func (s *answerExerciseTestSuite) Test_2_Fail_InvalidUserID() {
 func (s *answerExerciseTestSuite) Test_2_Fail_InvalidExerciseID() {
 	// call
 	ctx := appcontext.NewRest(context.Background())
-	resp, err := s.handler.AnswerExercise(ctx, database.NewStringID(), "invalid id", dto.AnswerExerciseRequest{
+	resp, err := s.handler.AnswerExercise(ctx, database.NewStringID(), "invalid id", *timezone.UTC, dto.AnswerExerciseRequest{
 		IsCorrect:      true,
 		CompletionTime: 10,
 		Point:          10,

@@ -7,6 +7,16 @@ import (
 
 type VocabularyHub interface {
 	SearchVocabulary(ctx *appcontext.AppContext, performerID, term string) (*Vocabulary, []string, error)
+	BookmarkVocabulary(ctx *appcontext.AppContext, userID, vocabularyID string) (bool, error)
+	GetUserBookmarkedVocabularies(ctx *appcontext.AppContext, userID, pageToken string) ([]VocabularyBrief, string, error)
+}
+
+type VocabularyBrief struct {
+	ID            string
+	Term          string
+	PartsOfSpeech []string
+	Ipa           string
+	Audio         string
 }
 
 type Vocabulary struct {

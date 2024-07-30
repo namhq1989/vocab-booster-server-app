@@ -28,4 +28,39 @@ func (s server) registerVocabularyRoutes() {
 	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return validation.ValidateHTTPPayload[dto.SearchVocabularyRequest](next)
 	})
+
+	g.PATCH("/:id/bookmark", func(c echo.Context) error {
+		var (
+			ctx          = c.Get("ctx").(*appcontext.AppContext)
+			req          = c.Get("req").(dto.BookmarkVocabularyRequest)
+			performerID  = ctx.GetUserID()
+			vocabularyID = c.Param("id")
+		)
+
+		resp, err := s.app.BookmarkVocabulary(ctx, performerID, vocabularyID, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.BookmarkVocabularyRequest](next)
+	})
+
+	g.GET("/bookmarked", func(c echo.Context) error {
+		var (
+			ctx         = c.Get("ctx").(*appcontext.AppContext)
+			req         = c.Get("req").(dto.GetUserBookmarkedVocabulariesRequest)
+			performerID = ctx.GetUserID()
+		)
+
+		resp, err := s.app.GetUserBookmarkedVocabularies(ctx, performerID, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.GetUserBookmarkedVocabulariesRequest](next)
+	})
 }

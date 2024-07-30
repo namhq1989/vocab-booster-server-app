@@ -44,3 +44,15 @@ func (VocabularyMapper) FromGrpcToDomain(vocab *vocabularypb.Vocabulary) (*domai
 
 	return &result, nil
 }
+
+func (VocabularyMapper) FromGrpcToDomainBrief(vocab *vocabularypb.VocabularyBrief) (*domain.VocabularyBrief, error) {
+	result := domain.VocabularyBrief{
+		ID:            vocab.GetId(),
+		Term:          vocab.GetTerm(),
+		PartsOfSpeech: vocab.GetPartsOfSpeech(),
+		Ipa:           vocab.GetIpa(),
+		Audio:         vocab.GetAudio(),
+	}
+
+	return &result, nil
+}

@@ -52,6 +52,8 @@ tasks:
       - mockgen -source=pkg/gamification/domain/user_stats.go -destination=internal/mock/gamification/user_stats.go -package=mockgamification
       - mockgen -source=pkg/gamification/domain/service.go -destination=internal/mock/gamification/service.go -package=mockgamification
 
+      # vocabulary
+      - mockgen -source=pkg/vocabulary/domain/vocabulary.go -destination=internal/mock/vocabulary/vocabulary.go -package=mockvocabulary
   test:
     dotenv: ['.env.test']
     cmds:

@@ -52,8 +52,8 @@ func (s *scanExpiredUserSubscriptionTestSuite) Test_1_Success() {
 				ID:      database.NewStringID(),
 				UserID:  database.NewStringID(),
 				Plan:    domain.PlanPremiumMonthly,
-				StartAt: manipulation.Now(),
-				EndAt:   manipulation.Now(),
+				StartAt: manipulation.NowUTC(),
+				EndAt:   manipulation.NowUTC(),
 			},
 		}, nil)
 

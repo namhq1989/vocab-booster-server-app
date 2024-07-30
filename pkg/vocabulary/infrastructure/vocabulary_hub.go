@@ -44,3 +44,36 @@ func (r VocabularyHub) SearchVocabulary(ctx *appcontext.AppContext, performerID,
 
 	return result, suggestions, nil
 }
+
+func (r VocabularyHub) BookmarkVocabulary(ctx *appcontext.AppContext, userID, vocabularyID string) (bool, error) {
+	resp, err := r.client.BookmarkVocabulary(ctx.Context(), &vocabularypb.BookmarkVocabularyRequest{
+		UserId:       userID,
+		VocabularyId: vocabularyID,
+	})
+	if err != nil {
+		return false, err
+	}
+
+	return resp.GetIsBookmarked(), nil
+}
+
+func (r VocabularyHub) GetUserBookmarkedVocabularies(ctx *appcontext.AppContext, userID, pageToken string) ([]domain.VocabularyBrief, string, error) {
+	resp, err := r.client.GetUserBookmarkedVocabularies(ctx.Context(), &vocabularypb.GetUserBookmarkedVocabulariesRequest{
+		UserId:    userID,
+		PageToken: pageToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	var result = make([]domain.VocabularyBrief, 0)
+	for _, v := range resp.GetVocabularies() {
+		brief, mappingErr := mapping.VocabularyMapper{}.FromGrpcToDomainBrief(v)
+		if mappingErr != nil {
+			return nil, "", mappingErr
+		}
+		result = append(result, *brief)
+	}
+
+	return result, resp.GetNextPageToken(), nil
+}

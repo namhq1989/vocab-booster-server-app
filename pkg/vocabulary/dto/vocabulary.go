@@ -64,3 +64,23 @@ func (Vocabulary) FromDomain(vocab domain.Vocabulary, lang string) Vocabulary {
 
 	return result
 }
+
+type VocabularyBrief struct {
+	ID            string   `json:"id"`
+	Term          string   `json:"term"`
+	PartsOfSpeech []string `json:"partsOfSpeech"`
+	Ipa           string   `json:"ipa"`
+	Audio         string   `json:"audio"`
+}
+
+func (VocabularyBrief) FromDomain(vocab domain.VocabularyBrief) VocabularyBrief {
+	result := VocabularyBrief{
+		ID:            vocab.ID,
+		Term:          vocab.Term,
+		PartsOfSpeech: vocab.PartsOfSpeech,
+		Ipa:           vocab.Ipa,
+		Audio:         vocab.Audio,
+	}
+
+	return result
+}
