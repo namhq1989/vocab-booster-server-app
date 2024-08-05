@@ -71,6 +71,21 @@ func (mr *MockVocabularyHubMockRecorder) GetUserBookmarkedVocabularies(ctx, user
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserBookmarkedVocabularies", reflect.TypeOf((*MockVocabularyHub)(nil).GetUserBookmarkedVocabularies), ctx, userID, pageToken)
 }
 
+// GetWordOfTheDay mocks base method.
+func (m *MockVocabularyHub) GetWordOfTheDay(ctx *appcontext.AppContext, lang string) (*domain.WordOfTheDay, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWordOfTheDay", ctx, lang)
+	ret0, _ := ret[0].(*domain.WordOfTheDay)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWordOfTheDay indicates an expected call of GetWordOfTheDay.
+func (mr *MockVocabularyHubMockRecorder) GetWordOfTheDay(ctx, lang any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWordOfTheDay", reflect.TypeOf((*MockVocabularyHub)(nil).GetWordOfTheDay), ctx, lang)
+}
+
 // SearchVocabulary mocks base method.
 func (m *MockVocabularyHub) SearchVocabulary(ctx *appcontext.AppContext, performerID, term string) (*domain.Vocabulary, []string, error) {
 	m.ctrl.T.Helper()

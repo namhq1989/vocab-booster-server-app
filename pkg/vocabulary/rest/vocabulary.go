@@ -63,4 +63,22 @@ func (s server) registerVocabularyRoutes() {
 	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return validation.ValidateHTTPPayload[dto.GetUserBookmarkedVocabulariesRequest](next)
 	})
+
+	g.GET("/word-of-the-day", func(c echo.Context) error {
+		var (
+			ctx         = c.Get("ctx").(*appcontext.AppContext)
+			req         = c.Get("req").(dto.GetWordOfTheDayRequest)
+			performerID = ctx.GetUserID()
+			lang        = ctx.GetLang()
+		)
+
+		resp, err := s.app.GetWordOfTheDay(ctx, performerID, lang, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.GetWordOfTheDayRequest](next)
+	})
 }

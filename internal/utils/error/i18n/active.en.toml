@@ -53,6 +53,7 @@ exercise_invalid_point = "Invalid exercise point"
 exercise_invalid_collection_id = "Invalid exercise collection id"
 
 # vocabulary
+vocabulary_not_found = "Vocabulary not found"
 vocabulary_invalid_id = "Invalid vocabulary id"
 vocabulary_invalid_term = "Invalid vocabulary term"
 
