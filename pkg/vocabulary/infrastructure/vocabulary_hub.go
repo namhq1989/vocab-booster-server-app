@@ -3,6 +3,7 @@ package infrastructure
 import (
 	"github.com/namhq1989/vocab-booster-server-app/internal/genproto/vocabularypb"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/vocabulary/domain"
+	"github.com/namhq1989/vocab-booster-server-app/pkg/vocabulary/dto"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/vocabulary/infrastructure/mapping"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
 )
@@ -76,4 +77,25 @@ func (r VocabularyHub) GetUserBookmarkedVocabularies(ctx *appcontext.AppContext,
 	}
 
 	return result, resp.GetNextPageToken(), nil
+}
+
+func (r VocabularyHub) GetWordOfTheDay(ctx *appcontext.AppContext, lang string) (*domain.WordOfTheDay, error) {
+	resp, err := r.client.GetWordOfTheDay(ctx.Context(), &vocabularypb.GetWordOfTheDayRequest{
+		Lang: lang,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var (
+		vocabularyMapper = mapping.VocabularyMapper{}
+		vocabulary, _    = vocabularyMapper.FromGrpcToDomainBrief(resp.GetVocabulary())
+	)
+
+	var result = &domain.WordOfTheDay{
+		Vocabulary:  *vocabulary,
+		Information: dto.ConvertGrpcDataToMultilingual(resp.GetInformation()),
+	}
+
+	return result, nil
 }

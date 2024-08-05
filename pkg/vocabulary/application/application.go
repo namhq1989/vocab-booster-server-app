@@ -16,6 +16,7 @@ type (
 	Queries interface {
 		SearchVocabulary(ctx *appcontext.AppContext, performerID string, lang language.Language, req dto.SearchVocabularyRequest) (*dto.SearchVocabularyResponse, error)
 		GetUserBookmarkedVocabularies(ctx *appcontext.AppContext, performerID string, req dto.GetUserBookmarkedVocabulariesRequest) (*dto.GetUserBookmarkedVocabulariesResponse, error)
+		GetWordOfTheDay(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetWordOfTheDayRequest) (*dto.GetWordOfTheDayResponse, error)
 	}
 	Instance interface {
 		Commands
@@ -28,6 +29,7 @@ type (
 	appQueryHandler struct {
 		query.SearchVocabularyHandler
 		query.GetUserBookmarkedVocabulariesHandler
+		query.GetWordOfTheDayHandler
 	}
 	Application struct {
 		appCommandHandler
@@ -47,6 +49,7 @@ func New(
 		appQueryHandler: appQueryHandler{
 			SearchVocabularyHandler:              query.NewSearchVocabularyHandler(vocabularyHub),
 			GetUserBookmarkedVocabulariesHandler: query.NewGetUserBookmarkedVocabulariesHandler(vocabularyHub),
+			GetWordOfTheDayHandler:               query.NewGetWordOfTheDayHandler(vocabularyHub),
 		},
 	}
 }
