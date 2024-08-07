@@ -10,6 +10,8 @@ type VocabularyHub interface {
 	BookmarkVocabulary(ctx *appcontext.AppContext, userID, vocabularyID string) (bool, error)
 	GetUserBookmarkedVocabularies(ctx *appcontext.AppContext, userID, pageToken string) ([]VocabularyBrief, string, error)
 	GetWordOfTheDay(ctx *appcontext.AppContext, lang string) (*WordOfTheDay, error)
+	GetCommunitySentences(ctx *appcontext.AppContext, userID, vocabularyID, lang, pageToken string) ([]CommunitySentenceBrief, string, error)
+	GetCommunitySentence(ctx *appcontext.AppContext, userID, sentenceID string) (*CommunitySentence, error)
 }
 
 type VocabularyBrief struct {

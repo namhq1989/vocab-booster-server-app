@@ -10,30 +10,31 @@ import (
 	"github.com/namhq1989/vocab-booster-server-app/pkg/vocabulary/domain"
 	"github.com/namhq1989/vocab-booster-server-app/pkg/vocabulary/dto"
 	"github.com/namhq1989/vocab-booster-utilities/appcontext"
+	"github.com/namhq1989/vocab-booster-utilities/language"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
 )
 
-type getUserBookmarkedVocabulariesTestSuite struct {
+type getCommunitySentenceTestSuite struct {
 	suite.Suite
-	handler           query.GetUserBookmarkedVocabulariesHandler
+	handler           query.GetCommunitySentenceHandler
 	mockCtrl          *gomock.Controller
 	mockVocabularyHub *mockvocabulary.MockVocabularyHub
 }
 
-func (s *getUserBookmarkedVocabulariesTestSuite) SetupSuite() {
+func (s *getCommunitySentenceTestSuite) SetupSuite() {
 	s.setupApplication()
 }
 
-func (s *getUserBookmarkedVocabulariesTestSuite) setupApplication() {
+func (s *getCommunitySentenceTestSuite) setupApplication() {
 	s.mockCtrl = gomock.NewController(s.T())
 	s.mockVocabularyHub = mockvocabulary.NewMockVocabularyHub(s.mockCtrl)
 
-	s.handler = query.NewGetUserBookmarkedVocabulariesHandler(s.mockVocabularyHub)
+	s.handler = query.NewGetCommunitySentenceHandler(s.mockVocabularyHub)
 }
 
-func (s *getUserBookmarkedVocabulariesTestSuite) TearDownTest() {
+func (s *getCommunitySentenceTestSuite) TearDownTest() {
 	s.mockCtrl.Finish()
 }
 
@@ -41,27 +42,28 @@ func (s *getUserBookmarkedVocabulariesTestSuite) TearDownTest() {
 // CASES
 //
 
-func (s *getUserBookmarkedVocabulariesTestSuite) Test_1_Success() {
+func (s *getCommunitySentenceTestSuite) Test_1_Success() {
 	// mock data
 	s.mockVocabularyHub.EXPECT().
-		GetUserBookmarkedVocabularies(gomock.Any(), gomock.Any(), gomock.Any()).
-		Return(make([]domain.VocabularyBrief, 0), "", nil)
+		GetCommunitySentence(gomock.Any(), gomock.Any(), gomock.Any()).
+		Return(&domain.CommunitySentence{
+			ID:           database.NewStringID(),
+			VocabularyID: database.NewStringID(),
+		}, nil)
 
 	// call
 	ctx := appcontext.NewRest(context.Background())
-	resp, err := s.handler.GetUserBookmarkedVocabularies(ctx, database.NewStringID(), dto.GetUserBookmarkedVocabulariesRequest{
-		PageToken: "",
-	})
+	resp, err := s.handler.GetCommunitySentence(ctx, database.NewStringID(), database.NewStringID(), language.English, dto.GetCommunitySentenceRequest{})
 
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), resp)
-	assert.Equal(s.T(), 0, len(resp.Vocabularies))
+	assert.NotNil(s.T(), resp.Sentence)
 }
 
 //
 // END OF CASES
 //
 
-func TestGetUserBookmarkedVocabulariesTestSuite(t *testing.T) {
-	suite.Run(t, new(getUserBookmarkedVocabulariesTestSuite))
+func TestGetCommunitySentenceTestSuite(t *testing.T) {
+	suite.Run(t, new(getCommunitySentenceTestSuite))
 }

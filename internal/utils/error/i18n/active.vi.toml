@@ -54,5 +54,6 @@ exercise_invalid_collection_id = "ID bộ bài tập không hợp lệ"
 
 # vocabulary
 vocabulary_not_found = "Không tìm thấy từ vựng"
+vocabulary_community_sentence_not_found = "Không tìm thấy mẫu câu"
 vocabulary_invalid_id = "ID từ vựng không hợp lệ"
 vocabulary_invalid_term = "Từ vựng không hợp lệ"
