@@ -21,7 +21,7 @@ type CommunitySentence struct {
 	IsLiked            bool                  `json:"isLiked"`
 }
 
-func (m CommunitySentence) FromDomain(sentence domain.CommunitySentence, lang string) CommunitySentence {
+func (CommunitySentence) FromDomain(sentence domain.CommunitySentence, lang string) CommunitySentence {
 	var clauses = make([]SentenceClause, 0)
 	for _, clause := range sentence.Clauses {
 		clauses = append(clauses, SentenceClause{
@@ -88,7 +88,7 @@ type CommunitySentenceBrief struct {
 	IsLiked   bool                  `json:"isLiked"`
 }
 
-func (m CommunitySentenceBrief) FromDomain(sentence domain.CommunitySentenceBrief, lang string) CommunitySentenceBrief {
+func (CommunitySentenceBrief) FromDomain(sentence domain.CommunitySentenceBrief, lang string) CommunitySentenceBrief {
 	return CommunitySentenceBrief{
 		ID:        sentence.ID,
 		Content:   sentence.Content.GetLocalized(lang),
