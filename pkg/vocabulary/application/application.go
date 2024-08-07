@@ -17,6 +17,8 @@ type (
 		SearchVocabulary(ctx *appcontext.AppContext, performerID string, lang language.Language, req dto.SearchVocabularyRequest) (*dto.SearchVocabularyResponse, error)
 		GetUserBookmarkedVocabularies(ctx *appcontext.AppContext, performerID string, req dto.GetUserBookmarkedVocabulariesRequest) (*dto.GetUserBookmarkedVocabulariesResponse, error)
 		GetWordOfTheDay(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetWordOfTheDayRequest) (*dto.GetWordOfTheDayResponse, error)
+		GetCommunitySentences(ctx *appcontext.AppContext, performerID, vocabularyID string, lang language.Language, req dto.GetCommunitySentencesRequest) (*dto.GetCommunitySentencesResponse, error)
+		GetCommunitySentence(ctx *appcontext.AppContext, userID, sentenceID string, lang language.Language, _ dto.GetCommunitySentenceRequest) (*dto.GetCommunitySentenceResponse, error)
 	}
 	Instance interface {
 		Commands
@@ -30,6 +32,8 @@ type (
 		query.SearchVocabularyHandler
 		query.GetUserBookmarkedVocabulariesHandler
 		query.GetWordOfTheDayHandler
+		query.GetCommunitySentencesHandler
+		query.GetCommunitySentenceHandler
 	}
 	Application struct {
 		appCommandHandler
@@ -50,6 +54,8 @@ func New(
 			SearchVocabularyHandler:              query.NewSearchVocabularyHandler(vocabularyHub),
 			GetUserBookmarkedVocabulariesHandler: query.NewGetUserBookmarkedVocabulariesHandler(vocabularyHub),
 			GetWordOfTheDayHandler:               query.NewGetWordOfTheDayHandler(vocabularyHub),
+			GetCommunitySentencesHandler:         query.NewGetCommunitySentencesHandler(vocabularyHub),
+			GetCommunitySentenceHandler:          query.NewGetCommunitySentenceHandler(vocabularyHub),
 		},
 	}
 }

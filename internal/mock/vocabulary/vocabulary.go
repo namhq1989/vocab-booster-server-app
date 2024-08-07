@@ -55,6 +55,37 @@ func (mr *MockVocabularyHubMockRecorder) BookmarkVocabulary(ctx, userID, vocabul
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BookmarkVocabulary", reflect.TypeOf((*MockVocabularyHub)(nil).BookmarkVocabulary), ctx, userID, vocabularyID)
 }
 
+// GetCommunitySentence mocks base method.
+func (m *MockVocabularyHub) GetCommunitySentence(ctx *appcontext.AppContext, userID, sentenceID string) (*domain.CommunitySentence, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCommunitySentence", ctx, userID, sentenceID)
+	ret0, _ := ret[0].(*domain.CommunitySentence)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCommunitySentence indicates an expected call of GetCommunitySentence.
+func (mr *MockVocabularyHubMockRecorder) GetCommunitySentence(ctx, userID, sentenceID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCommunitySentence", reflect.TypeOf((*MockVocabularyHub)(nil).GetCommunitySentence), ctx, userID, sentenceID)
+}
+
+// GetCommunitySentences mocks base method.
+func (m *MockVocabularyHub) GetCommunitySentences(ctx *appcontext.AppContext, userID, vocabularyID, lang, pageToken string) ([]domain.CommunitySentenceBrief, string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCommunitySentences", ctx, userID, vocabularyID, lang, pageToken)
+	ret0, _ := ret[0].([]domain.CommunitySentenceBrief)
+	ret1, _ := ret[1].(string)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// GetCommunitySentences indicates an expected call of GetCommunitySentences.
+func (mr *MockVocabularyHubMockRecorder) GetCommunitySentences(ctx, userID, vocabularyID, lang, pageToken any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCommunitySentences", reflect.TypeOf((*MockVocabularyHub)(nil).GetCommunitySentences), ctx, userID, vocabularyID, lang, pageToken)
+}
+
 // GetUserBookmarkedVocabularies mocks base method.
 func (m *MockVocabularyHub) GetUserBookmarkedVocabularies(ctx *appcontext.AppContext, userID, pageToken string) ([]domain.VocabularyBrief, string, error) {
 	m.ctrl.T.Helper()

@@ -99,3 +99,46 @@ func (r VocabularyHub) GetWordOfTheDay(ctx *appcontext.AppContext, lang string) 
 
 	return result, nil
 }
+
+func (r VocabularyHub) GetCommunitySentences(ctx *appcontext.AppContext, userID, vocabularyID, lang, pageToken string) ([]domain.CommunitySentenceBrief, string, error) {
+	resp, err := r.client.GetCommunitySentences(ctx.Context(), &vocabularypb.GetCommunitySentencesRequest{
+		VocabularyId: vocabularyID,
+		UserId:       userID,
+		Lang:         lang,
+		PageToken:    pageToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	var (
+		result = make([]domain.CommunitySentenceBrief, 0)
+		mapper = mapping.CommunitySentenceMapper{}
+	)
+	for _, s := range resp.GetSentences() {
+		sentence, mappingErr := mapper.FromGrpcToDomainBrief(s)
+		if mappingErr != nil {
+			return nil, "", mappingErr
+		}
+		result = append(result, *sentence)
+	}
+
+	return result, resp.GetNextPageToken(), nil
+}
+
+func (r VocabularyHub) GetCommunitySentence(ctx *appcontext.AppContext, userID, sentenceID string) (*domain.CommunitySentence, error) {
+	resp, err := r.client.GetCommunitySentence(ctx.Context(), &vocabularypb.GetCommunitySentenceRequest{
+		SentenceId: sentenceID,
+		UserId:     userID,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var (
+		mapper    = mapping.CommunitySentenceMapper{}
+		result, _ = mapper.FromGrpcToDomain(resp.GetSentence())
+	)
+
+	return result, nil
+}
