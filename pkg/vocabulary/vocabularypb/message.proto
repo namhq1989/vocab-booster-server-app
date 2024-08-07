@@ -48,3 +48,51 @@ message VocabularyMainWord {
   string base = 2;
   string pos = 3;
 }
+
+message PosTag {
+  string word = 1;
+  string value = 2;
+}
+
+message Sentiment {
+  double polarity = 1;
+  double subjectivity = 2;
+}
+
+message Dependency {
+  string word = 1;
+  string depRel = 2;
+  string head = 3;
+}
+
+message Verb {
+  string base = 1;
+  string past = 2;
+  string pastParticiple = 3;
+  string gerund = 4;
+  string thirdPersonSingular = 5;
+}
+
+message SentenceClause {
+  string clause = 1;
+  string tense = 2;
+  bool isPrimaryTense = 3;
+}
+
+
+message CommunitySentence {
+  string id = 1;
+  string vocabularyId = 2;
+  Multilingual content = 3;
+  repeated string requiredVocabulary = 4;
+  string requiredTense = 5;
+  repeated SentenceClause clauses = 6;
+  repeated PosTag posTags = 7;
+  Sentiment sentiment = 8;
+  repeated Dependency dependencies = 9;
+  repeated Verb verbs = 10;
+  string level = 11;
+  int32 statsLike = 12;
+  bool isLiked = 13;
+  google.protobuf.Timestamp createdAt = 14;
+}
