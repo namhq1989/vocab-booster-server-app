@@ -119,4 +119,25 @@ func (s server) registerVocabularyRoutes() {
 	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
 		return validation.ValidateHTTPPayload[dto.GetCommunitySentenceRequest](next)
 	})
+
+	g.GET("/:id/community-sentences/drafts", func(c echo.Context) error {
+		var (
+			ctx          = c.Get("ctx").(*appcontext.AppContext)
+			req          = c.Get("req").(dto.GetUserCommunitySentenceDraftsRequest)
+			performerID  = ctx.GetUserID()
+			vocabularyID = c.Param("id")
+			lang         = ctx.GetLang()
+		)
+
+		req.VocabularyID = vocabularyID
+
+		resp, err := s.app.GetUserCommunitySentenceDrafts(ctx, performerID, lang, req)
+		if err != nil {
+			return httprespond.R400(c, err, nil)
+		}
+
+		return httprespond.R200(c, resp)
+	}, s.jwt.RequireLoggedIn, func(next echo.HandlerFunc) echo.HandlerFunc {
+		return validation.ValidateHTTPPayload[dto.GetUserCommunitySentenceDraftsRequest](next)
+	})
 }

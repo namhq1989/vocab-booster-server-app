@@ -12,6 +12,7 @@ type VocabularyHub interface {
 	GetWordOfTheDay(ctx *appcontext.AppContext, lang string) (*WordOfTheDay, error)
 	GetCommunitySentences(ctx *appcontext.AppContext, userID, vocabularyID, lang, pageToken string) ([]CommunitySentenceBrief, string, error)
 	GetCommunitySentence(ctx *appcontext.AppContext, userID, sentenceID string) (*CommunitySentence, error)
+	GetUserCommunitySentencesDraft(ctx *appcontext.AppContext, userID, vocabularyID, pageToken string) ([]CommunitySentenceDraft, string, error)
 }
 
 type VocabularyBrief struct {

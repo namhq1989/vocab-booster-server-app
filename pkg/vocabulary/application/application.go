@@ -19,6 +19,7 @@ type (
 		GetWordOfTheDay(ctx *appcontext.AppContext, performerID string, lang language.Language, _ dto.GetWordOfTheDayRequest) (*dto.GetWordOfTheDayResponse, error)
 		GetCommunitySentences(ctx *appcontext.AppContext, performerID, vocabularyID string, lang language.Language, req dto.GetCommunitySentencesRequest) (*dto.GetCommunitySentencesResponse, error)
 		GetCommunitySentence(ctx *appcontext.AppContext, userID, sentenceID string, lang language.Language, _ dto.GetCommunitySentenceRequest) (*dto.GetCommunitySentenceResponse, error)
+		GetUserCommunitySentenceDrafts(ctx *appcontext.AppContext, performerID string, lang language.Language, req dto.GetUserCommunitySentenceDraftsRequest) (*dto.GetUserCommunitySentenceDraftsResponse, error)
 	}
 	Instance interface {
 		Commands
@@ -34,6 +35,7 @@ type (
 		query.GetWordOfTheDayHandler
 		query.GetCommunitySentencesHandler
 		query.GetCommunitySentenceHandler
+		query.GetUserCommunitySentenceDraftsHandler
 	}
 	Application struct {
 		appCommandHandler
@@ -51,11 +53,12 @@ func New(
 			BookmarkVocabularyHandler: command.NewBookmarkVocabularyHandler(vocabularyHub),
 		},
 		appQueryHandler: appQueryHandler{
-			SearchVocabularyHandler:              query.NewSearchVocabularyHandler(vocabularyHub),
-			GetUserBookmarkedVocabulariesHandler: query.NewGetUserBookmarkedVocabulariesHandler(vocabularyHub),
-			GetWordOfTheDayHandler:               query.NewGetWordOfTheDayHandler(vocabularyHub),
-			GetCommunitySentencesHandler:         query.NewGetCommunitySentencesHandler(vocabularyHub),
-			GetCommunitySentenceHandler:          query.NewGetCommunitySentenceHandler(vocabularyHub),
+			SearchVocabularyHandler:               query.NewSearchVocabularyHandler(vocabularyHub),
+			GetUserBookmarkedVocabulariesHandler:  query.NewGetUserBookmarkedVocabulariesHandler(vocabularyHub),
+			GetWordOfTheDayHandler:                query.NewGetWordOfTheDayHandler(vocabularyHub),
+			GetCommunitySentencesHandler:          query.NewGetCommunitySentencesHandler(vocabularyHub),
+			GetCommunitySentenceHandler:           query.NewGetCommunitySentenceHandler(vocabularyHub),
+			GetUserCommunitySentenceDraftsHandler: query.NewGetUserCommunitySentenceDraftsHandler(vocabularyHub),
 		},
 	}
 }
