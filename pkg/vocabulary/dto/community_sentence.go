@@ -6,19 +6,20 @@ import (
 )
 
 type CommunitySentence struct {
-	ID                 string                `json:"id"`
-	VocabularyID       string                `json:"vocabularyId"`
-	Content            language.Multilingual `json:"content"`
-	RequiredVocabulary []string              `json:"requiredVocabulary"`
-	RequiredTense      string                `json:"requiredTense"`
-	Clauses            []SentenceClause      `json:"clauses"`
-	PosTags            []PosTag              `json:"posTags"`
-	Sentiment          Sentiment             `json:"sentiment"`
-	Dependencies       []Dependency          `json:"dependencies"`
-	Verbs              []Verb                `json:"verbs"`
-	Level              string                `json:"level"`
-	StatsLike          int                   `json:"statsLike"`
-	IsLiked            bool                  `json:"isLiked"`
+	ID                   string                `json:"id"`
+	VocabularyID         string                `json:"vocabularyId"`
+	Content              language.Multilingual `json:"content"`
+	MainWord             VocabularyMainWord    `json:"mainWord"`
+	RequiredVocabularies []string              `json:"requiredVocabularies"`
+	RequiredTense        string                `json:"requiredTense"`
+	Clauses              []SentenceClause      `json:"clauses"`
+	PosTags              []PosTag              `json:"posTags"`
+	Sentiment            Sentiment             `json:"sentiment"`
+	Dependencies         []Dependency          `json:"dependencies"`
+	Verbs                []Verb                `json:"verbs"`
+	Level                string                `json:"level"`
+	StatsLike            int                   `json:"statsLike"`
+	IsLiked              bool                  `json:"isLiked"`
 }
 
 func (CommunitySentence) FromDomain(sentence domain.CommunitySentence, lang string) CommunitySentence {
@@ -61,13 +62,18 @@ func (CommunitySentence) FromDomain(sentence domain.CommunitySentence, lang stri
 	}
 
 	return CommunitySentence{
-		ID:                 sentence.ID,
-		VocabularyID:       sentence.VocabularyID,
-		Content:            sentence.Content.GetLocalized(lang),
-		RequiredVocabulary: sentence.RequiredVocabulary,
-		RequiredTense:      sentence.RequiredTense,
-		Clauses:            clauses,
-		PosTags:            posTags,
+		ID:           sentence.ID,
+		VocabularyID: sentence.VocabularyID,
+		Content:      sentence.Content.GetLocalized(lang),
+		MainWord: VocabularyMainWord{
+			Word: sentence.MainWord.Word,
+			Base: sentence.MainWord.Base,
+			Pos:  sentence.MainWord.Pos,
+		},
+		RequiredVocabularies: sentence.RequiredVocabularies,
+		RequiredTense:        sentence.RequiredTense,
+		Clauses:              clauses,
+		PosTags:              posTags,
 		Sentiment: Sentiment{
 			Polarity:     sentence.Sentiment.Polarity,
 			Subjectivity: sentence.Sentiment.Subjectivity,

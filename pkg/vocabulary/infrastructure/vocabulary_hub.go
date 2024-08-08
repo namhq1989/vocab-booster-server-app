@@ -142,3 +142,28 @@ func (r VocabularyHub) GetCommunitySentence(ctx *appcontext.AppContext, userID, 
 
 	return result, nil
 }
+
+func (r VocabularyHub) GetUserCommunitySentencesDraft(ctx *appcontext.AppContext, userID, vocabularyID, pageToken string) ([]domain.CommunitySentenceDraft, string, error) {
+	resp, err := r.client.GetUserCommunitySentenceDrafts(ctx.Context(), &vocabularypb.GetUserCommunitySentenceDraftsRequest{
+		VocabularyId: vocabularyID,
+		UserId:       userID,
+		PageToken:    pageToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	var (
+		result = make([]domain.CommunitySentenceDraft, 0)
+		mapper = mapping.CommunitySentenceDraftMapper{}
+	)
+	for _, s := range resp.GetSentences() {
+		sentence, mappingErr := mapper.FromGrpcToDomain(s)
+		if mappingErr != nil {
+			return nil, "", mappingErr
+		}
+		result = append(result, *sentence)
+	}
+
+	return result, resp.GetNextPageToken(), nil
+}

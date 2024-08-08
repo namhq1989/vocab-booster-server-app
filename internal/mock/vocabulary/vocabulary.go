@@ -102,6 +102,22 @@ func (mr *MockVocabularyHubMockRecorder) GetUserBookmarkedVocabularies(ctx, user
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserBookmarkedVocabularies", reflect.TypeOf((*MockVocabularyHub)(nil).GetUserBookmarkedVocabularies), ctx, userID, pageToken)
 }
 
+// GetUserCommunitySentencesDraft mocks base method.
+func (m *MockVocabularyHub) GetUserCommunitySentencesDraft(ctx *appcontext.AppContext, userID, vocabularyID, pageToken string) ([]domain.CommunitySentenceDraft, string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserCommunitySentencesDraft", ctx, userID, vocabularyID, pageToken)
+	ret0, _ := ret[0].([]domain.CommunitySentenceDraft)
+	ret1, _ := ret[1].(string)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// GetUserCommunitySentencesDraft indicates an expected call of GetUserCommunitySentencesDraft.
+func (mr *MockVocabularyHubMockRecorder) GetUserCommunitySentencesDraft(ctx, userID, vocabularyID, pageToken any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserCommunitySentencesDraft", reflect.TypeOf((*MockVocabularyHub)(nil).GetUserCommunitySentencesDraft), ctx, userID, vocabularyID, pageToken)
+}
+
 // GetWordOfTheDay mocks base method.
 func (m *MockVocabularyHub) GetWordOfTheDay(ctx *appcontext.AppContext, lang string) (*domain.WordOfTheDay, error) {
 	m.ctrl.T.Helper()

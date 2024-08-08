@@ -10,13 +10,13 @@ type CommunitySentenceMapper struct{}
 
 func (CommunitySentenceMapper) FromGrpcToDomain(sentence *vocabularypb.CommunitySentence) (*domain.CommunitySentence, error) {
 	result := domain.CommunitySentence{
-		ID:                 sentence.GetId(),
-		VocabularyID:       sentence.GetVocabularyId(),
-		Content:            dto.ConvertGrpcDataToMultilingual(sentence.GetContent()),
-		RequiredVocabulary: sentence.GetRequiredVocabulary(),
-		RequiredTense:      sentence.GetRequiredTense(),
-		Clauses:            make([]domain.SentenceClause, 0),
-		PosTags:            make([]domain.PosTag, 0),
+		ID:                   sentence.GetId(),
+		VocabularyID:         sentence.GetVocabularyId(),
+		Content:              dto.ConvertGrpcDataToMultilingual(sentence.GetContent()),
+		RequiredVocabularies: sentence.GetRequiredVocabularies(),
+		RequiredTense:        sentence.GetRequiredTense(),
+		Clauses:              make([]domain.SentenceClause, 0),
+		PosTags:              make([]domain.PosTag, 0),
 		Sentiment: domain.Sentiment{
 			Polarity:     sentence.GetSentiment().GetPolarity(),
 			Subjectivity: sentence.GetSentiment().GetSubjectivity(),
